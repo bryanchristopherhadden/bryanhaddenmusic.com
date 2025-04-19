@@ -6,22 +6,39 @@ import JsonData from "./data/data.json";
 import SmoothScroll from "smooth-scroll";
 import "./App.css";
 
-const config = {
-
-};
+const config = {};
 
 const App = () => {
   const [landingPageData, setLandingPageData] = useState(config);
+  const [activeSection, setActiveSection] = useState("home");
+
   useEffect(() => {
     setLandingPageData(JsonData);
   }, []);
-  
+
+  const handleNavClick = (section) => {
+    setActiveSection(section);
+  };
 
   return (
     <div>
-      <Navigation />
-      <Header data={landingPageData.Header} />
-      <Contact data={landingPageData.Contact} />
+      <div>
+        <Navigation onNavClick={handleNavClick} activeSection={activeSection} />
+        {activeSection === "home" && <Header data={landingPageData.Header} />}
+        {activeSection === "contact" && (
+          <Contact data={landingPageData.Contact} />
+        )}
+      </div>
+      <div id="footer" style={{ display: "none" }}>
+        <div className="container text-center">
+          <p>
+            &copy; 2023 Issaaf Kattan React Land Page Template. Design by{" "}
+            <a href="http://www.templatewire.com" rel="nofollow">
+              TemplateWire
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

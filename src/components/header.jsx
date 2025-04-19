@@ -21,7 +21,9 @@ const TemporaryDrawer = () => {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Menu</Button>
+      <Button onClick={toggleDrawer(true)}>
+        {">> I Deserve A Grammy Button"}
+      </Button>
       <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
         <div
           role="presentation"
@@ -64,20 +66,14 @@ export const Header = (props) => {
         <div className="overlay">
           <div className="container">
             <div className="row">
-              <div className="col-md-8 col-md-offset-2 intro-text">
+              <div className="col-md-8 col-md-offset-2">
                 <h1>
                   {props.data ? props.data.title : "Loading"}
                   <span></span>
                 </h1>
                 <p>{props.data ? props.data.paragraph : "Loading"}</p>
-                <a
-                  href="#features"
-                  className="btn btn-custom btn-lg page-scroll"
-                >
-                  Listen
-                </a>
                 {/* Uncomment if you want to use the drawer */}
-                {/* <TemporaryDrawer /> */}
+                <TemporaryDrawer />
               </div>
             </div>
           </div>
