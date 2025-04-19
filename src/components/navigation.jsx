@@ -33,31 +33,17 @@ export const Navigation = (props) => {
           id="bs-example-navbar-collapse-1"
         >
           <ul className="nav navbar-nav navbar-right">
-            <li>
-              <a href="#features" className="page-scroll">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#about" className="page-scroll">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#services" className="page-scroll">
-                Request Services
-              </a>
-            </li>
-            <li>
-              <a href="#music" className="page-scroll">
-                Music
-              </a>
-            </li>
-            <li>
-              <a href="#voice-acting" className="page-scroll">
-                Voice Acting
-              </a>
-            </li>
+            {
+              ["HOME", "ABOUT"].map((_) => {
+                return (
+                  <li>
+                    <a href="#features" className="page-scroll">
+                      {_}
+                    </a>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
       </div>
