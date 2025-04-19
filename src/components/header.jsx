@@ -1,68 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
+import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/Inbox';
-import MailIcon from '@mui/icons-material/Mail';
+const TemporaryDrawer = () => {
+  const [open, setOpen] = useState(false);
 
-export default function TemporaryDrawer() {
-  const [open, setOpen] = React.useState(false);
-
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+  const toggleDrawer = (isOpen) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setOpen(isOpen);
   };
 
-  const DrawerList = (
-    <Box sx={{ width: 250, height: '200px' }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  const menuItems = [
+    { text: "Home", path: "header" },
+    { text: "Contact", path: "contact" },
+  ];
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
-      <Drawer open={open} onClose={toggleDrawer(false)}>
-        {DrawerList}
+      <Button onClick={toggleDrawer(true)}>Menu</Button>
+      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+        <div
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+          style={{ width: 250 }}
+        >
+          <List>
+            {menuItems.map((item, index) => (
+              <ListItem key={index} component="a" href={item.path}>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            ))}
+          </List>
+        </div>
       </Drawer>
     </div>
   );
-}
+};
 
+export default TemporaryDrawer;
 
 export const Header = (props) => {
+  const headerStyle = {
+    height: "100vh",
+    backgroundImage: `url(${props.data ? props.data.image : ""})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#fff",
+    textAlign: "center",
+  };
+
   return (
-    <header id="header">
+    <header id="header" style={headerStyle}>
       <div className="intro">
         <div className="overlay">
           <div className="container">
@@ -78,7 +75,8 @@ export const Header = (props) => {
                   className="btn btn-custom btn-lg page-scroll"
                 >
                   Listen
-                </a>{" "}
+                </a>
+                {/* Uncomment if you want to use the drawer */}
                 {/* <TemporaryDrawer /> */}
               </div>
             </div>
