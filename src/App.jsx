@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation";
-import { Header } from "./components/header";
+import Home from "./components/header";
 import { Contact } from "./components/contact";
 import JsonData from "./data/data.json";
-import SmoothScroll from "smooth-scroll";
 import "./App.css";
 
 const config = {};
@@ -21,15 +20,15 @@ const App = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div id="app">
+      <div className="page">
         <Navigation onNavClick={handleNavClick} activeSection={activeSection} />
-        {activeSection === "home" && <Header data={landingPageData.Header} />}
+        {activeSection === "home" && <Home data={landingPageData.Header} />}
         {activeSection === "contact" && (
           <Contact data={landingPageData.Contact} />
         )}
       </div>
-      <div id="footer" style={{ display: "none" }}>
+      <div className="footer" style={{ display: "none" }}>
         <div className="container text-center">
           <p>
             &copy; 2023 Issaaf Kattan React Land Page Template. Design by{" "}

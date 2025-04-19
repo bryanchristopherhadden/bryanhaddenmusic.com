@@ -9,7 +9,7 @@ export const Navigation = () => {
   ];
 
   return (
-    <nav id="menu" className="navbar navbar-default navbar-fixed-top">
+    <nav id="menu" className="navbar navbar-default">
       <div className="container">
         <div className="navbar-header">
           <button
