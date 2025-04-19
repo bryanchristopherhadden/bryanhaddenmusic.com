@@ -88,7 +88,7 @@ const TemporaryDrawer = () => {
         onClick={toggleDrawer(true)}
         variant="contained"
       >
-        {">> I Deserve A Grammy Button"}
+        {">> Make Better Music Button"}
       </BasketballButton>
 
       <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
@@ -115,7 +115,11 @@ export default (props) => {
   return (
     <div className="column">
       <h1 style={{ margin: 0 }}>{props.data ? props.data.title : "Loading"}</h1>
-      <p>{props.data ? props.data.paragraph : "Loading"}</p>
+      <p>
+        {props.data ? props.data.paragraph1 : "Loading"} <br />
+        {props.data ? props.data.paragraph2 : "Loading"} <br />
+        {props.data ? props.data.paragraph3 : "Loading"}
+      </p>
       <TemporaryDrawer />
     </div>
   );

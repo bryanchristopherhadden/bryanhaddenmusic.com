@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import { useEffect } from "react";
 
-export const Navigation = () => {
-  const [activeItem, setActiveItem] = useState("HOME");
-
+export const Navigation = ({ segment, setSegment }) => {
   const menuItems = [
     { name: "HOME", href: "home" },
     { name: "Contact", href: "contact" },
@@ -24,14 +22,13 @@ export const Navigation = () => {
             <span className="icon-bar"></span>{" "}
             <span className="icon-bar"></span>{" "}
           </button>
-          <a className="navbar-brand page-scroll" href="#page-top">
+          <a className="navbar-brand">
             <span style={{ color: "#6372ff " }}>Bryan Hadden</span>{" "}
             <span style={{ fontSize: "16px" }}>
               Songwriter <span style={{ color: "#6372ff " }}>|</span> Producer
             </span>
           </a>{" "}
         </div>
-
         <div
           className="collapse navbar-collapse"
           id="bs-example-navbar-collapse-1"
@@ -40,12 +37,11 @@ export const Navigation = () => {
             {menuItems.map((item) => (
               <li
                 key={item.name}
-                className={activeItem === item.name ? "active" : ""}
+                className={segment === item.href.toLowerCase() ? "active" : ""}
               >
                 <a
-                  href={item.href}
-                  className="page-scroll"
-                  onClick={() => setActiveItem(item.name)}
+                  href={`#${item.href}`}
+                  onClick={() => setSegment(item.href.toLowerCase())}
                 >
                   {item.name}
                 </a>
