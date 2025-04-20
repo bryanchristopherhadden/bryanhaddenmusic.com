@@ -1,62 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, List, ListItem, ListItemText } from "@mui/material";
-import { keyframes } from "@emotion/react";
-import styled from "@emotion/styled";
-
-// Create a basketball bounce animation
-const bounceAnimation = keyframes`
-  0% {
-    transform: translateY(-100vh);
-    animation-timing-function: ease-in;
-  }
-  40% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  55% {
-    transform: translateY(-12vh);
-    animation-timing-function: ease-in;
-  }
-  70% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  82% {
-    transform: translateY(-7vh);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(-.75vh);
-    animation-timing-function: ease-out;
-  }
-`;
-
-// Create a styled button with the animation
-const BasketballButton = styled(Button)`
-  animation: ${bounceAnimation} 2.5s forwards;
-  background-color: transparent;
-  color: white;
-  padding: 16px;
-  margin-left: 0;
-  cursor: pointer;
-  font-size: 1.5rem;
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    color: rgb(99, 114, 255);
-    margin-left: 16px;
-    margin-top: -8px;
-    margin-bottom: 8px;
-    border: 1px solid white;
-    scale: 1.05;
-    font-size: 1.65rem;
-  }
-`;
+import { useState, useEffect, useRef } from "react";
+import { BasketballButton, DropdownDiv } from "../styles/StyledComponents";
 
 const EmailButton = () => {
   const [, setAnimationComplete] = useState(false);
 
+  // animation effect
   useEffect(() => {
-    // Set animation as complete after the animation duration
     const timer = setTimeout(() => {
       setAnimationComplete(true);
     }, 2500);
@@ -64,17 +13,11 @@ const EmailButton = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Function to open email client
   const openEmailApp = () => {
     // Using mailto protocol to open default email client
     window.location.href =
       "mailto:bryanchrishadden@gmail.com?subject=Music%20Inquiry&body=I'd%20like%20to%20learn%20more%20about%20making%20better%20music.";
   };
-
-  const menuItems = [
-    { text: "Home", path: "header" },
-    { text: "Contact", path: "contact" },
-  ];
 
   return (
     <div>
@@ -83,18 +26,30 @@ const EmailButton = () => {
         onClick={openEmailApp}
         variant="contained"
       >
-        {">> Make Better Music Button"}
+        {">>"}
+        <span>Make Better Music Button</span>
       </BasketballButton>
     </div>
   );
 };
 
-function Home() {
+const DropdownContent = ({ modalIsVisable }) =>
+  modalIsVisable ? (
+    <DropdownDiv className="container">
+      <h2>Welcome to Better Music!</h2>
+      <p>Discover how we can help you enhance your musical journey.</p>
+    </DropdownDiv>
+  ) : null;
+
+function Home(props) {
+  const columnRef = useRef(null);
+
   return (
-    <div className="column">
+    <div className="column" ref={columnRef} style={{ position: "relative" }}>
+      <DropdownContent {...props} onClose={props.onClose} />
       <h1 style={{ margin: 0 }}>Lets make your music more like you.</h1>
       <p>
-        The ups and downs are here to stay like your creativity. <br />
+        The ups and downs are here to stay, just like your creativity. <br />
         Let's use it all.
       </p>
       <EmailButton />

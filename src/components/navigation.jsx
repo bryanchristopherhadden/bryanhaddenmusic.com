@@ -1,8 +1,28 @@
-export const Navigation = ({ segment, setSegment }) => {
+import { useState, useEffect } from "react";
+
+export const Navigation = ({ setSegment }) => {
   const menuItems = [
-    { name: "Home", href: "" },
+    { name: "Home", href: "/" },
     { name: "Contact", href: "contact" },
   ];
+
+  const [activeSegment, setActiveSegment] = useState(() => {
+    // Get current path from window location
+    const path = window.location.pathname.replace(/^\/+/, "");
+    return path || "/";
+  });
+
+  useEffect(() => {
+    // Update segment state when URL changes
+    const handleLocationChange = () => {
+      const path = window.location.pathname.replace(/^\/+/, "");
+      setActiveSegment(path || "/");
+      if (setSegment) setSegment(path || "/");
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+    return () => window.removeEventListener("popstate", handleLocationChange);
+  }, [setSegment]);
 
   return (
     <nav id="menu" className="navbar navbar-default">
@@ -34,11 +54,21 @@ export const Navigation = ({ segment, setSegment }) => {
             {menuItems.map((item) => (
               <li
                 key={item.name}
-                className={segment === item.href.toLowerCase() ? "active" : ""}
+                className={
+                  activeSegment === item.href ||
+                  (activeSegment === "/" && item.href === "/")
+                    ? "active"
+                    : ""
+                }
               >
                 <a
                   href={`${item.href}`}
-                  onClick={() => setSegment(item.href.toLowerCase())}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveSegment(item.href.toLowerCase());
+                    if (setSegment) setSegment(item.href.toLowerCase());
+                    window.history.pushState({}, "", item.href);
+                  }}
                 >
                   {item.name}
                 </a>
