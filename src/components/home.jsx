@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
+import { Button, List, ListItem, ListItemText } from "@mui/material";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -41,7 +41,6 @@ const BasketballButton = styled(Button)`
   cursor: pointer;
   font-size: 1.5rem;
   transition: all 0.3s ease-in-out;
-
   &:hover {
     color: rgb(99, 114, 255);
     margin-left: 16px;
@@ -53,8 +52,7 @@ const BasketballButton = styled(Button)`
   }
 `;
 
-const TemporaryDrawer = () => {
-  const [open, setOpen] = useState(false);
+const EmailButton = () => {
   const [, setAnimationComplete] = useState(false);
 
   useEffect(() => {
@@ -66,14 +64,11 @@ const TemporaryDrawer = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleDrawer = (isOpen) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setOpen(isOpen);
+  // Function to open email client
+  const openEmailApp = () => {
+    // Using mailto protocol to open default email client
+    window.location.href =
+      "mailto:bryanchrishadden@gmail.com?subject=Music%20Inquiry&body=I'd%20like%20to%20learn%20more%20about%20making%20better%20music.";
   };
 
   const menuItems = [
@@ -85,28 +80,11 @@ const TemporaryDrawer = () => {
     <div>
       <BasketballButton
         id="basketballButton"
-        onClick={toggleDrawer(true)}
+        onClick={openEmailApp}
         variant="contained"
       >
         {">> Make Better Music Button"}
       </BasketballButton>
-
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
-        <div
-          role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-          style={{ width: 250 }}
-        >
-          <List>
-            {menuItems.map((item, index) => (
-              <ListItem key={index} component="a" href={item.path}>
-                <ListItemText primary={item.text} />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      </Drawer>
     </div>
   );
 };
@@ -119,7 +97,7 @@ function Home() {
         The ups and downs are here to stay like your creativity. <br />
         Let's use it all.
       </p>
-      <TemporaryDrawer />
+      <EmailButton />
     </div>
   );
 }
