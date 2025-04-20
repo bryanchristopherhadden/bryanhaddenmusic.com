@@ -114,11 +114,10 @@ const TemporaryDrawer = () => {
 export default (props) => {
   return (
     <div className="column">
-      <h1 style={{ margin: 0 }}>{props.data ? props.data.title : "Loading"}</h1>
+      <h1 style={{ margin: 0 }}>Lets make your music more like you.</h1>
       <p>
-        {props.data ? props.data.paragraph1 : "Loading"} <br />
-        {props.data ? props.data.paragraph2 : "Loading"} <br />
-        {props.data ? props.data.paragraph3 : "Loading"}
+        The ups and downs are here to stay like your creativity. <br />
+        Let's use it all.
       </p>
       <TemporaryDrawer />
     </div>

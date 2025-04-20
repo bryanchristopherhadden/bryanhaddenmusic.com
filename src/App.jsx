@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation";
 import { Contact } from "./components/contact";
-import Home from "./components/header";
-import JsonData from "./data/data.json";
-
-const config = {};
+import Home from "./components/home";
 
 const App = () => {
-  const [segment, setSegment] = useState("home");
+  const config = {};
+  const isMobile = window.innerWidth <= 900;
+  const [segment, setSegment] = useState("");
   const [landingPageData, setLandingPageData] = useState(config);
 
   const renderContent = () => {
@@ -20,16 +19,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    setLandingPageData(JsonData);
-  }, []);
-
-  useEffect(() => {
     const path = window.location.pathname;
-    const urlSegment = path.split("/").filter(Boolean)[0] || "home";
+    const urlSegment = path.split("/").filter(Boolean)[0] || "";
     setSegment(urlSegment);
   }, []);
-
-  const isMobile = window.innerWidth <= 900;
 
   useEffect(() => {
     const handleResize = () => {

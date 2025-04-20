@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export const Navigation = ({ segment, setSegment }) => {
   const menuItems = [
-    { name: "HOME", href: "home" },
+    { name: "Home", href: "" },
     { name: "Contact", href: "contact" },
   ];
 
@@ -39,7 +39,7 @@ export const Navigation = ({ segment, setSegment }) => {
                 className={segment === item.href.toLowerCase() ? "active" : ""}
               >
                 <a
-                  href={`#${item.href}`}
+                  href={`${item.href}`}
                   onClick={() => setSegment(item.href.toLowerCase())}
                 >
                   {item.name}

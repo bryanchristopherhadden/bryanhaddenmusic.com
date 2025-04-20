@@ -13,7 +13,7 @@ export const Contact = ({ data }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState(prev => ({ ...prev, [name]: value }));
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -44,11 +44,7 @@ export const Contact = ({ data }) => {
         <div className="col-md-8">
           <div className="row">
             <div className="section-title">
-              <h2>Let's Work</h2>
-              <p>
-                Please fill out the form below to send O/I an email and he will
-                get back to you as soon as possible.
-              </p>
+              <h2>I' love to hear more about your project.</h2>
             </div>
             <form name="sentMessage" validate="true" onSubmit={handleSubmit}>
               <div className="row">
