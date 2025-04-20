@@ -16,18 +16,17 @@ export const Navigation = ({ segment, setSegment }) => {
             data-toggle="collapse"
             data-target="#bs-example-navbar-collapse-1"
           >
-            {" "}
-            <span className="sr-only">Toggle navigation</span>{" "}
+            <span className="sr-only">Toggle navigation</span>
             <span className="icon-bar"></span>{" "}
             <span className="icon-bar"></span>{" "}
             <span className="icon-bar"></span>{" "}
           </button>
-          <a className="navbar-brand">
-            <span style={{ color: "#6372ff " }}>Bryan Hadden</span>{" "}
-            <span style={{ fontSize: "16px" }}>
-              Songwriter <span style={{ color: "#6372ff " }}>|</span> Producer
+          <div className="navbar-brand">
+            <span>Bryan Hadden</span>
+            <span>
+              Songwriter <span>|</span> Producer
             </span>
-          </a>{" "}
+          </div>
         </div>
         <div
           className="collapse navbar-collapse"
