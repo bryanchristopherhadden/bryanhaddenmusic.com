@@ -4,15 +4,12 @@ import { Contact } from "./components/contact";
 import Home from "./components/home";
 
 const App = () => {
-  const config = {};
-  const isMobile = window.innerWidth <= 900;
   const [segment, setSegment] = useState("");
-  const [landingPageData, setLandingPageData] = useState(config);
 
   const renderContent = () => {
     const contentMap = {
-      home: <Home data={landingPageData.Header} />,
-      contact: <Contact data={landingPageData.Contact} />,
+      home: <Home />,
+      contact: <Contact />,
     };
 
     return contentMap[segment] || contentMap.home;
@@ -22,17 +19,6 @@ const App = () => {
     const path = window.location.pathname;
     const urlSegment = path.split("/").filter(Boolean)[0] || "";
     setSegment(urlSegment);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth <= 900;
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   return (

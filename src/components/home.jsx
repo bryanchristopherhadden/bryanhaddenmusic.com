@@ -55,7 +55,7 @@ const BasketballButton = styled(Button)`
 
 const TemporaryDrawer = () => {
   const [open, setOpen] = useState(false);
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const [, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     // Set animation as complete after the animation duration
@@ -111,7 +111,7 @@ const TemporaryDrawer = () => {
   );
 };
 
-export default (props) => {
+function Home() {
   return (
     <div className="column">
       <h1 style={{ margin: 0 }}>Lets make your music more like you.</h1>
@@ -122,4 +122,6 @@ export default (props) => {
       <TemporaryDrawer />
     </div>
   );
-};
+}
+
+export default Home;

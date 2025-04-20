@@ -7,7 +7,7 @@ const initialState = {
   message: "",
 };
 
-export const Contact = ({ data }) => {
+export const Contact = () => {
   const [formState, setFormState] = useState(initialState);
   const { name, email, message } = formState;
 
@@ -22,10 +22,10 @@ export const Contact = ({ data }) => {
 
     emailjs
       .sendForm(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
+        "service_tlo07c2",
+        "template_hxzzcsj",
         e.target,
-        "YOUR_PUBLIC_KEY"
+        "dboE6WbMLTi_yeBxf"
       )
       .then(
         (result) => {
@@ -44,7 +44,7 @@ export const Contact = ({ data }) => {
         <div className="col-md-8">
           <div className="row">
             <div className="section-title">
-              <h2>I' love to hear more about your project.</h2>
+              <h2>I would love to hear more about your project.</h2>
             </div>
             <form name="sentMessage" validate="true" onSubmit={handleSubmit}>
               <div className="row">
@@ -91,7 +91,7 @@ export const Contact = ({ data }) => {
               </div>
               <div id="success"></div>
               <button type="submit" className="btn btn-custom btn-lg">
-                Send Message
+                {">> Make Better Music Button"}
               </button>
             </form>
           </div>

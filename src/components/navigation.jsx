@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 export const Navigation = ({ segment, setSegment }) => {
   const menuItems = [
     { name: "Home", href: "" },

@@ -74,12 +74,11 @@ ol {
 
 /* Common Elements */
 .section-title {
-  margin-bottom: 70px;
+  margin-bottom: 36px 0 24px;
 }
 
 .section-title h2 {
   position: relative;
-  margin: 24px 0;
   padding-bottom: 15px;
 }
 
@@ -107,7 +106,7 @@ ol {
   padding: 14px 34px;
   letter-spacing: 1px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   border-radius: 25px;
   transition: all 0.5s linear;
   border: 0;
@@ -339,11 +338,6 @@ a:focus,
   margin: 30px 0;
   background: transparent;
   border: 2px solid var(--white);
-}
-
-#contact .btn-custom:hover {
-  color: #1f386e;
-  background: var(--white);
 }
 
 #contact .form-control {
