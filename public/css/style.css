@@ -1,5 +1,6 @@
 /* Base Styles */
-body, html {
+body,
+html {
   font-family: "Open Sans", sans-serif;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -13,17 +14,47 @@ p {
   line-height: 24px;
 }
 
-a {
-  color: #608dfd;
-  font-weight: 400;
+#menu.navbar-default .navbar-nav {
+  > li.active {
+    a {
+      color: var(--primary-color);
+      font-weight: 700;
+
+      &:after {
+        width: 100%;
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        content: "";
+        transition: width 0.2s;
+      }
+    }
+  }
+
+  > li {
+    > a {
+      color: #608dfd;
+      font-weight: 400;
+
+      &:hover {
+        text-decoration: none;
+        color: #608dfd;
+      }
+
+      &:focus {
+        text-decoration: none;
+        color: #608dfd;
+      }
+    }
+  }
 }
 
-a:hover, a:focus {
-  text-decoration: none;
-  color: #608dfd;
-}
-
-ul, ol {
+ul,
+ol {
   list-style: none;
   padding: 0;
 }
@@ -77,13 +108,19 @@ ul, ol {
   border: 0;
 }
 
-.btn-custom:hover, .btn-custom:focus, .btn-custom:active {
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active {
   color: var(--white);
   background-image: none;
   background-color: var(--secondary-color);
 }
 
-.btn:active, .btn.active, a:focus, .btn:focus, .btn:active:focus {
+.btn:active,
+.btn.active,
+a:focus,
+.btn:focus,
+.btn:active:focus {
   outline: none;
   box-shadow: none;
 }
@@ -94,10 +131,12 @@ ul, ol {
   transition: all 0.8s;
 }
 
-.navbar-header {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
+@media (min-width: 900px) {
+  .navbar-header {
+    display: flex;
+  }
 }
+
 .navbar-header:before {
   display: none;
 }
@@ -115,27 +154,34 @@ ul, ol {
   font-weight: 700;
   color: #333;
   text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  padding: 0;
 }
 
-@media (max-width: 768px) {
-  #menu .navbar-brand {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0;
+.navbar-brand {
+  gap: 4px;
+}
+
+#menu .navbar-brand {
+  flex-direction: column;
+  padding: 0;
+
+  span {
+    white-space: nowrap;
   }
-  
-  #menu .navbar-brand span:nth-child(1) {
-    color: var(--secondary-color);
-  }
-  
-  #menu .navbar-brand span:nth-child(2) {
-    font-size: 16px;
-  }
-  
-  #menu .navbar-brand span:nth-child(2) span {
-    color: var(--secondary-color);
-  }
+}
+
+#menu .navbar-brand span:nth-child(1) {
+  color: var(--secondary-color);
+}
+
+#menu .navbar-brand span:nth-child(2) {
+  font-size: 16px;
+}
+
+#menu .navbar-brand span:nth-child(2) span {
+  color: var(--secondary-color);
 }
 
 #menu.navbar-default .navbar-nav > li > a {
@@ -198,7 +244,6 @@ ul, ol {
 
 @media (max-width: 900px) {
   .column {
-    max-width: 100%;
     padding: 0 15px;
   }
 }
@@ -249,7 +294,8 @@ ul, ol {
   margin-bottom: 40px;
 }
 
-#contact h2, #contact h3 {
+#contact h2,
+#contact h3 {
   color: var(--white);
 }
 
@@ -258,7 +304,7 @@ ul, ol {
   padding-bottom: 15px;
 }
 
-#contact .section-title h2::after {
+.section-title h2::after {
   background: rgba(255, 255, 255, 0.3);
   left: 30px;
   margin-left: 0;

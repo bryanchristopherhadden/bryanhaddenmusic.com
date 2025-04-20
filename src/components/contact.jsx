@@ -39,7 +39,7 @@ export const Contact = ({ data }) => {
   };
 
   return (
-    <div id="contact">
+    <div>
       <div className="container">
         <div className="col-md-8">
           <div className="row">
