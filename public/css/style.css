@@ -71,42 +71,25 @@ ol {
 }
 
 /* Common Elements */
-.section-title {
-  margin-bottom: 36px 0 24px;
-}
-
-.section-title h2 {
-  padding-bottom: 15px;
-}
-
-.section-title h2::after {
-  position: absolute;
-  content: "";
-  background: var(--primary-gradient);
-  height: 4px;
-  width: 60px;
-  bottom: 0;
-  left: 50%;
-  margin-left: -30px;
-}
-
-.section-title p {
-  font-size: 18px;
-}
-
 /* Buttons */
 .btn-custom {
   font-family: "Raleway", sans-serif;
   text-transform: uppercase;
   color: var(--white);
   background-image: var(--primary-gradient);
-  padding: 14px 34px;
+  padding: 1rem 36px;
   letter-spacing: 1px;
   font-size: 15px;
   font-weight: 700;
-  border-radius: 25px;
   transition: all 0.5s linear;
   border: 0;
+  margin: 0;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    padding: 1rem;
+  }
 }
 
 .btn-custom:hover,
@@ -261,6 +244,34 @@ a:focus,
   .play-button-container {
     height: 84px;
     justify-self: center;
+  }
+}
+
+#contactPage {
+  padding: 0 15%;
+
+  .section-title {
+    margin: 36px 0 24px;
+
+    h2 {
+      margin: 0;
+      padding-bottom: 15px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+  }
+
+  .section-title h2::after {
+    position: absolute;
+    content: "";
+    background: var(--primary-gradient);
+    height: 4px;
+    width: 60px;
+    bottom: 0;
+    left: 50%;
+    margin-left: -30px;
   }
 }
 

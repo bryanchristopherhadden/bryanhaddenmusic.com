@@ -21,7 +21,11 @@ function Footer() {
   );
 }
 
-function PlayButtonContainer({ onClose, modalIsVisable, toggleModal }) {
+function PlayButtonContainer({ modalIsVisable, toggleModal }) {
+  if (window.location.pathname === "/contact") {
+    return null;
+  }
+  
   return (
     <div className="play-button-container">
       <PlayButton
@@ -36,16 +40,16 @@ function PlayButtonContainer({ onClose, modalIsVisable, toggleModal }) {
   );
 }
 
-function renderContent(props) {
-  return <ContentRenderer {...props} />;
-}
-
-function ContentRenderer(props, { segment }) {
+function ContentRenderer(props) {
   const contentMap = {
     home: <Home {...props} />,
     contact: <Contact {...props} />,
   };
-  return contentMap[segment] || contentMap.home;
+  return contentMap[props.segment] || contentMap.home;
+}
+
+function renderContent(props) {
+  return <ContentRenderer {...props} />;
 }
 
 const App = () => {

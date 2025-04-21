@@ -36,9 +36,12 @@ const EmailButton = () => {
 
 const DropdownContent = ({ modalIsVisable }) =>
   modalIsVisable ? (
-    <DropdownDiv className="container">
-      <h2>Welcome to Better Music!</h2>
-      <p>Discover how we can help you enhance your musical journey.</p>
+    <DropdownDiv className="container" style={{ 
+      textAlign: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}>
       <MusicPlayer visible={modalIsVisable} />
     </DropdownDiv>
   ) : null;

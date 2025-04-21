@@ -39,64 +39,60 @@ export const Contact = () => {
   };
 
   return (
-    <div>
-      <div className="container">
-        <div className="col-md-8">
-          <div className="row">
-            <div className="section-title">
-              <h2>I would love to hear more about your project.</h2>
+    <div id="contactPage" className="container d-flex justify-content-center">
+      <div className="section-title">
+        <h2>I would love to hear more about your project.</h2>
+      </div>
+      <form name="sentMessage" validate="true" onSubmit={handleSubmit}>
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="form-control"
+                placeholder="Name"
+                required
+                onChange={handleChange}
+                value={name}
+              />
             </div>
-            <form name="sentMessage" validate="true" onSubmit={handleSubmit}>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      className="form-control"
-                      placeholder="Name"
-                      required
-                      onChange={handleChange}
-                      value={name}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className="form-control"
-                      placeholder="Email"
-                      required
-                      onChange={handleChange}
-                      value={email}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="form-group">
-                <textarea
-                  name="message"
-                  id="message"
-                  className="form-control"
-                  rows="4"
-                  placeholder="Message"
-                  required
-                  onChange={handleChange}
-                  value={message}
-                ></textarea>
-              </div>
-              <div id="success"></div>
-              <button type="submit" className="btn btn-custom btn-lg">
-                {">> Make Better Music Button"}
-              </button>
-            </form>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="form-control"
+                placeholder="Email"
+                required
+                onChange={handleChange}
+                value={email}
+              />
+            </div>
           </div>
         </div>
-      </div>
+        <div className="form-group">
+          <textarea
+            name="message"
+            id="message"
+            className="form-control"
+            rows="4"
+            placeholder="Message"
+            required
+            onChange={handleChange}
+            value={message}
+          ></textarea>
+        </div>
+        <div id="success"></div>
+        <div className="text-center">
+          <button type="submit" className="btn btn-custom btn-lg">
+            {">> Make Better Music Button"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
