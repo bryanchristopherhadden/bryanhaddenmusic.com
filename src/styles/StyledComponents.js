@@ -57,7 +57,7 @@ export const BasketballButton = styled(Button)`
   background-color: transparent;
   color: white;
   padding: 16px;
-  margin: 80px 0 116px;
+  margin: 80px 0 24px;
   cursor: pointer;
   font-size: 1.5rem;
   transition: all 0.3s ease-in-out;
@@ -77,6 +77,7 @@ export const BasketballButton = styled(Button)`
   @media (max-width: 900px) {
     text-align: left;
     white-space: nowrap;
+    margin: 80px 0 24px;
   }
 `;
 

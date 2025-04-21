@@ -1,7 +1,6 @@
 /* Base Styles */
 #app {
   display: grid;
-  /* grid-template-columns: 1fr 1fr; */
 }
 
 body,
@@ -266,15 +265,6 @@ a:focus,
 }
 
 .column {
-  @media (max-width: 900px) {
-    width: 100%;
-    max-width: 100%;
-
-    .column {
-      padding: 0 15px;
-    }
-  }
-
   background: url("/me.jpeg") center center no-repeat;
   background-size: cover;
   max-width: 74%;
@@ -282,6 +272,16 @@ a:focus,
   border-radius: 1px;
   overflow: hidden;
   padding: 0 11rem;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 15px;
+  }
+
+  @media (min-width: 900px) {
+    padding: 0;
+  }
 
   & > * {
     position: relative;
@@ -300,7 +300,7 @@ a:focus,
 
   p {
     color: var(--white);
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
     font-size: 22px;
     font-weight: 300;
     line-height: 30px;

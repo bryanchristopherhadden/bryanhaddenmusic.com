@@ -1,0 +1,22 @@
+[
+  {
+    "id": "sapiosexual",
+    "title": "Sapiosexual",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Electronic",
+    "filename": "Sapiosexual.mp3",
+    "active": true
+  },
+  {
+    "id": "newsong",
+    "title": "My New Song",
+    "artist": "Bryan Hadden",
+    "album": "Another Album",
+    "year": "2025",
+    "genre": "Jazz",
+    "filename": "MyNewSong.mp3",
+    "active": false
+  }
+]

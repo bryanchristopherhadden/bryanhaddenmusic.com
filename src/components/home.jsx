@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { BasketballButton, DropdownDiv } from "../styles/StyledComponents";
+import MusicPlayer from "./MusicPlayer";
 
 const EmailButton = () => {
   const [, setAnimationComplete] = useState(false);
@@ -38,6 +39,7 @@ const DropdownContent = ({ modalIsVisable }) =>
     <DropdownDiv className="container">
       <h2>Welcome to Better Music!</h2>
       <p>Discover how we can help you enhance your musical journey.</p>
+      <MusicPlayer visible={modalIsVisable} />
     </DropdownDiv>
   ) : null;
 
