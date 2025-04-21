@@ -10,13 +10,53 @@
     "active": true
   },
   {
-    "id": "newsong",
-    "title": "My New Song",
+    "id": "coexist",
+    "title": "Coexist",
     "artist": "Bryan Hadden",
-    "album": "Another Album",
+    "album": "Bryan Hadden Music",
     "year": "2025",
-    "genre": "Jazz",
-    "filename": "MyNewSong.mp3",
-    "active": false
+    "genre": "Electronic",
+    "filename": "Coexist.mp3",
+    "active": true
+  },
+  {
+    "id": "comedown4",
+    "title": "Comedown 4",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2023",
+    "genre": "Electronic",
+    "filename": "comedown.4.mp3",
+    "active": true
+  },
+  {
+    "id": "geteven",
+    "title": "Get Even",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2023",
+    "genre": "Electronic",
+    "filename": "get even.bh.mp3",
+    "active": true
+  },
+  {
+    "id": "pullup",
+    "title": "Pull Up On Me",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2023",
+    "genre": "Electronic",
+    "filename": "pull up on me.mp3",
+    "active": true
+  },
+  {
+    "id": "shroommie",
+    "title": "Shroommie",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Electronic",
+    "filename": "shroommie_1.mp3",
+    "active": true
   }
 ]
