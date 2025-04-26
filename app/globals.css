@@ -23,10 +23,10 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+    to bottom,
+    transparent,
+    rgb(var(--background-end-rgb))
+  )
     rgb(var(--background-start-rgb));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,7 +37,6 @@ a {
   text-decoration: none;
 }
 
-/* Navbar styling */
 .navbar {
   padding: 20px 0;
   transition: all 0.8s;
@@ -90,7 +89,6 @@ a {
   width: 100%;
 }
 
-/* Form styling */
 .form-group {
   margin-bottom: 20px;
 }
@@ -179,7 +177,6 @@ a {
   text-align: center;
 }
 
-/* Main content styling */
 .column {
   display: flex;
   flex-direction: column;
@@ -200,7 +197,6 @@ a {
   margin-bottom: 30px;
 }
 
-/* Contact page styling */
 #contactPage {
   padding: 80px 20px;
   min-height: 80vh;
@@ -217,15 +213,14 @@ a {
   margin-bottom: 20px;
 }
 
-/* Play button container */
 .play-button-container {
   bottom: 30px;
   right: 30px;
   z-index: 1000;
+}
 
-  @media (max-width: 1000px) {
-    .play-button-container {
-      position: fixed;
-    }
+@media (max-width: 1000px) {
+  .play-button-container {
+    position: fixed;
   }
 }
