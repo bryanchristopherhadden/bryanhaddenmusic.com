@@ -1,16 +1,22 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
-export const Navigation = ({ setSegment }) => {
+const Navigation = ({ setSegment }) => {
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Contact", href: "contact" },
   ];
 
-  const [activeSegment, setActiveSegment] = useState(() => {
-    // Get current path from window location
+  // Initialize with default value to prevent server-rendering issues
+  const [activeSegment, setActiveSegment] = useState("/");
+
+  // Update the activeSegment based on window.location after component mounts (client-side only)
+  useEffect(() => {
     const path = window.location.pathname.replace(/^\/+/, "");
-    return path || "/";
-  });
+    setActiveSegment(path || "/");
+    if (setSegment) setSegment(path || "/");
+  }, [setSegment]);
 
   useEffect(() => {
     // Update segment state when URL changes
@@ -28,17 +34,6 @@ export const Navigation = ({ setSegment }) => {
     <nav id="menu" className="navbar navbar-default">
       <div className="container">
         <div className="navbar-header">
-          <button
-            type="button"
-            className="navbar-toggle collapsed flex"
-            data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1"
-          >
-            <span className="sr-only">Toggle navigation</span>
-            <span className="icon-bar"></span>{" "}
-            <span className="icon-bar"></span>{" "}
-            <span className="icon-bar"></span>{" "}
-          </button>
           <div className="navbar-brand">
             <span>Bryan Hadden</span>
             <span>
@@ -46,13 +41,11 @@ export const Navigation = ({ setSegment }) => {
             </span>
           </div>
         </div>
-        <div
-          className="collapse navbar-collapse"
-          id="bs-example-navbar-collapse-1"
-        >
+        <div className="collapse navbar-collapse" >
           <ul className="nav navbar-nav navbar-right">
             {menuItems.map((item) => (
               <li
+              style={{ listStyleType: "none" }}
                 key={item.name}
                 className={
                   activeSegment === item.href ||
@@ -80,3 +73,5 @@ export const Navigation = ({ setSegment }) => {
     </nav>
   );
 };
+
+export default Navigation;
