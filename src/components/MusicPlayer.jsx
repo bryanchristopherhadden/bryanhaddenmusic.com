@@ -8,7 +8,7 @@ const PlayerContainer = styled.div`
   background-color: rgba(99, 114, 255, 0.05);
   border-radius: 8px;
   padding: 16px;
-  margin-top: 16px;
+  margin-top: 0;
   width: 100%;
   max-width: 500px;
   color: #333;

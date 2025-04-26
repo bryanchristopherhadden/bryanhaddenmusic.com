@@ -22,12 +22,14 @@ function Footer() {
 }
 
 function PlayButtonContainer({ modalIsVisable, toggleModal }) {
-  if (window.location.pathname === "/contact") {
+  if (!window || window.location.pathname === "/contact") {
     return null;
   }
   
+  const isMobile = window.innerWidth <= 990;
+
   return (
-    <div className="play-button-container">
+    <div className={`play-button-container ${isMobile ? 'top' : ''}`}>
       <PlayButton
         variant="contained"
         onClick={toggleModal}
