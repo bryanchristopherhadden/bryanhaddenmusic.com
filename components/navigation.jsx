@@ -39,9 +39,6 @@ const Navigation = () => {
           <li className={isActive("/") ? "active" : ""}>
             <Link href="/">Home</Link>
           </li>
-          <li className={isActive("/contact") ? "active" : ""}>
-            <Link href="/contact">Contact</Link>
-          </li>
           <li className={isActive("/about") ? "active" : ""}>
             <Link href="/about">About</Link>
           </li>

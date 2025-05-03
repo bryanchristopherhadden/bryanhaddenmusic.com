@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   BasketballButton,
   DropdownDiv,
-} from "@/components/StyledComponents.jsx";
+} from "../styles/StyledComponents.jsx";
 
 const EmailButton = () => {
   const [_, setAnimationComplete] = useState(false);
@@ -26,31 +26,20 @@ const EmailButton = () => {
   };
 
   return (
-    <div>
-      <BasketballButton
-        id="basketballButton"
-        onClick={openEmailApp}
-        variant="contained"
-      >
-        {">>"}
-        <span>Make Better Music Button</span>
-      </BasketballButton>
-    </div>
+    <BasketballButton
+      id="basketballButton"
+      onClick={openEmailApp}
+      variant="contained"
+    >
+      {">>"}
+      <span>Make Better Music Button</span>
+    </BasketballButton>
   );
 };
 
 const DropdownContent = ({ modalIsVisable }) =>
   modalIsVisable ? (
-    <DropdownDiv
-      className="container"
-      style={{
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginBottom: "-1.5rem",
-      }}
-    >
+    <DropdownDiv className="container">
       <MusicPlayer visible={modalIsVisable} />
     </DropdownDiv>
   ) : null;

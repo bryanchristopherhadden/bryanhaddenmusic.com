@@ -1,9 +1,9 @@
 import Home from "./components/home";
+import AboutPage from "@/app/about/page";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation";
-import { Contact } from "./components/contact";
 import { PlayButton } from "./styles/StyledComponents";
 
 function Footer() {
@@ -22,7 +22,7 @@ function Footer() {
 }
 
 function PlayButtonContainer({ modalIsVisable, toggleModal }) {
-  if (!window || window.location.pathname === "/contact") {
+  if (!window || window.location.pathname === "/about") {
     return null;
   }
   
@@ -45,7 +45,7 @@ function PlayButtonContainer({ modalIsVisable, toggleModal }) {
 function ContentRenderer(props) {
   const contentMap = {
     home: <Home {...props} />,
-    contact: <Contact {...props} />,
+    about: <AboutPage {...props} />,
   };
   return contentMap[props.segment] || contentMap.home;
 }

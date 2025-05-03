@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-// BasketballButton - styled button component with animation effects
 export const BasketballButton = styled.button`
   background-color: #6372ff;
   color: white;
