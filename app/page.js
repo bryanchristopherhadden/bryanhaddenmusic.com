@@ -48,7 +48,7 @@ const DropdownContent = ({ modalIsVisable }) =>
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginBottom: "5rem",
+        marginBottom: "-1.5rem",
       }}
     >
       <MusicPlayer visible={modalIsVisable} />
@@ -59,21 +59,21 @@ export default function Home() {
   const columnRef = useRef(null);
   const [modalIsVisable, setModalIsVisable] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   // Set initial mobile state after component mounts
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 990);
     };
-    
+
     // Set initial value
     checkIfMobile();
-    
+
     // Add event listener for window resize
-    window.addEventListener('resize', checkIfMobile);
-    
+    window.addEventListener("resize", checkIfMobile);
+
     // Clean up event listener
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
   const toggleModal = () => {
@@ -87,15 +87,7 @@ export default function Home() {
           modalIsVisable={modalIsVisable}
           onClose={() => setModalIsVisable(false)}
         />
-        <div
-          className="play-button-container"
-          style={{
-            position: isMobile ? "fixed" : "static",
-            bottom: isMobile ? "20px" : "auto",
-            right: isMobile ? "20px" : "auto",
-            zIndex: isMobile ? "1000" : "auto",
-          }}
-        >
+        <div className="play-button-container">
           <button
             onClick={toggleModal}
             aria-label="Toggle music player"

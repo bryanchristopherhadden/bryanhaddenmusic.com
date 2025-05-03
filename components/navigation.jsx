@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -18,8 +18,8 @@ const Navigation = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Determine if a link is active based on the current path
@@ -28,22 +28,22 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="container">
         <Link href="/" className="navbar-brand">
           <span>Bryan Hadden</span>
           <span>Music Producer</span>
         </Link>
-        
+
         <ul className="nav">
-          <li className={isActive('/') ? 'active' : ''}>
+          <li className={isActive("/") ? "active" : ""}>
             <Link href="/">Home</Link>
           </li>
-          <li className={isActive('/about') ? 'active' : ''}>
-            <Link href="/about">About</Link>
-          </li>
-          <li className={isActive('/contact') ? 'active' : ''}>
+          <li className={isActive("/contact") ? "active" : ""}>
             <Link href="/contact">Contact</Link>
+          </li>
+          <li className={isActive("/about") ? "active" : ""}>
+            <Link href="/about">About</Link>
           </li>
         </ul>
       </div>

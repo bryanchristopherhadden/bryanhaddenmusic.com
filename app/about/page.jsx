@@ -1,7 +1,6 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
+import styles from "./style.module.css"; // Importing a CSS module
 
 const AboutPage = () => {
   return (
@@ -14,7 +13,6 @@ const AboutPage = () => {
           <h2>About Me</h2>
         </div>
         <div className="row">
-          {/* Left Column - Image */}
           <div
             className="col-md-6"
             style={{
@@ -24,28 +22,25 @@ const AboutPage = () => {
             }}
           >
             <div
+              className={styles.imageContainer} // Use the CSS module class
               style={{
                 height: "220px",
                 position: "relative",
                 width: "100%",
-                maxWidth: "300px",
+                maxWidth: "400px",
               }}
             >
               <Image
+                width={0}
+                height={0}
+                sizes="100%"
                 src="/me.jpeg"
                 alt="Bryan Hadden"
-                fill={true}
-                priority={true}
-                sizes="(max-width: 768px) 100vw, 300px"
-                style={{
-                  objectFit: "contain",
-                  objectPosition: "center",
-                }}
+                layout="responsive"
+                className={styles.image} // Use the CSS module class
               />
             </div>
           </div>
-
-          {/* Right Column - Bio */}
           <div className="col-md-6">
             <p style={{ fontSize: "18px", lineHeight: "1.6" }}>
               As a passionate music producer with over a decade of experience, I
@@ -57,19 +52,19 @@ const AboutPage = () => {
             <p
               style={{ fontSize: "18px", lineHeight: "1.6", marginTop: "20px" }}
             >
-              I&apos;ve worked across multiple genres including indie rock,
+              I’ve worked across multiple genres including indie rock,
               electronic, and alternative pop, always focusing on bringing out
-              the artist&apos;s vision rather than imposing my own. My studio is
+              the artist’s vision rather than imposing my own. My studio is
               equipped with both vintage and cutting-edge equipment, allowing
               for a wide range of sonic possibilities.
             </p>
             <p
               style={{ fontSize: "18px", lineHeight: "1.6", marginTop: "20px" }}
             >
-              Whether you&apos;re recording your first EP or looking to evolve
-              your established sound, I&apos;m committed to creating a
-              collaborative environment where your music can truly shine. My
-              philosophy is simple: make your music more like you.
+              Whether you’re recording your first EP or looking to evolve your
+              established sound, I’m committed to creating a collaborative
+              environment where your music can truly shine. My philosophy is
+              simple: make your music more like you.
             </p>
           </div>
         </div>

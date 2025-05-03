@@ -20,8 +20,6 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -187,10 +185,16 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
-  padding: 100px 20px;
+  padding: 10px 20px 100px;
   min-height: 80vh;
+}
+
+.column .play-button-container {
+  margin: 44px 0 24px;
+  z-index: 1000;
+  align-self: baseline;
 }
 
 .column h1 {
@@ -229,16 +233,4 @@ a {
   font-size: 28px;
   font-weight: 500;
   margin-bottom: 20px;
-}
-
-.play-button-container {
-  bottom: 30px;
-  right: 30px;
-  z-index: 1000;
-}
-
-@media (max-width: 1000px) {
-  .play-button-container {
-    position: fixed;
-  }
 }

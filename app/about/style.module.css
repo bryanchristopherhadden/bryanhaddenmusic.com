@@ -1,0 +1,25 @@
+.imageContainer {
+  overflow: hidden; /* Ensures the image doesn't overflow its container */
+}
+
+.row {
+  @media (min-width: 768px) {
+    gap: "2rem";
+  }
+}
+
+.image {
+  /* object-fit: contain; */
+  object-position: center;
+  animation: scaleIn 0.5s ease forwards; /* Apply the animation */
+  transform: scale(0.9); /* Start slightly smaller */
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9); /* Start smaller */
+  }
+  to {
+    transform: scale(1); /* End at normal size */
+  }
+}
