@@ -1,14 +1,14 @@
 "use client";
 
+import MusicPlayer from "@/components/MusicPlayer.jsx";
 import { useState, useEffect, useRef } from "react";
 import {
   BasketballButton,
   DropdownDiv,
 } from "@/components/StyledComponents.jsx";
-import MusicPlayer from "@/components/MusicPlayer.jsx";
 
 const EmailButton = () => {
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const [_, setAnimationComplete] = useState(false);
 
   // Animation effect
   useEffect(() => {

@@ -1,16 +1,24 @@
-'use client'
-
+import Navigation from '../components/Navigation'
 import { Inter } from 'next/font/google'
-import './globals.css'
-
-// Import Navigation component
-import Navigation from '@/components/navigation.jsx'
 import { Analytics } from "@vercel/analytics/react";
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-// Note: metadata export is replaced with Head usage in client components
-// This will be handled by the document head at runtime
+export const metadata = {
+  title: "Bryan Hadden Music | Music Producer",
+  description:
+    "Professional music production services by Bryan Hadden. Let's make your music more like you.",
+  keywords: [
+    "music",
+    "producer",
+    "studio",
+    "recording",
+    "mixing",
+    "mastering",
+    "Bryan Hadden",
+  ],
+};
 
 export default function RootLayout({ children }) {
   return (

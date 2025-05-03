@@ -2,8 +2,25 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
-  }
+      "@/*": ["src/*", "./*"],
+      "@/components/*": ["components/*", "src/components/*"]
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "target": "es2015",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["**/*.js", "**/*.jsx", "app/layout.tsx"],
+  "exclude": ["node_modules"]
 }
-
