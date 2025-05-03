@@ -5,6 +5,7 @@ import './globals.css'
 
 // Import Navigation component
 import Navigation from '@/components/navigation.jsx'
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,13 +17,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <title>Bryan Hadden Music</title>
-        <meta name="description" content="Songwriter | Producer - Make your music more like you." />
+        <meta
+          name="description"
+          content="Songwriter | Producer - Make your music more like you."
+        />
       </head>
       <body className={inter.className}>
         <Navigation />
         {children}
+        <Analytics />
       </body>
     </html>
-  )
+  );
 }
 

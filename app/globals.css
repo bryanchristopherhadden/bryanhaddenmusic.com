@@ -23,10 +23,10 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(var(--background-end-rgb))
-  )
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
     rgb(var(--background-start-rgb));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -190,17 +190,29 @@ a {
 .column h1 {
   font-size: 36px;
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .column p {
   font-size: 18px;
-  margin-bottom: 30px;
+  margin: 30px 0;
+  text-align: left;
 }
 
 #contactPage {
   padding: 80px 20px;
   min-height: 80vh;
   flex-direction: column;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 999px) {
+    #contactPage {
+      width: min-content;
+    }
+  }
 }
 
 .section-title {
