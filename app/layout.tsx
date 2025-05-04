@@ -7,8 +7,24 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Bryan Hadden Music | Music Producer",
+  tagline: "Music Producer | Songwrite | Mixing, Mastering",
+  openGraph: {
+    title: "Bryan Hadden Music | Music Producer",
+    description:
+      "Professional music production services by Bryan Hadden. Let's make your music sound more like you.",
+    url: "https://bryanhaddenmusic.com",
+    siteName: "Bryan Hadden Music",
+    images: [
+      {
+        url: "/me2.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Bryan Hadden Music",
+      },
+    ],
+  },
   description:
-    "Professional music production services by Bryan Hadden. Let's make your music more like you.",
+    "Professional music production services by Bryan Hadden. Let's make your music sound more like you.",
   keywords: [
     "music",
     "producer",
@@ -23,13 +39,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <title>Bryan Hadden Music</title>
-        <meta
-          name="description"
-          content="Songwriter | Producer - Make your music more like you."
-        />
-      </head>
       <body className={inter.className}>
         <Navigation />
         {children}

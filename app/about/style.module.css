@@ -1,4 +1,6 @@
 .imageContainer {
+  max-width: 100%;
+  width: auto;
   overflow: hidden; /* Ensures the image doesn't overflow its container */
 }
 

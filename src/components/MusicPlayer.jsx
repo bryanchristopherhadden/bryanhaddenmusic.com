@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
 
-// Styled components for the music player
 const PlayerContainer = styled.div`
   background-color: rgba(99, 114, 255, 0.05);
   border-radius: 8px;
@@ -12,6 +11,7 @@ const PlayerContainer = styled.div`
   width: 100%;
   max-width: 500px;
   color: #333;
+  justify-self: anchor-center;
 `;
 
 const PlayerControls = styled.div`

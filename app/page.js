@@ -77,11 +77,12 @@ export default function Home() {
               aria-label="Toggle music player"
               className="btn btn-custom"
             >
-              {modalIsVisable ? "✕" : <span>{"▶"}</span>}
+              {/* {modalIsVisable ? "✕" : <span>{"▶"}</span>} */}
+              {<span>{"▶"}</span>}
             </button>
           </div>
         )}
-        <h1>Lets make your music more like you.</h1>
+        <h1>Lets make your music sound more like you.</h1>
         <p>
           The ups and downs are here to stay, just like your creativity. <br />
           Let&apos;s use it all.
