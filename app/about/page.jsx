@@ -5,39 +5,22 @@ import styles from "./style.module.css"; // Importing a CSS module
 const AboutPage = () => {
   return (
     <main>
-      <div
-        className="container"
-        style={{ paddingTop: "100px", paddingBottom: "100px" }}
-      >
-        <div className="section-title">
-          <h2>About Me</h2>
-        </div>
+      <div className="container">
+        <div className="section-title"></div>
         <div className="row">
-          <div
-            className="col-md-6"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <div className="col-md-6">
             <div
-              className={styles.imageContainer} // Use the CSS module class
-              style={{
-                height: "220px",
-                position: "relative",
-                width: "100%",
-                maxWidth: "400px",
-              }}
+              className={styles.imageContainer}
+              style={{ maxWidth: "100%", width: "auto" }}
             >
               <Image
+                priority={true}
+                src="/me2.jpeg"
+                alt="Bryan Hadden"
                 width={100}
                 height={100}
-                sizes="100%"
-                src="/me.jpeg"
-                alt="Bryan Hadden"
-                layout="responsive"
-                className={styles.image} // Use the CSS module class
+                sizes="(max-width: 900px) 300px, 100%"
+                className={styles.image}
               />
             </div>
           </div>
@@ -52,17 +35,17 @@ const AboutPage = () => {
             <p
               style={{ fontSize: "18px", lineHeight: "1.6", marginTop: "20px" }}
             >
-              I’ve worked across multiple genres including indie rock,
+              I've worked across multiple genres including indie rock,
               electronic, and alternative pop, always focusing on bringing out
-              the artist’s vision rather than imposing my own. My studio is
+              the artist's vision rather than imposing my own. My studio is
               equipped with both vintage and cutting-edge equipment, allowing
               for a wide range of sonic possibilities.
             </p>
             <p
               style={{ fontSize: "18px", lineHeight: "1.6", marginTop: "20px" }}
             >
-              Whether you’re recording your first EP or looking to evolve your
-              established sound, I’m committed to creating a collaborative
+              Whether you're recording your first EP or looking to evolve your
+              established sound, I'm committed to creating a collaborative
               environment where your music can truly shine. My philosophy is
               simple: make your music more like you.
             </p>

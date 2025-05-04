@@ -7,9 +7,16 @@ import { usePathname } from "next/navigation";
 const Navigation = () => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isWideScreen, setIsWideScreen] = useState(true);
 
-  // Handle scroll event to potentially change navbar styling
   useEffect(() => {
+    setIsMounted(true);
+
+    // Set initial screen width
+    setIsWideScreen(window.innerWidth < 999);
+
+    // Handle scroll events
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
@@ -18,23 +25,33 @@ const Navigation = () => {
       }
     };
 
+    // Handle resize events
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth > 999);
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  // Determine if a link is active based on the current path
   const isActive = (path) => {
     return pathname === path;
   };
 
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
-      <div className="container">
+      <div
+        className={isMounted && isWideScreen ? "container" : "container-fluid"}
+      >
         <Link href="/" className="navbar-brand">
           <span>Bryan Hadden</span>
           <span>Music Producer</span>
         </Link>
-
         <ul className="nav">
           <li className={isActive("/") ? "active" : ""}>
             <Link href="/">Home</Link>

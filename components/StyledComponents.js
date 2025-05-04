@@ -58,15 +58,19 @@ export const BasketballButton = styled(Button)`
   animation: ${bounceAnimation} 2.5s forwards;
   background-color: transparent;
   color: white;
-  padding: 16px;
-  margin: 80px 0 24px;
   cursor: pointer;
-  font-size: 1.5rem;
   transition: all 0.3s ease-in-out;
   border: 1px solid transparent;
+  width: -webkit-fill-available;
+  display: block;
+  padding: 0;
+  font-size: 24px;
+  white-space: break-spaces;
+  line-height: 44px;
+  font-weight: 800;
 
   > span {
-    padding-left: 1.5rem;
+    padding-left: 0.25rem;
   }
 
   &:hover {
@@ -76,10 +80,15 @@ export const BasketballButton = styled(Button)`
     font-size: 1.65rem;
   }
 
+  @media (min-width: 900px) {
+    margin-top: 100px;
+    width: max-content;
+    padding: 12px 20px;
+  }
+
   @media (max-width: 900px) {
     text-align: left;
-    white-space: nowrap;
-    margin: 80px 0 24px;
+    white-space: break-spaces;
   }
 `;
 

@@ -1,16 +1,15 @@
 "use client";
 
-import MusicPlayer from "@/components/MusicPlayer.jsx";
+import { MusicPlayer } from "../src/components/MusicPlayer.jsx";
 import { useState, useEffect, useRef } from "react";
 import {
-  BasketballButton,
   DropdownDiv,
-} from "../styles/StyledComponents.jsx";
+  BasketballButton,
+} from "../components/StyledComponents.js";
 
 const EmailButton = () => {
   const [_, setAnimationComplete] = useState(false);
 
-  // Animation effect
   useEffect(() => {
     const timer = setTimeout(() => {
       setAnimationComplete(true);
@@ -20,7 +19,6 @@ const EmailButton = () => {
   }, []);
 
   const openEmailApp = () => {
-    // Using mailto protocol to open default email client
     window.location.href =
       "mailto:bryanchrishadden@gmail.com?subject=Music%20Inquiry&body=I'd%20like%20to%20learn%20more%20about%20making%20better%20music.";
   };
@@ -37,10 +35,10 @@ const EmailButton = () => {
   );
 };
 
-const DropdownContent = ({ modalIsVisable }) =>
+const DropdownContent = ({ modalIsVisable, onClose }) =>
   modalIsVisable ? (
     <DropdownDiv className="container">
-      <MusicPlayer visible={modalIsVisable} />
+      <MusicPlayer visible={modalIsVisable} onClose={onClose} />
     </DropdownDiv>
   ) : null;
 
@@ -49,19 +47,15 @@ export default function Home() {
   const [modalIsVisable, setModalIsVisable] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Set initial mobile state after component mounts
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 990);
     };
 
-    // Set initial value
     checkIfMobile();
 
-    // Add event listener for window resize
     window.addEventListener("resize", checkIfMobile);
 
-    // Clean up event listener
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
@@ -71,29 +65,23 @@ export default function Home() {
 
   return (
     <main>
-      <div className="column" ref={columnRef} style={{ position: "relative" }}>
+      <div className="column" ref={columnRef}>
         <DropdownContent
           modalIsVisable={modalIsVisable}
           onClose={() => setModalIsVisable(false)}
         />
-        <div className="play-button-container">
-          <button
-            onClick={toggleModal}
-            aria-label="Toggle music player"
-            className="btn btn-custom"
-            style={{
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {modalIsVisable ? "✕" : "▶"}
-          </button>
-        </div>
-        <h1 style={{ margin: 0 }}>Lets make your music more like you.</h1>
+        {!modalIsVisable && (
+          <div className="play-button-container">
+            <button
+              onClick={toggleModal}
+              aria-label="Toggle music player"
+              className="btn btn-custom"
+            >
+              {modalIsVisable ? "✕" : <span>{"▶"}</span>}
+            </button>
+          </div>
+        )}
+        <h1>Lets make your music more like you.</h1>
         <p>
           The ups and downs are here to stay, just like your creativity. <br />
           Let&apos;s use it all.

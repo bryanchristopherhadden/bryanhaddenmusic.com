@@ -131,7 +131,7 @@ const NoSongsMessage = styled.div`
   color: #666;
 `;
 
-const MusicPlayer = ({ visible }) => {
+export const MusicPlayer = ({ visible, onClose }) => {
   const [songs, setSongs] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -248,33 +248,35 @@ const MusicPlayer = ({ visible }) => {
     const loadSongs = async () => {
       try {
         // Use PUBLIC_URL for reliable path resolution in Create React App
-        const jsonPath = `${process.env.PUBLIC_URL || ''}/songs.json`;
+        const jsonPath = `${process.env.PUBLIC_URL || ""}/songs.json`;
         console.log("Fetching songs from:", jsonPath);
-        
+
         const response = await fetch(jsonPath);
-        
+
         if (!response.ok) {
-          throw new Error(`Failed to load songs: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Failed to load songs: ${response.status} ${response.statusText}`
+          );
         }
-        
+
         const songsMetadata = await response.json();
         console.log("Songs metadata loaded successfully");
-        
+
         // Filter inactive songs and map the metadata to include the full source path
         const songsWithPaths = songsMetadata
-          .filter(song => song.active !== false) // Keep songs where active is true or undefined
-          .map(song => ({
+          .filter((song) => song.active !== false) // Keep songs where active is true or undefined
+          .map((song) => ({
             ...song,
-            src: `${process.env.PUBLIC_URL || ''}/songs/${song.filename}`
+            src: `${process.env.PUBLIC_URL || ""}/songs/${song.filename}`,
           }));
-        
+
         if (songsWithPaths.length === 0) {
           console.log("No active songs found in songs.json, using fallback");
           // Use hardcoded fallback if no active songs
           loadFallbackSongs();
           return;
         }
-        
+
         console.log(`Loaded ${songsWithPaths.length} active songs`);
         setSongs(songsWithPaths);
       } catch (error) {
@@ -283,7 +285,7 @@ const MusicPlayer = ({ visible }) => {
         loadFallbackSongs();
       }
     };
-    
+
     // Fallback function to use hardcoded songs
     const loadFallbackSongs = () => {
       console.log("Using hardcoded fallback songs");
@@ -297,12 +299,12 @@ const MusicPlayer = ({ visible }) => {
           genre: "Electronic",
           filename: "Sapiosexual.mp3",
           active: true,
-          src: `${process.env.PUBLIC_URL || ''}/songs/Sapiosexual.mp3`
-        }
+          src: `${process.env.PUBLIC_URL || ""}/songs/Sapiosexual.mp3`,
+        },
       ];
       setSongs(hardcodedSongs);
     };
-    
+
     loadSongs();
   }, []);
 
@@ -390,13 +392,13 @@ const MusicPlayer = ({ visible }) => {
   return (
     <PlayerContainer>
       {/* Hidden audio element */}
-      <audio 
-        ref={audioRef} 
+      <audio
+        ref={audioRef}
         src={currentSong.src}
         preload="metadata"
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
       />
-      
+
       {/* Song information */}
       <SongInfo>
         <h3>{currentSong.title}</h3>
@@ -447,7 +449,6 @@ const MusicPlayer = ({ visible }) => {
             <line x1="4" y1="4" x2="9" y2="9"></line>
           </svg>
         </ControlButton>
-
         <ControlButton onClick={playPrevSong}>
           <svg
             width="14"
@@ -461,7 +462,6 @@ const MusicPlayer = ({ visible }) => {
             <line x1="5" y1="19" x2="5" y2="5"></line>
           </svg>
         </ControlButton>
-
         <PlayButton onClick={togglePlay}>
           {isPlaying ? (
             <svg
@@ -488,7 +488,6 @@ const MusicPlayer = ({ visible }) => {
             </svg>
           )}
         </PlayButton>
-
         <ControlButton onClick={playNextSong}>
           <svg
             width="14"
@@ -502,8 +501,19 @@ const MusicPlayer = ({ visible }) => {
             <line x1="19" y1="5" x2="19" y2="19"></line>
           </svg>
         </ControlButton>
-
-        <div style={{ width: "30px" }}></div> {/* Empty space for balance */}
+        <ControlButton onClick={onClose}>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </ControlButton>
       </PlayerControls>
     </PlayerContainer>
   );
