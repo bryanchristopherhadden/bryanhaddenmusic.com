@@ -84,7 +84,7 @@ const Progress = styled.div`
 `;
 
 const SongInfo = styled.div`
-  margin-top: 10px;
+  margin: 10px;
   text-align: center;
   color: #333;
 
@@ -108,7 +108,7 @@ const SongInfo = styled.div`
 
   .genre {
     display: inline-block;
-    margin: 4px 0 0;
+    margin: 12px 0 4px;
     font-size: 11px;
     color: white;
     background-color: #6372ff;

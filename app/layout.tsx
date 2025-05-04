@@ -12,7 +12,7 @@ export const metadata = {
     title: "Bryan Hadden Music | Music Producer",
     description:
       "Professional music production services by Bryan Hadden. Let's make your music sound more like you.",
-    url: "https://bryanhaddenmusic.com",
+    url: "https://bryanhadden.info | http://localhost:3000/",
     siteName: "Bryan Hadden Music",
     images: [
       {
