@@ -1,6 +1,6 @@
 "use client";
 
-import { MusicPlayer } from "../src/components/MusicPlayer.jsx";
+import { MusicPlayer } from "../components/MusicPlayer";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
