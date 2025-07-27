@@ -13,10 +13,8 @@ const Navigation = (): JSX.Element => {
   useEffect(() => {
     setIsMounted(true);
 
-    // Set initial screen width
     setIsWideScreen(window.innerWidth < 999);
 
-    // Handle scroll events
     const handleScroll = (): void => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
@@ -25,7 +23,6 @@ const Navigation = (): JSX.Element => {
       }
     };
 
-    // Handle resize events
     const handleResize = (): void => {
       setIsWideScreen(window.innerWidth > 999);
     };
@@ -50,17 +47,17 @@ const Navigation = (): JSX.Element => {
       >
         <Link href="/" className="navbar-brand">
           <span>Bryan Hadden</span>
-          <span>Music Producer</span>
+          <span>{pathname === '/resume' || pathname === '/portfolio' ? 'FullStack Developer' : 'Music Producer'}</span>
         </Link>
         <ul className="nav">
           <li className={isActive("/") ? "active" : ""}>
-            <Link href="/">Home</Link>
+            <Link href="/">Music Home</Link>
           </li>
           <li className={isActive("/about") ? "active" : ""}>
-            <Link href="/about">About</Link>
+            <Link href="/about">Music Producer Bio</Link>
           </li>
-          <li className={isActive("/tech") ? "active" : ""}>
-            <Link href="/tech">Tech</Link>
+          <li className={isActive("/resume") ? "active" : ""}>
+            <Link href="/resume">Resume</Link>
           </li>
           <li className={isActive("/portfolio") ? "active" : ""}>
             <Link href="/portfolio">Portfolio</Link>

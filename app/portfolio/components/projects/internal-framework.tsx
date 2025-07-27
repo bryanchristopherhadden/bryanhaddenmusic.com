@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../portfolio.css';
+import { Container } from '../../styles/content.styles'
 
 interface InternalFrameworkProps {
   onGoBack?: () => void;

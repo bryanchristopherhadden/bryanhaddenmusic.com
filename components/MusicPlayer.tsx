@@ -112,6 +112,11 @@ const CloseButton = styled.button`
   top: 10px;
   right: 10px;
 
+  @media (min-width: 768px) {
+    top: 24px;
+    right: auto;
+  }
+
   &:hover {
     color: #333;
   }
@@ -193,18 +198,18 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
 
   const playNext = useCallback(() => {
     if (songs.length === 0) return;
-    
+
     let nextIndex;
     if (shuffle) {
       nextIndex = Math.floor(Math.random() * songs.length);
     } else {
       nextIndex = (currentSongIndex + 1) % songs.length;
     }
-    
+
     setCurrentSongIndex(nextIndex);
     setProgress(0);
     setCurrentTime(0);
-    
+
     if (audioRef.current) {
       audioRef.current.src = songs[nextIndex].src;
       if (isPlaying) {
@@ -215,18 +220,18 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
 
   const playPrevious = useCallback(() => {
     if (songs.length === 0) return;
-    
+
     let prevIndex;
     if (shuffle) {
       prevIndex = Math.floor(Math.random() * songs.length);
     } else {
       prevIndex = currentSongIndex === 0 ? songs.length - 1 : currentSongIndex - 1;
     }
-    
+
     setCurrentSongIndex(prevIndex);
     setProgress(0);
     setCurrentTime(0);
-    
+
     if (audioRef.current) {
       audioRef.current.src = songs[prevIndex].src;
       if (isPlaying) {
@@ -241,12 +246,12 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
 
   const setProgressFromClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!audioRef.current) return;
-    
+
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const clickPercent = (clickX / width) * 100;
-    
+
     const newTime = (clickPercent / 100) * audioRef.current.duration;
     audioRef.current.currentTime = newTime;
     setProgress(clickPercent);
@@ -259,7 +264,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
         // Load songs from the songs.json file
         const jsonPath = `${process.env.PUBLIC_URL || ""}/songs.json`;
         const response = await fetch(jsonPath);
-        
+
         if (response.ok) {
           const songsData = await response.json();
           const processedSongs = songsData.map((song: any, index: number) => ({
@@ -269,9 +274,9 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
             filename: song.filename,
             src: `${process.env.PUBLIC_URL || ""}/songs/${song.filename}`,
           }));
-          
+
           setSongs(processedSongs);
-          
+
           if (processedSongs.length > 0 && audioRef.current) {
             audioRef.current.src = processedSongs[0].src;
           }
@@ -309,7 +314,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
           src: `${process.env.PUBLIC_URL || ""}/songs/Just Crush.mp3`,
         },
       ];
-      
+
       setSongs(fallbackSongs);
       if (audioRef.current) {
         audioRef.current.src = fallbackSongs[0].src;
@@ -380,7 +385,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
   return (
     <PlayerContainer>
       <CloseButton onClick={onClose}>✕</CloseButton>
-      
+
       <SongInfo>
         <h3>{songs[currentSongIndex]?.title || "Loading..."}</h3>
         <p>{songs[currentSongIndex]?.artist || "Bryan Hadden"}</p>
@@ -390,11 +395,11 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
         <ControlButton onClick={playPrevious} title="Previous">
           ⏮
         </ControlButton>
-        
+
         <PlayButton onClick={togglePlay} title={isPlaying ? "Pause" : "Play"}>
           {isPlaying ? "⏸" : "▶"}
         </PlayButton>
-        
+
         <ControlButton onClick={playNext} title="Next">
           ⏭
         </ControlButton>
@@ -410,16 +415,16 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-        <ControlButton 
-          onClick={toggleShuffle} 
+        <ControlButton
+          onClick={toggleShuffle}
           style={{ backgroundColor: shuffle ? 'rgba(99, 114, 255, 0.1)' : 'transparent' }}
           title="Shuffle"
         >
           🔀
         </ControlButton>
-        
-        <ControlButton 
-          onClick={() => setRepeat(!repeat)} 
+
+        <ControlButton
+          onClick={() => setRepeat(!repeat)}
           style={{ backgroundColor: repeat ? 'rgba(99, 114, 255, 0.1)' : 'transparent' }}
           title="Repeat"
         >

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from '../styles/logo.styles'
-import '../portfolio.css';
 
 const Logo: React.FC = () => {
     return (

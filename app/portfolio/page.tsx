@@ -1,43 +1,42 @@
-'use client'
+import React from 'react'
+import PortfolioClient from './components/PortfolioClient'
 
-import React, { useState } from 'react'
-import Content from './components/content'
-import Project from './components/projects'
-import { AppContainer, Header, Intro } from './styles'
-import './portfolio.css'
+export const metadata = {
+  title: "Bryan Hadden | Full Stack Developer Portfolio",
+  tagline: "Full Stack Developer | Lead Engineer | React, Node.js, TypeScript",
+  openGraph: {
+    title: "Bryan Hadden | Full Stack Developer Portfolio",
+    description:
+      "Full Stack Developer portfolio showcasing projects built with React, Node.js, TypeScript, and modern web technologies. View my work and get in touch for collaboration.",
+    url: "https://bryanhadden.info/portfolio",
+    siteName: "Bryan Hadden - Full Stack Developer Portfolio",
+    images: [
+      {
+        url: "/me2.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Bryan Hadden - Full Stack Developer Portfolio",
+      },
+    ],
+  },
+  description:
+    "Full Stack Developer portfolio showcasing projects built with React, Node.js, TypeScript, and modern web technologies. View my work and get in touch for collaboration.",
+  keywords: [
+    "full stack developer",
+    "portfolio",
+    "lead engineer",
+    "react",
+    "node.js",
+    "typescript",
+    "next.js",
+    "frontend",
+    "backend",
+    "software engineer",
+    "projects",
+    "Bryan Hadden",
+  ],
+};
 
 export default function Portfolio() {
-  const [selectedProject, setSelectedProject] = useState('none')
-
-  const handleCardClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const target = event.currentTarget as HTMLDivElement;
-    const projectToShow = target.id;
-    if (projectToShow) {
-      setSelectedProject(projectToShow)
-    }
-  }
-
-  const showHomepage = selectedProject === "none"
-  const DetermineHomepageOrProject = showHomepage ? 
-    <Content handleCardClick={handleCardClick} /> : 
-    <Project selectedProject={selectedProject} onGoBack={() => setSelectedProject('none')} />
-
-  return (
-    <AppContainer>
-      <Header>
-        <Intro className="intro" id="intro">
-          <h1>I'm Bryan, a FullStack Developer.<br />
-            I can solve <span>all some one of your</span> problems, ok?
-          </h1>
-          <h2>
-            Below are some of the projects I've worked on.<br />
-            Have a project, idea or problem you'd like to discuss?<br />
-            Shoot me an email <a href="mailto: bryanchrishadden@gmail.com">hey@bryanhadden.com</a>
-            <br />
-          </h2>
-        </Intro>
-      </Header>
-      {DetermineHomepageOrProject}
-    </AppContainer>
-  )
+  return <PortfolioClient />
 } 

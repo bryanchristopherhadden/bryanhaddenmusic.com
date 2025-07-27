@@ -8,9 +8,13 @@
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  box-sizing: border-box !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide Next.js development badge */
+[data-next-badge] {
+  display: none !important;
 }
 
 html,

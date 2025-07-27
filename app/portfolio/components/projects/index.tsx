@@ -2,6 +2,7 @@ import React from 'react';
 import VesselTrackerContent from './vessel-tracker-content'
 import VTPrototypeContent from './vt-prototype-content'
 import InternalFramework from './internal-framework'
+import { ProjectContainer } from '../../styles'
 
 interface ProjectProps {
   selectedProject: string;
@@ -9,28 +10,17 @@ interface ProjectProps {
 }
 
 const Project: React.FC<ProjectProps> = ({ selectedProject, onGoBack }) => {
-    let ComponentToShow
+  const projectComponents = {
+    vesselTrackerProject: <VesselTrackerContent onGoBack={onGoBack} />,
+    vt_PrototypeProject: <VTPrototypeContent onGoBack={onGoBack} />,
+    hd_internalFramework: <InternalFramework onGoBack={onGoBack} />
+  }
 
-    switch (selectedProject) {
-        case "vesselTrackerProject":
-            ComponentToShow = <VesselTrackerContent onGoBack={onGoBack} />
-            break;
-        case "vt_PrototypeProject":
-            ComponentToShow = <VTPrototypeContent onGoBack={onGoBack} />
-            break;
-        case "hd_internalFramework":
-            ComponentToShow = <InternalFramework onGoBack={onGoBack} />
-            break;
-        default:
-            ComponentToShow = "none"
-            break;
-    }
-
-    return (
-        <div className="project">
-            {ComponentToShow}
-        </div>
-    )
+  return (
+    <ProjectContainer>
+      {projectComponents[selectedProject as keyof typeof projectComponents] || null}
+    </ProjectContainer>
+  )
 }
 
 export default Project; 

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactPlayer from 'react-player'
-import '../../portfolio.css';
+import { Container } from '../../styles/content.styles'
 
 interface VesselTrackerContentProps {
-  onGoBack?: () => void;
+    onGoBack?: () => void;
 }
 
 const VesselTrackerContent: React.FC<VesselTrackerContentProps> = ({ onGoBack }) => {
@@ -35,14 +35,14 @@ const VesselTrackerContent: React.FC<VesselTrackerContentProps> = ({ onGoBack })
             <h2 className="tech-stack"><span>Tech Stack: </span>React, Node, AWS, Redux, Jest, JWT Tokens, Google Maps API</h2>
             <h2 className="text">
                 Currently in use at every port in the world that accepts Porsche Cars, this<br />
-                    app needed to be friendly for mobile, tablet, desktop & huge port screens.
-                </h2>
+                app needed to be friendly for mobile, tablet, desktop & huge port screens.
+            </h2>
             <h2 className="text">
-                The users base was diverse: port managers, logistics, finance, technicians, and even C suite.  <br />
-                    Porsche completely replaced their old vessel tracking application with my implementation. <br />
+                The users base was diverse: port managers, logistics, finance, technicians, and even C suite.
+                Porsche completely replaced their old vessel tracking application with my implementation.
             </h2>
             <div className="demo">
-                <ReactPlayer url="/videos/vesseltracker-app.mp4" width="61vw" height="40vw" playing={true} loop={true} />
+                <ReactPlayer url="/videos/vesseltracker-app.mp4" playing={true} loop={true} width="100%" height="100%" />
             </div>
         </div>
     )

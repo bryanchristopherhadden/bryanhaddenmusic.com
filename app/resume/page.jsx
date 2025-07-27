@@ -1,6 +1,40 @@
 import React from "react";
 import styles from "./style.module.css";
 
+export const metadata = {
+  title: "Bryan Hadden | Full Stack Developer",
+  tagline: "Full Stack Developer | Lead Engineer | React, Node.js, TypeScript",
+  openGraph: {
+    title: "Bryan Hadden | Full Stack Developer",
+    description:
+      "Lead Engineer and Full Stack Developer with expertise in React, Node.js, TypeScript, and modern web technologies. Experienced in building scalable applications.",
+    url: "https://bryanhadden.info/resume",
+    siteName: "Bryan Hadden - Full Stack Developer",
+    images: [
+      {
+        url: "/me2.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Bryan Hadden - Full Stack Developer",
+      },
+    ],
+  },
+  description:
+    "Lead Engineer and Full Stack Developer with expertise in React, Node.js, TypeScript, and modern web technologies. Experienced in building scalable applications.",
+  keywords: [
+    "full stack developer",
+    "lead engineer",
+    "react",
+    "node.js",
+    "typescript",
+    "next.js",
+    "frontend",
+    "backend",
+    "software engineer",
+    "Bryan Hadden",
+  ],
+};
+
 const TechPage = () => {
   return (
     <main className={styles.techPage}>
