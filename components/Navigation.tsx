@@ -62,6 +62,9 @@ const Navigation = (): JSX.Element => {
           <li className={isActive("/tech") ? "active" : ""}>
             <Link href="/tech">Tech</Link>
           </li>
+          <li className={isActive("/portfolio") ? "active" : ""}>
+            <Link href="/portfolio">Portfolio</Link>
+          </li>
         </ul>
       </div>
     </nav>
