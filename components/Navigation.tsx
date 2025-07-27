@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const Navigation = () => {
+const Navigation = (): JSX.Element => {
   const pathname = usePathname();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isWideScreen, setIsWideScreen] = useState(true);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [isWideScreen, setIsWideScreen] = useState<boolean>(true);
 
   useEffect(() => {
     setIsMounted(true);
@@ -17,7 +17,7 @@ const Navigation = () => {
     setIsWideScreen(window.innerWidth < 999);
 
     // Handle scroll events
-    const handleScroll = () => {
+    const handleScroll = (): void => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
@@ -26,7 +26,7 @@ const Navigation = () => {
     };
 
     // Handle resize events
-    const handleResize = () => {
+    const handleResize = (): void => {
       setIsWideScreen(window.innerWidth > 999);
     };
 
@@ -39,7 +39,7 @@ const Navigation = () => {
     };
   }, []);
 
-  const isActive = (path) => {
+  const isActive = (path: string): boolean => {
     return pathname === path;
   };
 
@@ -68,4 +68,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Navigation; 

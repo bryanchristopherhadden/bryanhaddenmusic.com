@@ -3,7 +3,7 @@ import AboutPage from "@/app/about/page";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
-import { Navigation } from "./components/navigation";
+import Navigation from "./components/Navigation.jsx";
 import { PlayButton } from "./styles/StyledComponents";
 
 function Footer() {

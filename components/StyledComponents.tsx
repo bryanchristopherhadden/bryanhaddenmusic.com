@@ -3,7 +3,7 @@
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { Button } from "@mui/material";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 // Enhanced CSS animations for other components
 export const dropdownAnimation = keyframes`

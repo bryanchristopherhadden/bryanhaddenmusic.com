@@ -2,7 +2,7 @@
 
 import { MusicPlayer } from "../src/components/MusicPlayer.jsx";
 import { useState, useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import {
   DropdownDiv,
   BasketballButton as MakeBetterMusicButton,
