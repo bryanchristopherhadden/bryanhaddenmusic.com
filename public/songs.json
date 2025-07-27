@@ -1,0 +1,90 @@
+[
+  {
+    "id": "letsgeteven",
+    "title": "Let's Get Even",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Pop",
+    "filename": "Lets Get Even.m4a",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "uberblack",
+    "title": "Uber Black",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "House",
+    "filename": "Uber Black.m4a",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "firstclass",
+    "title": "First Class",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "House",
+    "filename": "First Class.m4a",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "rightback",
+    "title": "Right Back",
+    "artist": "Justo",
+    "album": "Single",
+    "year": "2024",
+    "genre": "RnB",
+    "filename": "Right Back.mp3",
+    "active": true,
+    "forsale": false
+  },
+  {
+    "id": "stillwaters",
+    "title": "Still Waters",
+    "artist": "Bre",
+    "album": "Bre Music 2025",
+    "year": "2025",
+    "genre": "HipHop",
+    "filename": "Still Waters.mp3",
+    "active": true,
+    "forsale": false
+  },
+  {
+    "id": "pullup",
+    "title": "Pull Up",
+    "artist": "Leah Daily",
+    "album": "Single",
+    "year": "2025",
+    "genre": "Rap",
+    "filename": "Pull Up.mp3",
+    "active": true,
+    "forsale": false
+  },
+  {
+    "id": "shroomiegirl",
+    "title": "Shroomie Girl",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "Shroomie Girl.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "coexist",
+    "title": "Coexist",
+    "artist": "IO Music",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "Coexist.mp3",
+    "active": true,
+    "forsale": false
+  }
+]

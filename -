@@ -1,0 +1,48 @@
+Bryan Hadden - Lead & Sr Engineer tel: 678-459-8384  |  email: bryanchrishadden@gmail.com
+links to previous work: SiteOne Salesforce Plus NCR Chik-Fil-A RoomsToGo
+
+Professional Experience 
+SiteOne Landscape, Lead August 2023 - Present
+	•	I lead and mentor a team of 15 & own our more complex feature frontend features, like React app integration with customer data, complex higher order react/NextJS components and customer security/standards
+	•	This month I simplified the check out process by building a custom react dropdown that lets customers add new addresses & select previous addresses instantaneously from the checkout flow, reducing time in queue by 30% backend, speeding checkout up by 15% & reducing customer friction.
+	•	Responsible for researching new high impact & low time investment technical solutions, this month  I met with our Director of product & our Director of Technology on ways to improve new feature delivery, by modernizing our frontend review process in way that will allow Devs, Product & QA teams to review  Frontend feature and bug fixes with the tools they already use (Slack, Office, etc). 
+Tech Stack - NextJS, React, React Query, Frontend Tokens NextJS, Node, Typescript, Java, MicroServices
+
+NCR, Lead February 2021 - August 2023
+	•	Owned team UI development, hands on with the team’s web application, client/frontend state management, backend state management, Frontend React controllers and utils.
+	•	I was the lead developer for the NCR documentation initiative, maintaining 50K+ pages of frontend content via React , Vanilla Javascript and NextJs for some of NCR’s top clients like Walmart & Starbucks.
+	•	I owned the technical guidelines, specifications, testing-strategies, and roadmaps for the initiative,  which allowed each pixel in the designs to shine through in the final implementation.
+Tech Stack - NextJSAzure, Github Actions, Canary Deployment, NextJs, Node, MicroServices, Docker
+
+Freelancer, Sr React Developer December 2019 - February 2021
+Salesforce - Tech Stack - GCP, React, Redux, Gitlab, Yarn, Charles (Reverse Proxies), Jest
+	•	Rebuilt Featured Episode/Original Series for Salesforce Plus in Salesforce Web Components
+	•	One of 3 Srs in a team of 30; Daily mentoring, pairing & code reviews
+Disney - Tech Stack - Azure, Python, Django, Gitlab, Node
+	•	Owned Frontend security application with a company-wide impact, Lucas Films, Parks, Pixar etc.
+	•	Used jQuery and Vanilla Javascript to build out the entire suite of applications
+	•	Skilled up on Python on the job;  Owned AWS implementation for the app
+Chick-Fil-A - Tech Stack - React, Redux, Gitlab, Yarn, Charles (Reverse Proxies), Jest
+	•	In the first two months took ownership of and delivered the favorites React feature which makes up about 1/3rd of the current app; Launched the new CFA web app nationally & internationally.
+	•	Collaborated with Business, UX and Product to implement efficient design patterns.
+
+RoomsToGo - Tech Stack - React, Gatsby, GraphQL, AWS, React Native
+	•	Re-engineered e-commerce site with millions in sales per day into React App. 
+	•	Helped lead a diverse team of 30+; Successfully rebuilt the checkout flow for RoomsToGo.com
+
+Porsche, Lead September 2018 – December 2019 
+	•	Owned in Amazon Web Services like EC2, AWS Identity and access management.
+	•	Architected a vessel tracking application which tracked & provided insights for 3billion+ euros of product
+	•	Owned app with 100+ users which included everyone from shipping/port managers to middle management and C-Suite
+	•	Co-designed & Implemented a GraphQL/Hasura/Node back-end solution on a back end only Node project for a large ride sharing company
+Tech Stack - AWS, GCP, React, Node, Python, MongoDB, Angular, Jenkins, GraphQL (FE and BE)
+
+Home Depot, Frontend & Designer May 2017 – September 2018 
+	•	Joined as a UXer, took initiative to also add development to my skill set when I saw the opportunity
+	•	Implemented and maintained several ec2 instances for internal sites via PHP, SSH-ing into the virtual machine instance and designing/implementing components for the website
+	•	Maintained internal framework with Vanilla JavaScript, Angular & React for several thousand developers and several hundred designers.
+Tech Stack - GCP, React, Angular, Vanilla Javascript, jQuery, React, Node, Angular, PHP
+
+Education/Training/Certifications
+Foundations of Science Engineering - MIT Jan - May 2017 
+Business Admin - Winston Salem State University May 2006 – December 2010
