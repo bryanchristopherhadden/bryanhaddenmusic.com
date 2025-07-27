@@ -3,35 +3,9 @@
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { Button } from "@mui/material";
+import { motion } from "motion/react";
 
-// Animations
-export const bounceAnimation = keyframes`
-  0% {
-    transform: translateY(-100vh);
-    animation-timing-function: ease-in;
-  }
-  40% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  55% {
-    transform: translateY(-12vh);
-    animation-timing-function: ease-in;
-  }
-  70% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  82% {
-    transform: translateY(-7vh);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(-.75vh);
-    animation-timing-function: ease-out;
-  }
-`;
-
+// Enhanced CSS animations for other components
 export const dropdownAnimation = keyframes`
   0% {
     transform: translateY(-100%);
@@ -53,13 +27,53 @@ export const glowingBorder = keyframes`
   }
 `;
 
-// Styled Components
-export const BasketballButton = styled(Button)`
-  animation: ${bounceAnimation} 2.5s forwards;
+// Basketball bounce animation variants
+export const bounceVariants = {
+  initial: {
+    y: -800,
+    scale: 0.3,
+    rotate: -15,
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
+    transition: {
+      type: "spring" as const,
+      stiffness: 50,
+      damping: 8,
+      mass: 1.5,
+      bounce: 0.8
+    }
+  },
+  hover: {
+    scale: 1.1,
+    rotate: 3,
+    y: -10,
+    transition: {
+      type: "spring" as const,
+      stiffness: 400,
+      damping: 10,
+    }
+  },
+  tap: {
+    scale: 0.9,
+    y: 5,
+    transition: {
+      type: "spring" as const,
+      stiffness: 500,
+      damping: 20,
+    }
+  }
+};
+
+// Enhanced Basketball Button with Framer Motion
+export const BasketballButton = styled(motion.button)`
   background-color: transparent;
   color: white;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
   border: 1px solid transparent;
   width: -webkit-fill-available;
   display: block;
@@ -68,16 +82,26 @@ export const BasketballButton = styled(Button)`
   white-space: break-spaces;
   line-height: 44px;
   font-weight: 800;
+  position: relative;
+  overflow: hidden;
 
   > span {
     padding-left: 0.25rem;
   }
 
-  &:hover {
-    color: #6372ff;
-    border: 1px solid white;
-    scale: 1.05;
-    font-size: 1.65rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover::before {
+    left: 100%;
   }
 
   @media (min-width: 900px) {
