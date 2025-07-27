@@ -131,7 +131,7 @@ const NoSongsMessage = styled.div`
   color: #666;
 `;
 
-export const MusicPlayer = ({ visible, onClose }) => {
+export const MusicPlayer = ({ visible, onClose, onPlayingChange }) => {
   const [songs, setSongs] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -154,7 +154,9 @@ export const MusicPlayer = ({ visible, onClose }) => {
       });
     }
 
-    setIsPlaying(!isPlaying);
+    const newPlayingState = !isPlaying;
+    setIsPlaying(newPlayingState);
+    onPlayingChange?.(newPlayingState);
   };
 
   // Play the next song
@@ -186,11 +188,13 @@ export const MusicPlayer = ({ visible, onClose }) => {
         audioRef.current.play().catch((error) => {
           console.error("Play failed:", error);
           setIsPlaying(false);
+          onPlayingChange?.(false);
         });
         setIsPlaying(true);
+        onPlayingChange?.(true);
       }
     }, 100);
-  }, [songs.length, shuffle, currentSongIndex]);
+  }, [songs.length, shuffle, currentSongIndex, onPlayingChange]);
 
   // Play the previous song
   const playPrevSong = useCallback(() => {
@@ -221,11 +225,13 @@ export const MusicPlayer = ({ visible, onClose }) => {
         audioRef.current.play().catch((error) => {
           console.error("Play failed:", error);
           setIsPlaying(false);
+          onPlayingChange?.(false);
         });
         setIsPlaying(true);
+        onPlayingChange?.(true);
       }
     }, 100);
-  }, [songs.length, shuffle, currentSongIndex]);
+  }, [songs.length, shuffle, currentSongIndex, onPlayingChange]);
 
   // Toggle shuffle mode
   const toggleShuffle = () => {
@@ -317,8 +323,10 @@ export const MusicPlayer = ({ visible, onClose }) => {
           console.error("Auto-play failed:", error);
           // Many browsers require user interaction before auto-play
           setIsPlaying(false);
+          onPlayingChange?.(false);
         });
         setIsPlaying(true);
+        onPlayingChange?.(true);
       }, 300);
 
       return () => clearTimeout(playTimer);

@@ -2,6 +2,7 @@
 
 import { MusicPlayer } from "../src/components/MusicPlayer.jsx";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
 import {
   DropdownDiv,
   BasketballButton as MakeBetterMusicButton,
@@ -53,10 +54,10 @@ const EmailButton = (): JSX.Element => {
   );
 };
 
-const DropdownContent = ({ modalIsVisable, onClose }: DropdownContentProps): JSX.Element | null =>
+const DropdownContent = ({ modalIsVisable, onClose, onPlayingChange }: DropdownContentProps & { onPlayingChange: (playing: boolean) => void }): JSX.Element | null =>
   modalIsVisable ? (
     <DropdownDiv className="container">
-      <MusicPlayer visible={modalIsVisable} onClose={onClose} />
+      <MusicPlayer visible={modalIsVisable} onClose={onClose} onPlayingChange={onPlayingChange} />
     </DropdownDiv>
   ) : null;
 
@@ -64,6 +65,7 @@ export default function Home(): JSX.Element {
   const columnRef = useRef<HTMLDivElement>(null);
   const [modalIsVisable, setModalIsVisable] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -78,7 +80,9 @@ export default function Home(): JSX.Element {
   }, []);
 
   const toggleModal = (): void => {
-    setModalIsVisable(!modalIsVisable);
+    const newModalState = !modalIsVisable;
+    setModalIsVisable(newModalState);
+    setIsPlaying(newModalState);
   };
 
   return (
@@ -86,7 +90,11 @@ export default function Home(): JSX.Element {
       <div className="column" ref={columnRef}>
         <DropdownContent
           modalIsVisable={modalIsVisable}
-          onClose={() => setModalIsVisable(false)}
+          onClose={() => {
+            setModalIsVisable(false);
+            setIsPlaying(false);
+          }}
+          onPlayingChange={setIsPlaying}
         />
         {!modalIsVisable && (
           <div className="play-button-container">
@@ -112,6 +120,26 @@ export default function Home(): JSX.Element {
           <EmailButton />
         </div>
       </div>
+      
+      {/* White animation bar at bottom */}
+      <motion.div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "4px",
+          backgroundColor: "white",
+          zIndex: 1000,
+        }}
+        initial={{ x: "-100%" }}
+        animate={isPlaying ? { x: "100%" } : { x: "-100%" }}
+        transition={{
+          duration: 3,
+          repeat: isPlaying ? Infinity : 0,
+          ease: "linear"
+        }}
+      />
     </main>
   );
 } 
