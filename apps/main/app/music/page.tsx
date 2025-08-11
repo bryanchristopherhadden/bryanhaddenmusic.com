@@ -96,17 +96,15 @@ export default function MusicPage(): JSX.Element {
           }}
           onPlayingChange={setIsPlaying}
         />
-        {!modalIsVisable && (
-          <div className="play-button-container">
-            <button
-              onClick={toggleModal}
-              aria-label="Toggle music player"
-              className="btn btn-custom"
-            >
-              {<span>{"▶"}</span>}
-            </button>
-          </div>
-        )}
+        <div className="play-button-container">
+          <button
+            onClick={toggleModal}
+            aria-label="Toggle music player"
+            className="btn btn-custom"
+          >
+            {<span>{"▶"}</span>}
+          </button>
+        </div>
         <br />
         <h1>Lets make your music sound more like you.</h1>
         <p>
@@ -119,7 +117,7 @@ export default function MusicPage(): JSX.Element {
           <EmailButton />
         </div>
       </div>
-      
+
       {/* White animation bar at bottom */}
       <motion.div
         style={{

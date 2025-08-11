@@ -134,8 +134,7 @@ export const PlayButton = styled(Button)`
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: fit-content;
   min-width: 60px;
   margin-top: 20px;
   animation: ${glowingBorder} 3s infinite;
