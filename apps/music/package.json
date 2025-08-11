@@ -1,0 +1,33 @@
+{
+  "name": "@bryan-hadden/music",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@bryan-hadden/shared": "*",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.8",
+    "@mui/material": "^5.14.8",
+    "@vercel/analytics": "^1.5.0",
+    "@emailjs/browser": "^4.1.0",
+    "framer-motion": "^12.23.9",
+    "motion": "^12.23.9",
+    "next": "^15.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-player": "^2.14.1",
+    "styled-components": "^6.1.0"
+  },
+  "devDependencies": {
+    "eslint-config-next": "^15.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

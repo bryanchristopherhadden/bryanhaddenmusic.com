@@ -1,13 +1,13 @@
 "use client";
 
-import { MusicPlayer } from "../components/MusicPlayer";
+import { MusicPlayer } from "@bryan-hadden/shared";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   DropdownDiv,
   BasketballButton as MakeBetterMusicButton,
   bounceVariants,
-} from "../components/StyledComponents";
+} from "@bryan-hadden/shared";
 
 interface DropdownContentProps {
   modalIsVisable: boolean;
@@ -103,7 +103,6 @@ export default function Home(): JSX.Element {
               aria-label="Toggle music player"
               className="btn btn-custom"
             >
-              {/* {modalIsVisable ? "✕" : <span>{"▶"}</span>} */}
               {<span>{"▶"}</span>}
             </button>
           </div>
@@ -142,4 +141,4 @@ export default function Home(): JSX.Element {
       />
     </main>
   );
-} 
+}

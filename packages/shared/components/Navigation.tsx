@@ -4,11 +4,18 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const Navigation = (): JSX.Element => {
+interface NavigationProps {
+  mode?: 'music' | 'tech';
+}
+
+const Navigation = ({ mode }: NavigationProps): JSX.Element => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [isWideScreen, setIsWideScreen] = useState<boolean>(true);
+  
+  // Auto-detect mode based on pathname if not provided
+  const currentMode = mode || (pathname.startsWith('/tech') ? 'tech' : 'music');
 
   useEffect(() => {
     setIsMounted(true);
@@ -47,21 +54,37 @@ const Navigation = (): JSX.Element => {
       >
         <Link href="/" className="navbar-brand">
           <span>Bryan Hadden</span>
-          <span>{pathname === '/resume' || pathname === '/portfolio' ? 'FullStack Developer' : 'Music Producer'}</span>
+          <span>{currentMode === 'tech' ? 'FullStack Developer' : 'Music Producer'}</span>
         </Link>
         <ul className="nav">
-          <li className={isActive("/") ? "active" : ""}>
-            <Link href="/">Music Home</Link>
-          </li>
-          <li className={isActive("/about") ? "active" : ""}>
-            <Link href="/about">Music Producer Bio</Link>
-          </li>
-          <li className={isActive("/resume") ? "active" : ""}>
-            <Link href="/resume">Resume</Link>
-          </li>
-          <li className={isActive("/portfolio") ? "active" : ""}>
-            <Link href="/portfolio">Portfolio</Link>
-          </li>
+          {currentMode === 'music' ? (
+            <>
+              <li className={isActive("/") ? "active" : ""}>
+                <Link href="/">Music Home</Link>
+              </li>
+              <li className={isActive("/music/about") ? "active" : ""}>
+                <Link href="/music/about">Music Producer Bio</Link>
+              </li>
+              <li>
+                <Link href="/tech">Tech Site</Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className={isActive("/tech") ? "active" : ""}>
+                <Link href="/tech">Tech Home</Link>
+              </li>
+              <li className={isActive("/tech/resume") ? "active" : ""}>
+                <Link href="/tech/resume">Resume</Link>
+              </li>
+              <li className={isActive("/tech/portfolio") ? "active" : ""}>
+                <Link href="/tech/portfolio">Portfolio</Link>
+              </li>
+              <li>
+                <Link href="/">Music Site</Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>

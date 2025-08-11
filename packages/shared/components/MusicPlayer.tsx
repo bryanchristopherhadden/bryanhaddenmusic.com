@@ -447,4 +447,6 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
       <audio ref={audioRef} preload="metadata" />
     </PlayerContainer>
   );
-}; 
+};
+
+export default MusicPlayer; 

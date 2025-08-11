@@ -1,4 +1,4 @@
-import Navigation from '../components/Navigation'
+import { Navigation } from '@bryan-hadden/shared'
 import { Inter } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react";
 import './globals.css'
@@ -7,12 +7,12 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Bryan Hadden Music | Music Producer",
-  tagline: "Music Producer | Songwrite | Mixing, Mastering",
+  tagline: "Music Producer | Songwriter | Mixing, Mastering",
   openGraph: {
     title: "Bryan Hadden Music | Music Producer",
     description:
       "Professional music production services by Bryan Hadden. Let's make your music sound more like you.",
-    url: "https://bryanhadden.info | http://localhost:3000/",
+    url: "https://bryanhadden.info | http://localhost:3001/",
     siteName: "Bryan Hadden Music",
     images: [
       {
@@ -36,15 +36,14 @@ export const metadata = {
   ],
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
+        <Navigation mode="music" />
         {children}
         <Analytics />
       </body>
     </html>
   );
 }
-
