@@ -17,11 +17,6 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
   
   // Auto-detect mode based on pathname if not provided
   const currentMode = mode || (pathname.startsWith('/tech') ? 'tech' : 'music');
-  
-  // Hide navigation on homepage if hideOnHomepage is true
-  if (hideOnHomepage && pathname === '/') {
-    return <></>;
-  }
 
   useEffect(() => {
     setIsMounted(true);
@@ -53,6 +48,11 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
     return pathname === path;
   };
 
+  // Hide navigation on homepage if hideOnHomepage is true
+  if (hideOnHomepage && pathname === '/') {
+    return <></>;
+  }
+
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div
@@ -66,7 +66,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
           {currentMode === 'music' ? (
             <>
               <li className={isActive("/") ? "active" : ""}>
-                <Link href="/">Music Home</Link>
+                <Link href="/">Home</Link>
               </li>
               <li className={isActive("/music/about") ? "active" : ""}>
                 <Link href="/music/about">Music Producer Bio</Link>
@@ -78,7 +78,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
           ) : (
             <>
               <li className={isActive("/tech") ? "active" : ""}>
-                <Link href="/tech">Tech Home</Link>
+                <Link href="/tech">Home</Link>
               </li>
               <li className={isActive("/tech/resume") ? "active" : ""}>
                 <Link href="/tech/resume">Resume</Link>
@@ -87,7 +87,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
                 <Link href="/tech/portfolio">Portfolio</Link>
               </li>
               <li>
-                <Link href="/">Music Site</Link>
+                <Link href="/music">Music Site</Link>
               </li>
             </>
           )}
