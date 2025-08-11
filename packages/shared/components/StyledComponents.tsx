@@ -117,11 +117,9 @@ export const BasketballButton = styled(motion.button)`
 `;
 
 export const DropdownDiv = styled.div`
-  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: white;
   color: black;
   z-index: 100;
   transform: translateY(-100%);

@@ -69,7 +69,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
                 <Link href="/">Home</Link>
               </li>
               <li className={isActive("/music/about") ? "active" : ""}>
-                <Link href="/music/about">Music Producer Bio</Link>
+                <Link href="/music/about">Bio</Link>
               </li>
               <li>
                 <Link href="/tech">Tech Site</Link>

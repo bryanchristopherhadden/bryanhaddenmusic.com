@@ -9,7 +9,7 @@ const PlayerContainer = styled.div`
   padding: 16px;
   margin-top: 0;
   width: 100%;
-  max-width: 500px;
+  max-width: 75%;
   color: #333;
   justify-self: anchor-center;
 `;
@@ -414,7 +414,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
         <span>{formatTime(duration)}</span>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
         <ControlButton
           onClick={toggleShuffle}
           style={{ backgroundColor: shuffle ? 'rgba(99, 114, 255, 0.1)' : 'transparent' }}
@@ -430,7 +430,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
         >
           🔁
         </ControlButton>
-      </div>
+      </div> */}
 
       <VolumeControl>
         <span style={{ fontSize: '12px' }}>🔊</span>
