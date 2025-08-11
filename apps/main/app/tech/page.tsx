@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export default function TechHome(): JSX.Element {
+export default function TechPage(): JSX.Element {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

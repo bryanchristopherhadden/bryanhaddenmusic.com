@@ -1,144 +1,70 @@
 "use client";
 
-import { MusicPlayer } from "@bryan-hadden/shared";
-import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import {
-  DropdownDiv,
-  BasketballButton as MakeBetterMusicButton,
-  bounceVariants,
-} from "@bryan-hadden/shared";
+import Link from "next/link";
 
-interface DropdownContentProps {
-  modalIsVisable: boolean;
-  onClose: () => void;
-}
-
-const EmailButton = (): JSX.Element => {
-  const [_, setAnimationComplete] = useState<boolean>(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnimationComplete(true);
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const openEmailApp = (): void => {
-    window.location.href =
-      "mailto:bryanchrishadden@gmail.com?subject=Music%20Inquiry&body=I'd%20like%20to%20learn%20more%20about%20making%20better%20music.";
-  };
-
+const SiteCard = ({ title, description, url, icon }: { title: string; description: string; url: string; icon: string }) => {
   return (
-    <MakeBetterMusicButton
-      id="basketballButton"
-      onClick={openEmailApp}
-      variants={bounceVariants}
-      initial={false}
-      animate="animate"
-      whileHover="hover"
-      whileTap="tap"
-      transition={{
-        delay: 0.5,
-      }}
-      style={{
-        color: "#6372ff",
-        border: "1px solid white",
-        fontSize: "24px",
-      }}
+    <motion.div
+      className="site-card"
+      whileHover={{ scale: 1.05, y: -5 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ duration: 0.2 }}
     >
-      {">>"}
-      <span>Make Better Music Button</span>
-    </MakeBetterMusicButton>
+      <Link href={url}>
+        <div className="site-icon">{icon}</div>
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <div className="visit-arrow">→</div>
+      </Link>
+    </motion.div>
   );
 };
 
-const DropdownContent = ({ modalIsVisable, onClose, onPlayingChange }: DropdownContentProps & { onPlayingChange: (playing: boolean) => void }): JSX.Element | null =>
-  modalIsVisable ? (
-    <DropdownDiv className="container">
-      <MusicPlayer visible={modalIsVisable} onClose={onClose} onPlayingChange={onPlayingChange} />
-    </DropdownDiv>
-  ) : null;
-
 export default function Home(): JSX.Element {
-  const columnRef = useRef<HTMLDivElement>(null);
-  const [modalIsVisable, setModalIsVisable] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkIfMobile = (): void => {
-      setIsMobile(window.innerWidth <= 990);
-    };
-
-    checkIfMobile();
-
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
-
-  const toggleModal = (): void => {
-    const newModalState = !modalIsVisable;
-    setModalIsVisable(newModalState);
-    setIsPlaying(newModalState);
-  };
-
   return (
-    <main>
-      <div className="column" ref={columnRef}>
-        <DropdownContent
-          modalIsVisable={modalIsVisable}
-          onClose={() => {
-            setModalIsVisable(false);
-            setIsPlaying(false);
-          }}
-          onPlayingChange={setIsPlaying}
-        />
-        {!modalIsVisable && (
-          <div className="play-button-container">
-            <button
-              onClick={toggleModal}
-              aria-label="Toggle music player"
-              className="btn btn-custom"
-            >
-              {<span>{"▶"}</span>}
-            </button>
-          </div>
-        )}
-        <br />
-        <h1>Lets make your music sound more like you.</h1>
-        <p>
-          The ups and downs are here to stay, just like your creativity.
-        </p>
-        <p>
-          Let&apos;s use it all.
-        </p>
-        <div style={{ marginTop: "20px" }}>
-          <EmailButton />
-        </div>
+    <main className="homepage">
+      <div className="homepage-content">
+        <motion.div
+          className="homepage-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1>Hi I'm Bryan Hadden</h1>
+          <p>Please checkout some of the stuff I've made.</p>
+        </motion.div>
+        
+        <motion.div
+          className="site-selector"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <SiteCard
+            title="Music"
+            description="Music production, beats, and creative collaborations"
+            url="/music"
+            icon="🎵"
+          />
+          
+          <SiteCard
+            title="Tech"
+            description="Full-stack development portfolio and technical projects"
+            url="/tech"
+            icon="💻"
+          />
+        </motion.div>
+        
+        <motion.div
+          className="homepage-footer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <p>Producer • Developer • Creator</p>
+        </motion.div>
       </div>
-      
-      {/* White animation bar at bottom */}
-      <motion.div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "4px",
-          backgroundColor: "white",
-          zIndex: 1000,
-        }}
-        initial={{ x: "-100%" }}
-        animate={isPlaying ? { x: "100%" } : { x: "-100%" }}
-        transition={{
-          duration: 3,
-          repeat: isPlaying ? Infinity : 0,
-          ease: "linear"
-        }}
-      />
     </main>
   );
 }
