@@ -6,9 +6,10 @@ import { usePathname } from "next/navigation";
 
 interface NavigationProps {
   mode?: 'music' | 'tech';
+  hideOnHomepage?: boolean;
 }
 
-const Navigation = ({ mode }: NavigationProps): JSX.Element => {
+const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Element => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -16,6 +17,11 @@ const Navigation = ({ mode }: NavigationProps): JSX.Element => {
   
   // Auto-detect mode based on pathname if not provided
   const currentMode = mode || (pathname.startsWith('/tech') ? 'tech' : 'music');
+  
+  // Hide navigation on homepage if hideOnHomepage is true
+  if (hideOnHomepage && pathname === '/') {
+    return <></>;
+  }
 
   useEffect(() => {
     setIsMounted(true);

@@ -62,7 +62,7 @@ export default function Home(): JSX.Element {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <p>Producer • Developer • Creator</p>
+          <p>FullStack Developer • Music Producer • Creative Thinker</p>
         </motion.div>
       </div>
     </main>
