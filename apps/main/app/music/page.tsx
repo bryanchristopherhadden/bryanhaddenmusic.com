@@ -1,13 +1,13 @@
 "use client";
 
-import { MusicPlayer } from "@bryan-hadden/shared";
+import MusicPlayer from "../components/MusicPlayer";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   DropdownDiv,
   BasketballButton as MakeBetterMusicButton,
   bounceVariants,
-} from "@bryan-hadden/shared";
+} from "../components/StyledComponents";
 
 interface DropdownContentProps {
   modalIsVisable: boolean;

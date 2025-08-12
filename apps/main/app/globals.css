@@ -1,0 +1,475 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  --primary-color: #6372ff;
+  
+  /* Music-specific color palette inspired by Khruangbin + Sault */
+  /* Deep Night, Espresso, Warm Sand, Mustard Gold, Burnt Sienna, Muted Teal, Olive Grove, Dusty Mauve */
+  --music-deep-night: #0F1720;     /* Primary text / UI base */
+  --music-espresso: #3B2F2F;       /* Secondary text / accents */
+  --music-warm-sand: #EAD9C0;      /* Background / cards */
+  --music-mustard: #D6A24A;        /* Accent / CTA */
+  --music-burnt-sienna: #B55A3A;   /* Accent / stickers / merch */
+  --music-muted-teal: #3F8B8A;     /* Groove color / overlays */
+  --music-olive: #7A8B4F;          /* Secondary accent / badges */
+  --music-dusty-mauve: #A67B86;    /* Accent for posters/cover art */
+  --music-bg-overlay: rgba(63, 139, 138, 0.1); /* Muted teal overlay */
+}
+
+* {
+  box-sizing: border-box !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide Next.js development badge */
+[data-next-badge] {
+  display: none !important;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Music site styling - warm, dreamy, soulful */
+body.music-site {
+  background: linear-gradient(
+      135deg,
+      rgba(59, 47, 47, 0.4) 0%,      /* Espresso brown overlay */
+      rgba(63, 139, 138, 0.2) 25%,   /* Muted teal overlay */
+      rgba(15, 23, 32, 0.9) 50%,     /* Deep night center */
+      rgba(122, 139, 79, 0.15) 75%,  /* Olive grove overlay */
+      rgba(166, 123, 134, 0.1) 100%  /* Dusty mauve overlay */
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(15, 23, 32, 0.6),
+      rgba(15, 23, 32, 0.95)
+    )
+    var(--music-deep-night); /* Deep night base */
+  color: var(--music-warm-sand);
+}
+
+/* Music site color overrides */
+body.music-site .btn-custom {
+  background-color: var(--music-mustard);
+  color: var(--music-deep-night);
+  border: 1px solid var(--music-burnt-sienna);
+  font-weight: 600;
+}
+
+body.music-site .btn-custom:hover {
+  background-color: var(--music-burnt-sienna);
+  color: var(--music-warm-sand);
+  border-color: var(--music-mustard);
+  box-shadow: 0 4px 12px rgba(214, 162, 74, 0.4);
+}
+
+body.music-site .navbar .navbar-brand {
+  color: var(--music-warm-sand);
+}
+
+body.music-site .navbar .nav li a {
+  color: var(--music-warm-sand);
+}
+
+body.music-site .navbar .nav li a:after {
+  background: var(--music-mustard);
+}
+
+/* Music player button styling */
+body.music-site .play-button-container .btn {
+  background: linear-gradient(135deg, var(--music-muted-teal), var(--music-olive));
+  border: 2px solid var(--music-mustard);
+  color: var(--music-warm-sand);
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(63, 139, 138, 0.4);
+}
+
+body.music-site .play-button-container .btn:hover {
+  background: linear-gradient(135deg, var(--music-mustard), var(--music-burnt-sienna));
+  color: var(--music-deep-night);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(214, 162, 74, 0.5);
+}
+
+/* Music homepage overrides */
+body.music-site .homepage-header h1 {
+  background: linear-gradient(135deg, var(--music-mustard) 0%, var(--music-burnt-sienna) 50%, var(--music-dusty-mauve) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.music-site .site-card {
+  background: rgba(234, 217, 192, 0.08);
+  border: 1px solid rgba(214, 162, 74, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+body.music-site .site-card:hover {
+  background: rgba(234, 217, 192, 0.15);
+  border-color: var(--music-mustard);
+  box-shadow: 0 10px 40px rgba(214, 162, 74, 0.3);
+}
+
+body.music-site .visit-arrow {
+  color: var(--music-mustard);
+}
+
+/* Music animation bar */
+body.music-site .music-animation-bar {
+  background: linear-gradient(90deg, 
+    var(--music-muted-teal), 
+    var(--music-mustard), 
+    var(--music-burnt-sienna), 
+    var(--music-olive),
+    var(--music-dusty-mauve),
+    var(--music-muted-teal)
+  );
+}
+
+/* Keep tech site clean - no overrides needed since it uses default variables */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* NAVIGATION STYLES */
+.navbar {
+  padding: 20px 0;
+  transition: all 0.8s;
+}
+
+.navbar .navbar-brand {
+  display: flex;
+  color: #fff;
+  font-weight: 700;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  gap: 16px; /* Main app uses gap instead of flex-direction */
+}
+
+.navbar .navbar-brand span:nth-of-type(2) {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 8px; /* Different margin for main app */
+}
+
+.navbar .nav {
+  display: flex;
+  gap: 20px;
+  padding: 0; /* Only main app has this */
+}
+
+.navbar .nav li {
+  list-style: none;
+}
+
+.navbar .nav li a {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 8px 2px;
+  color: #fff;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.navbar .nav li a:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: width 0.3s;
+}
+
+.navbar .nav li a:hover::after,
+.navbar .nav li.active a::after {
+  width: 100%;
+}
+
+/* FORM STYLES */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* BUTTON STYLES */
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-custom {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.btn-custom span {
+  font-size: 28px;
+}
+
+.btn-custom:hover {
+  background-color: rgba(99, 114, 255, 0.8);
+}
+
+/* LAYOUT UTILITIES */
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* COMMON PAGE LAYOUT */
+.column {
+  justify-self: center;
+  padding: 12px 20px 104px;
+  color: white;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.column h1 {
+  margin: 104px 0 20px 0;
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.column p {
+  margin: 0 0 10px 0;
+  color: #a8a8a8;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+/* HOMEPAGE STYLES - Main app specific */
+.homepage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.homepage-content {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.homepage-header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  background: linear-gradient(135deg, #6372ff 0%, #9b59b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.homepage-header p {
+  font-size: 20px;
+  margin: 0 0 50px 0;
+  opacity: 0.8;
+}
+
+.site-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.site-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 40px 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.site-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 40px rgba(99, 114, 255, 0.2);
+}
+
+.site-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.site-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.site-card h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  color: white;
+}
+
+.site-card p {
+  font-size: 16px;
+  opacity: 0.8;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.visit-arrow {
+  font-size: 24px;
+  color: var(--primary-color);
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.site-card:hover .visit-arrow {
+  opacity: 1;
+}
+
+.homepage-footer p {
+  font-size: 14px;
+  opacity: 0.6;
+  margin: 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 990px) {
+  .column {
+    padding: 40px 20px;
+  }
+
+  .column h1 {
+    margin: 40px 0 20px 0;
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  .column p {
+    font-size: 18px;
+    line-height: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .column h1 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .column p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  /* Homepage mobile styles */
+  .homepage-header h1 {
+    font-size: 36px;
+  }
+  
+  .site-selector {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .site-card {
+    padding: 30px 20px;
+  }
+}
