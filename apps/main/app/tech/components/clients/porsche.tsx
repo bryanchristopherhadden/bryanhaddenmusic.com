@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Img } from './porsche.styles';
+import { Container, Img } from './shared-client.styles';
 
 interface PorschePortfolioProps {
   handleCardClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -7,7 +7,7 @@ interface PorschePortfolioProps {
 
 const PorschePortfolio: React.FC<PorschePortfolioProps> = ({ handleCardClick }) => {
     return (
-        <Container>
+        <Container $marginBottom="5em">
             <div
                 id="vesselTrackerProject"
                 onClick={handleCardClick}

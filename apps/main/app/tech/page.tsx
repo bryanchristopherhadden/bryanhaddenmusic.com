@@ -1,44 +1,42 @@
-"use client";
+import React from 'react'
+import PortfolioClient from './components/PortfolioClient'
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
+export const metadata = {
+  title: "Bryan Hadden | Full Stack Developer Portfolio",
+  tagline: "Full Stack Developer | Lead Engineer | React, Node.js, TypeScript",
+  openGraph: {
+    title: "Bryan Hadden | Full Stack Developer Portfolio",
+    description:
+      "Full Stack Developer portfolio showcasing projects built with React, Node.js, TypeScript, and modern web technologies. View my work and get in touch for collaboration.",
+    url: "https://bryanhadden.info/portfolio",
+    siteName: "Bryan Hadden - Full Stack Developer Portfolio",
+    images: [
+      {
+        url: "/me2.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Bryan Hadden - Full Stack Developer Portfolio",
+      },
+    ],
+  },
+  description:
+    "Full Stack Developer portfolio showcasing projects built with React, Node.js, TypeScript, and modern web technologies. View my work and get in touch for collaboration.",
+  keywords: [
+    "full stack developer",
+    "portfolio",
+    "lead engineer",
+    "react",
+    "node.js",
+    "typescript",
+    "next.js",
+    "frontend",
+    "backend",
+    "software engineer",
+    "projects",
+    "Bryan Hadden",
+  ],
+};
 
-export default function TechPage(): JSX.Element {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return <></>;
-
-  return (
-    <main>
-      <div className="column">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1>Full Stack Developer</h1>
-          <p>
-            Building modern web applications with React, Node.js, and TypeScript.
-          </p>
-          <p>
-            Passionate about creating efficient, scalable, and user-friendly solutions.
-          </p>
-          
-          <div style={{ marginTop: "40px", display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            <Link href="/tech/portfolio" className="btn btn-custom">
-              View Portfolio
-            </Link>
-            <Link href="/tech/resume" className="btn btn-custom">
-              View Resume
-            </Link>
-          </div>
-        </motion.div>
-      </div>
-    </main>
-  );
-}
+export default function Portfolio() {
+  return <PortfolioClient />
+} 

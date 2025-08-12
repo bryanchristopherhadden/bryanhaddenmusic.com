@@ -1,7 +1,7 @@
 import { Navigation } from '@bryan-hadden/shared'
 import { Inter } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react";
-import BodyClassProvider from './BodyClassProvider';
+import ClientBodyWrapper from './ClientBodyWrapper';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,13 +13,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <BodyClassProvider>
-        <body className={inter.className}>
-          <Navigation hideOnHomepage={true} />
-          {children}
-          <Analytics />
-        </body>
-      </BodyClassProvider>
+      <ClientBodyWrapper className={inter.className}>
+        <Navigation hideOnHomepage={true} />
+        {children}
+        <Analytics />
+      </ClientBodyWrapper>
     </html>
   );
 }

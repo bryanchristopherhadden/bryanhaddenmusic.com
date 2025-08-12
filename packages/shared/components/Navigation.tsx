@@ -65,7 +65,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
         <ul className="nav">
           {currentMode === 'music' ? (
             <>
-              <li className={isActive("/") ? "active" : ""}>
+              <li className={isActive("/music") ? "active" : ""}>
                 <Link href="/">Home</Link>
               </li>
               <li className={isActive("/music/about") ? "active" : ""}>
@@ -78,13 +78,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
           ) : (
             <>
               <li className={isActive("/tech") ? "active" : ""}>
-                <Link href="/tech">Home</Link>
-              </li>
-              <li className={isActive("/tech/resume") ? "active" : ""}>
-                <Link href="/tech/resume">Resume</Link>
-              </li>
-              <li className={isActive("/tech/portfolio") ? "active" : ""}>
-                <Link href="/tech/portfolio">Portfolio</Link>
+                <Link href="/tech">Portfolio</Link>
               </li>
               <li>
                 <Link href="/music">Music Site</Link>

@@ -1,13 +1,14 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, ReactNode } from 'react';
 
-interface BodyClassProviderProps {
-  children: React.ReactNode;
+interface ClientBodyWrapperProps {
+  children: ReactNode;
+  className: string;
 }
 
-export default function BodyClassProvider({ children }: BodyClassProviderProps) {
+export default function ClientBodyWrapper({ children, className }: ClientBodyWrapperProps) {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -22,5 +23,5 @@ export default function BodyClassProvider({ children }: BodyClassProviderProps) 
     }
   }, [pathname]);
 
-  return <>{children}</>;
+  return <body className={className}>{children}</body>;
 }

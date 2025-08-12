@@ -1,14 +1,20 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+interface ContainerProps {
+  $marginBottom?: string;
+  $divPadding?: string;
+}
+
+export const Container = styled.div<ContainerProps>`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    ${props => props.$marginBottom && `margin-bottom: ${props.$marginBottom};`}
 
     div {
         cursor: pointer;
         flex: 1;
-        padding: 4em 0 1em;
+        ${props => props.$divPadding && `padding: ${props.$divPadding};`}
         
         &:hover {
             border-radius: 3px;

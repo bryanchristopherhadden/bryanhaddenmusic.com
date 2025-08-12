@@ -1,6 +1,11 @@
 import React from 'react';
-import ReactPlayer from 'react-player'
+import dynamic from 'next/dynamic'
 import { Container } from '../../styles/content.styles'
+
+const ReactPlayer = dynamic(() => import('react-player'), {
+    ssr: false,
+    loading: () => <div>Loading video player...</div>
+})
 
 interface VesselTrackerContentProps {
     onGoBack?: () => void;
