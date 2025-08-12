@@ -29,7 +29,7 @@ const VTPrototypeContent: React.FC<VTPrototypeContentProps> = ({ onGoBack }) => 
     return (
         <div className="description">
             <div
-                id="vesselTrackerProject"
+                id="vtPrototypeProject"
                 className="img"
                 style={PorscheShieldImg}
             >

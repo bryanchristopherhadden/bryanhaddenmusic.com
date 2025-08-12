@@ -1,10 +1,51 @@
 'use client'
 
+import styled from 'styled-components'
 import React, { useState, useEffect } from 'react'
 import Content from './content'
 import Project from './projects'
 import PortfolioSkeleton from './PortfolioSkeleton'
-import { AppContainer, Header, Intro } from '../styles'
+import { FONT_FAMILY, SHADOW_LIGHT, PRIMARY_COLOR, PRIMARY_DARK } from '../styles'
+
+export const AppContainer = styled.div`
+  text-align: center;
+  display: grid;
+  font-family: ${FONT_FAMILY};
+`
+
+export const Header = styled.div`
+  box-shadow: ${SHADOW_LIGHT};
+  background-color: ${PRIMARY_COLOR};
+  color: white;
+  display: grid;
+`
+
+export const Intro = styled.div`
+  font-size: 1.25em;
+  text-align: left;
+  line-height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 15rem;
+  padding: 0 0 2em;
+
+  span {
+    text-decoration: line-through;
+    opacity: 0.4;
+  }
+
+  a {
+    color: ${PRIMARY_DARK};
+    opacity: 0.8;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  h2 {
+    font-weight: 350;
+  }
+`
 
 export default function PortfolioClient() {
   const [selectedProject, setSelectedProject] = useState('none')
@@ -39,8 +80,8 @@ export default function PortfolioClient() {
           </h1>
           <h2>
             Checkout some of the projects I've worked on below!<br />
-            Have a project, idea or problem you'd like to discuss?<br />
-            Shoot me an email <a href="mailto: bryanchrishadden@gmail.com">hey@bryanhadden.com</a>
+            Hiring for a project, or have an idea or problem you'd like to discuss?<br />
+            Contact me @ <a href="mailto: bryanchrishadden@gmail.com">hey@bryanhadden.com</a>
             <br />
           </h2>
         </Intro>

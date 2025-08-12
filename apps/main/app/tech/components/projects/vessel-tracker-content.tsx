@@ -30,7 +30,7 @@ const VesselTrackerContent: React.FC<VesselTrackerContentProps> = ({ onGoBack })
     return (
         <div className="description">
             <div
-                id="vesselTrackerProject"
+                id="vesselTrackerContent"
                 className="img"
                 style={PorscheShieldImg}
             >

@@ -24,7 +24,7 @@ const InternalFramework: React.FC<InternalFrameworkProps> = ({ onGoBack }) => {
     return (
         <div className="description">
             <div
-                id="vesselTrackerProject"
+                id="internalFrameworkProject"
                 className="img"
                 style={PorscheShieldImg}
             >
