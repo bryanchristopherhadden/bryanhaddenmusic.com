@@ -1,6 +1,7 @@
 import Navigation from './components/Navigation'
 import { Inter } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import ClientBodyWrapper from './ClientBodyWrapper';
 import './globals.css';
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navigation hideOnHomepage={true} />
         {children}
         <Analytics />
+        <SpeedInsights />
       </ClientBodyWrapper>
     </html>
   );
