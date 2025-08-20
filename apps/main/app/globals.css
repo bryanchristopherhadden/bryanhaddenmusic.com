@@ -314,6 +314,7 @@ a {
   color: white;
   max-width: 1100px;
   margin: 0 auto;
+  height: 100vh;
 }
 
 .column h1 {

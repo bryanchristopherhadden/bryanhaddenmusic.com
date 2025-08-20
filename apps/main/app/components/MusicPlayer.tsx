@@ -1,161 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import styled from "@emotion/styled";
+import { Paper, Group, ActionIcon, Text, Slider, Stack, Center, Box, CloseButton, Title } from '@mantine/core';
+import { IconPlayerPlay, IconPlayerPause, IconPlayerSkipForward, IconPlayerSkipBack, IconVolume } from '@tabler/icons-react';
 
-const PlayerContainer = styled.div`
-  background-color: rgba(99, 114, 255, 0.05);
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 0;
-  width: 100%;
-  max-width: 75%;
-  color: #333;
-  justify-self: anchor-center;
-`;
 
-const PlayerControls = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`;
-
-const PlayButton = styled.button`
-  background-color: #6372ff;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const ControlButton = styled.button`
-  background-color: transparent;
-  color: #6372ff;
-  border: 1px solid #6372ff;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: rgba(99, 114, 255, 0.1);
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const ProgressContainer = styled.div`
-  width: 100%;
-  height: 6px;
-  background-color: rgba(99, 114, 255, 0.2);
-  border-radius: 3px;
-  margin: 10px 0;
-  cursor: pointer;
-  position: relative;
-`;
-
-const Progress = styled.div<{ progress?: string }>`
-  height: 100%;
-  background-color: #6372ff;
-  border-radius: 3px;
-  width: ${(props) => props.progress || "0%"};
-  transition: width 0.2s;
-`;
-
-const SongInfo = styled.div`
-  margin: 10px;
-  text-align: center;
-  color: #333;
-
-  h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #6372ff;
-  }
-
-  p {
-    margin: 4px 0 0;
-    font-size: 14px;
-    color: #666;
-  }
-`;
-
-const CloseButton = styled.button`
-  background-color: transparent;
-  color: #6372ff;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 5px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-
-  @media (min-width: 768px) {
-    top: 24px;
-    right: auto;
-  }
-
-  &:hover {
-    color: #333;
-  }
-`;
-
-const VolumeControl = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-`;
-
-const VolumeSlider = styled.input`
-  width: 80px;
-  height: 4px;
-  background: rgba(99, 114, 255, 0.2);
-  border-radius: 2px;
-  outline: none;
-  -webkit-appearance: none;
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #6372ff;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  &::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    background: #6372ff;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
-`;
 
 interface Song {
   id: number;
@@ -383,69 +232,121 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
   if (!visible) return null;
 
   return (
-    <PlayerContainer>
-      <CloseButton onClick={onClose}>✕</CloseButton>
+    <Paper
+      shadow="xl"
+      radius="md"
+      p="xl"
+      style={{
+        background: 'linear-gradient(135deg, rgba(99, 114, 255, 0.1), rgba(99, 114, 255, 0.05))',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(99, 114, 255, 0.2)',
+        width: '100%',
+        maxWidth: '500px',
+        margin: '0 auto',
+        position: 'relative',
+      }}
+    >
+      <CloseButton
+        onClick={onClose}
+        size="lg"
+        style={{ position: 'absolute', top: 16, right: 16 }}
+      />
 
-      <SongInfo>
-        <h3>{songs[currentSongIndex]?.title || "Loading..."}</h3>
-        <p>{songs[currentSongIndex]?.artist || "Bryan Hadden"}</p>
-      </SongInfo>
+      <Stack gap="md" mt="md">
+        {/* Song Info */}
+        <Center>
+          <Box ta="center">
+            <Title order={3} c="white" mb={4}>
+              {songs[currentSongIndex]?.title || "Loading..."}
+            </Title>
+            <Text c="dimmed" size="sm">
+              {songs[currentSongIndex]?.artist || "Bryan Hadden"}
+            </Text>
+          </Box>
+        </Center>
 
-      <PlayerControls>
-        <ControlButton onClick={playPrevious} title="Previous">
-          ⏮
-        </ControlButton>
+        {/* Controls */}
+        <Group justify="center" gap="lg">
+          <ActionIcon
+            variant="outline"
+            size="lg"
+            color="blue"
+            onClick={playPrevious}
+            title="Previous"
+          >
+            <IconPlayerSkipBack size={20} />
+          </ActionIcon>
 
-        <PlayButton onClick={togglePlay} title={isPlaying ? "Pause" : "Play"}>
-          {isPlaying ? "⏸" : "▶"}
-        </PlayButton>
+          <ActionIcon
+            variant="filled"
+            size="xl"
+            color="blue"
+            onClick={togglePlay}
+            title={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <IconPlayerPause size={24} />
+            ) : (
+              <IconPlayerPlay size={24} />
+            )}
+          </ActionIcon>
 
-        <ControlButton onClick={playNext} title="Next">
-          ⏭
-        </ControlButton>
-      </PlayerControls>
+          <ActionIcon
+            variant="outline"
+            size="lg"
+            color="blue"
+            onClick={playNext}
+            title="Next"
+          >
+            <IconPlayerSkipForward size={20} />
+          </ActionIcon>
+        </Group>
 
-      <ProgressContainer onClick={setProgressFromClick}>
-        <Progress progress={`${progress}%`} />
-      </ProgressContainer>
+        {/* Progress Bar */}
+        <Box>
+          <Slider
+            value={progress}
+            onChange={(value) => {
+              if (audioRef.current) {
+                const newTime = (value / 100) * audioRef.current.duration;
+                audioRef.current.currentTime = newTime;
+                setProgress(value);
+                setCurrentTime(newTime);
+              }
+            }}
+            size="sm"
+            color="blue"
+            style={{ cursor: 'pointer' }}
+          />
+          
+          <Group justify="space-between" mt={4}>
+            <Text size="xs" c="dimmed">
+              {formatTime(currentTime)}
+            </Text>
+            <Text size="xs" c="dimmed">
+              {formatTime(duration)}
+            </Text>
+          </Group>
+        </Box>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666' }}>
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(duration)}</span>
-      </div>
-
-      {/* <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-        <ControlButton
-          onClick={toggleShuffle}
-          style={{ backgroundColor: shuffle ? 'rgba(99, 114, 255, 0.1)' : 'transparent' }}
-          title="Shuffle"
-        >
-          🔀
-        </ControlButton>
-
-        <ControlButton
-          onClick={() => setRepeat(!repeat)}
-          style={{ backgroundColor: repeat ? 'rgba(99, 114, 255, 0.1)' : 'transparent' }}
-          title="Repeat"
-        >
-          🔁
-        </ControlButton>
-      </div> */}
-
-      <VolumeControl>
-        <span style={{ fontSize: '12px' }}>🔊</span>
-        <VolumeSlider
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          value={volume}
-          onChange={(e) => setVolume(parseFloat(e.target.value))}
-        />
-      </VolumeControl>
+        {/* Volume Control */}
+        <Group gap="sm" justify="center">
+          <IconVolume size={16} color="gray" />
+          <Slider
+            value={volume}
+            onChange={setVolume}
+            min={0}
+            max={1}
+            step={0.1}
+            size="sm"
+            color="blue"
+            style={{ width: 80 }}
+          />
+        </Group>
+      </Stack>
 
       <audio ref={audioRef} preload="metadata" />
-    </PlayerContainer>
+    </Paper>
   );
 };
 

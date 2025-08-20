@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Group, Text, Container, Burger, Drawer, Stack, Anchor, Box } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 interface NavigationProps {
   mode?: 'music' | 'tech';
@@ -14,6 +16,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [isWideScreen, setIsWideScreen] = useState<boolean>(true);
+  const [opened, { toggle, close }] = useDisclosure();
   
   // Auto-detect mode based on pathname if not provided
   const currentMode = mode || (pathname.startsWith('/tech') ? 'tech' : 'music');
@@ -21,7 +24,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
   useEffect(() => {
     setIsMounted(true);
 
-    setIsWideScreen(window.innerWidth < 999);
+    setIsWideScreen(window.innerWidth > 999);
 
     const handleScroll = (): void => {
       if (window.scrollY > 50) {
@@ -53,41 +56,111 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
     return <></>;
   }
 
+  const navLinks = currentMode === 'music' ? [
+    { href: "/", label: "Home", active: isActive("/music") },
+    { href: "/music/about", label: "Bio", active: isActive("/music/about") },
+    { href: "/tech", label: "Tech Site", active: false },
+  ] : [
+    { href: "/tech", label: "Portfolio", active: isActive("/tech") },
+    { href: "/music", label: "Music Site", active: false },
+  ];
+
   return (
-    <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
-      <div
-        className={isMounted && isWideScreen ? "container" : "container-fluid"}
+    <>
+      <Box
+        component="nav"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: isScrolled 
+            ? 'rgba(0, 0, 0, 0.9)' 
+            : 'rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+          transition: 'all 0.3s ease',
+        }}
       >
-        <Link href="/" className="navbar-brand">
-          <span>Bryan Hadden</span>
-          <span>{currentMode === 'tech' ? 'FullStack Developer' : 'Music Producer'}</span>
-        </Link>
-        <ul className="nav">
-          {currentMode === 'music' ? (
-            <>
-              <li className={isActive("/music") ? "active" : ""}>
-                <Link href="/">Home</Link>
-              </li>
-              <li className={isActive("/music/about") ? "active" : ""}>
-                <Link href="/music/about">Bio</Link>
-              </li>
-              <li>
-                <Link href="/tech">Tech Site</Link>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className={isActive("/tech") ? "active" : ""}>
-                <Link href="/tech">Portfolio</Link>
-              </li>
-              <li>
-                <Link href="/music">Music Site</Link>
-              </li>
-            </>
-          )}
-        </ul>
-      </div>
-    </nav>
+        <Container size={isMounted && isWideScreen ? "lg" : "fluid"} px="md">
+          <Group h={60} justify="space-between">
+            <Anchor component={Link} href="/" td="none">
+              <Box>
+                <Text fw={700} size="lg" c="white">
+                  Bryan Hadden
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {currentMode === 'tech' ? 'FullStack Developer' : 'Music Producer'}
+                </Text>
+              </Box>
+            </Anchor>
+
+            {/* Desktop Navigation */}
+            <Group gap="xl" visibleFrom="sm">
+              {navLinks.map((link) => (
+                <Anchor
+                  key={link.href}
+                  component={Link}
+                  href={link.href}
+                  td="none"
+                  c={link.active ? "white" : "dimmed"}
+                  fw={link.active ? 600 : 400}
+                  style={{
+                    transition: 'color 0.3s ease',
+                    borderBottom: link.active ? '2px solid #6372ff' : 'none',
+                    paddingBottom: '2px',
+                  }}
+                >
+                  {link.label}
+                </Anchor>
+              ))}
+            </Group>
+
+            {/* Mobile Navigation */}
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              color="white"
+              size="sm"
+              hiddenFrom="sm"
+            />
+          </Group>
+        </Container>
+      </Box>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        opened={opened}
+        onClose={close}
+        position="right"
+        size="sm"
+        styles={{
+          content: {
+            background: 'rgba(0, 0, 0, 0.95)',
+            backdropFilter: 'blur(10px)',
+          },
+        }}
+        hiddenFrom="sm"
+      >
+        <Stack gap="lg" mt="md">
+          {navLinks.map((link) => (
+            <Anchor
+              key={link.href}
+              component={Link}
+              href={link.href}
+              td="none"
+              c={link.active ? "white" : "dimmed"}
+              fw={link.active ? 600 : 400}
+              size="lg"
+              onClick={close}
+            >
+              {link.label}
+            </Anchor>
+          ))}
+        </Stack>
+      </Drawer>
+    </>
   );
 };
 

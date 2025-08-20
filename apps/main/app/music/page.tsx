@@ -3,11 +3,7 @@
 import MusicPlayer from "../components/MusicPlayer";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import {
-  DropdownDiv,
-  BasketballButton as MakeBetterMusicButton,
-  bounceVariants,
-} from "../components/StyledComponents";
+import { Container, Title, Text, Button, Stack, Center, Box } from '@mantine/core';
 
 interface DropdownContentProps {
   modalIsVisable: boolean;
@@ -40,40 +36,75 @@ export default function MusicPage(): JSX.Element {
 
   return (
     <main>
-      <div className="column" ref={columnRef}>
-        <DropdownDiv className="container">
-          <MusicPlayer
-            visible={true}
-            onClose={toggleModal}
-            onPlayingChange={setIsPlaying}
-          />
-        </DropdownDiv>
-        <br />
-        <h1>Warm grooves. Small drops. Big feeling..</h1>
-        <p style={{  }}>Soulful instrumental music and limited-run collectibles — handcrafted for late nights, long drives, and the people who keep coming back.</p>
-        <button className="btn btn-custom" style={{ margin: "0 16px 0 0", opacity: ".5" }} disabled>Listen / Pre-save</button>
-        <button className="btn btn-custom" style={{ opacity: ".5" }} disabled>Shop Limited Drops</button>
-      </div>
+      <Box style={{ marginTop: '60px', minHeight: '100vh' }}>
+        <Container size="lg" py="xl">
+          <Stack gap="xl" align="center">
+            {/* Music Player */}
+            <Center w="100%" maw={600}>
+              <MusicPlayer
+                visible={true}
+                onClose={toggleModal}
+                onPlayingChange={setIsPlaying}
+              />
+            </Center>
 
-      {/* Music animation bar at bottom */}
-      <motion.div
-        className="music-animation-bar"
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "4px",
-          zIndex: 1000,
-        }}
-        initial={{ x: "-100%" }}
-        animate={isPlaying ? { x: "100%" } : { x: "-100%" }}
-        transition={{
-          duration: 3,
-          repeat: isPlaying ? Infinity : 0,
-          ease: "linear"
-        }}
-      />
+            {/* Content */}
+            <Stack gap="lg" ta="center" maw={800}>
+              <Title order={1} size="2.5rem" c="white" fw={400} style={{ lineHeight: 1.2 }}>
+                Warm grooves. Small drops. Big feeling..
+              </Title>
+              
+              <Text size="lg" c="dimmed" style={{ lineHeight: 1.6 }}>
+                Soulful instrumental music and limited-run collectibles — handcrafted for late nights, 
+                long drives, and the people who keep coming back.
+              </Text>
+
+              <Center>
+                <Stack gap="md" align="center">
+                  <Button 
+                    variant="filled" 
+                    color="blue" 
+                    size="lg" 
+                    disabled 
+                    opacity={0.5}
+                  >
+                    Listen / Pre-save
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    color="blue" 
+                    size="lg" 
+                    disabled 
+                    opacity={0.5}
+                  >
+                    Shop Limited Drops
+                  </Button>
+                </Stack>
+              </Center>
+            </Stack>
+          </Stack>
+        </Container>
+
+        {/* Music animation bar at bottom */}
+        <motion.div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            height: "4px",
+            background: "linear-gradient(90deg, #6372ff, #4c5be4)",
+            zIndex: 1000,
+          }}
+          initial={{ x: "-100%" }}
+          animate={isPlaying ? { x: "100%" } : { x: "-100%" }}
+          transition={{
+            duration: 3,
+            repeat: isPlaying ? Infinity : 0,
+            ease: "linear"
+          }}
+        />
+      </Box>
     </main>
   );
 }
