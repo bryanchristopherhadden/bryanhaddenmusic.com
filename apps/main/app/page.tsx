@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Card, Text, Group, Container, Title, Center, Box } from '@mantine/core';
 import { IconMusic, IconCode } from '@tabler/icons-react';
 
@@ -102,7 +102,7 @@ export default function Home(): JSX.Element {
         >
           <Center mt="xl">
             <Text c="dimmed" size="lg" fw={500}>
-              FullStack Developer • Music Producer • Creative Thinker
+            Music Producer • Software Engineer • Creative Thinker
             </Text>
           </Center>
         </motion.div>
