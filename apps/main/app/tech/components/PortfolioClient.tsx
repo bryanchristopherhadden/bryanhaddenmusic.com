@@ -216,7 +216,7 @@ const projects = [
   {
     id: 'vesselTrackerProject',
     title: 'Vessel Tracker',
-    description: 'I built an international maritime logistics with real-time vessel tracking, delivering unprecedented visibility into global shipping operations.',
+    description: 'Engineered a cutting-edge maritime command center that transforms chaos into clarity, tracking thousands of vessels across oceans in real-time while revolutionizing how the world moves cargo.',
     video: '/videos/vesseltracker-app.mp4',
     tags: ['React', 'Node.js', 'PostgreSQL', 'WebSockets'],
     status: 'Production',
@@ -226,8 +226,8 @@ const projects = [
   {
     id: 'vt_PrototypeProject', 
     title: 'Porsche Digital Solutions',
-    description: 'We transformed the automotive experience through innovative digital platforms, enhancing customer engagement and operational efficiency.',
-    video: '/videos/entry-prototype.mp4',
+    description: 'Created a smart consultant-project matching platform for Porsche that analyzes skills and requirements to optimize team assignments and enhance project success rates.',
+    video: 'https://videos.pexels.com/video-files/8630306/8630306-uhd_3840_2160_25fps.mp4',
     tags: ['TypeScript', 'Next.js', 'Automotive APIs'],
     status: 'Enterprise',
     year: '2023',
@@ -236,8 +236,8 @@ const projects = [
   {
     id: 'hd_internalFramework',
     title: 'Home Depot',
-    description: 'We reimagined home improvement retail through cutting-edge e-commerce solutions, empowering millions of customers nationwide.',
-    video: 'https://videos.pexels.com/video-files/6195149/6195149-uhd_2560_1440_25fps.mp4',
+    description: 'I rebuilt Home Depot\'s internal design system from the ground up, creating scalable components and unified design standards that empowered development teams nationwide.',
+    video: 'https://videos.pexels.com/video-files/4480443/4480443-hd_1920_1080_30fps.mp4',
     tags: ['React', 'E-commerce', 'Retail Systems'],
     status: 'Enterprise',
     year: '2022',
