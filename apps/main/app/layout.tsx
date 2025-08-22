@@ -1,6 +1,6 @@
 import Navigation from './components/Navigation'
 import ClientBodyWrapper from './ClientBodyWrapper';
-import { Inter } from 'next/font/google'
+import { Inter, Poppins, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { MantineProvider, createTheme } from '@mantine/core';
@@ -9,10 +9,32 @@ import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const poppins = Poppins({ 
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
 
 const theme = createTheme({
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'var(--font-inter), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+  headings: {
+    fontFamily: 'var(--font-poppins), -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
+    fontWeight: '600',
+  },
+  fontFamilyMonospace: 'var(--font-jetbrains-mono), Monaco, Consolas, monospace',
   primaryColor: 'blue',
   colors: {
     'music-primary':
@@ -32,6 +54,20 @@ const theme = createTheme({
         radius: 'md',
       },
     },
+    Text: {
+      styles: {
+        root: {
+          lineHeight: '1.6',
+        },
+      },
+    },
+    Title: {
+      styles: {
+        root: {
+          letterSpacing: '-0.025em',
+        },
+      },
+    },
   },
 });
 
@@ -43,7 +79,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <ClientBodyWrapper className={inter.className}>
+      <ClientBodyWrapper className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
         <MantineProvider theme={theme}>
           <Notifications />
           <Navigation hideOnHomepage={true} />

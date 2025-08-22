@@ -6,6 +6,11 @@
   --background-end-rgb: 0, 0, 0;
   --primary-color: #6372ff;
   
+  /* Font family variables */
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-poppins: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-jetbrains-mono: 'JetBrains Mono', 'Monaco', 'Consolas', monospace;
+  
   /* Music-specific color palette inspired by Khruangbin + Sault */
   /* Deep Night, Espresso, Warm Sand, Mustard Gold, Burnt Sienna, Muted Teal, Olive Grove, Dusty Mauve */
   --music-deep-night: #0F1720;     /* Primary text / UI base */
@@ -431,7 +436,42 @@ a {
   text-transform: uppercase;
 }
 
+/* TECH PAGE TYPOGRAPHY IMPROVEMENTS */
+.tech-hero-title {
+  font-family: var(--font-poppins) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+}
+
+.tech-section-title {
+  font-family: var(--font-poppins) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.tech-body-text {
+  font-family: var(--font-inter) !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0.005em !important;
+}
+
+.tech-code-text {
+  font-family: var(--font-jetbrains-mono) !important;
+  letter-spacing: 0.025em !important;
+}
+
 /* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1200px) {
+  /* Tech page hero adjustments */
+  .tech-hero-title {
+    font-size: 3rem !important;
+  }
+  
+  .tech-section-title {
+    font-size: 2.25rem !important;
+  }
+}
+
 @media (max-width: 990px) {
   .column {
     padding: 40px 20px;
@@ -446,6 +486,15 @@ a {
   .column p {
     font-size: 18px;
     line-height: 26px;
+  }
+  
+  /* Tech page adjustments */
+  .tech-hero-title {
+    font-size: 2.75rem !important;
+  }
+  
+  .tech-section-title {
+    font-size: 2rem !important;
   }
 }
 
@@ -472,5 +521,26 @@ a {
   
   .site-card {
     padding: 30px 20px;
+  }
+  
+  /* Tech page mobile adjustments */
+  .tech-hero-title {
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .tech-section-title {
+    font-size: 1.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens - ensure everything still fits */
+  .tech-hero-title {
+    font-size: 1.875rem !important;
+  }
+  
+  .tech-section-title {
+    font-size: 1.5rem !important;
   }
 }
