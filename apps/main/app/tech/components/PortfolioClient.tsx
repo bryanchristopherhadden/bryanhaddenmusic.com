@@ -224,7 +224,7 @@ const projects = [
     brand: 'Maritime Solutions'
   },
   {
-    id: 'vt_PrototypeProject', 
+    id: 'vt_PrototypeProject',
     title: 'Porsche Digital Solutions',
     description: 'Created a smart consultant-project matching platform for Porsche that analyzes skills and requirements to optimize team assignments and enhance project success rates.',
     video: 'https://videos.pexels.com/video-files/8630306/8630306-uhd_3840_2160_25fps.mp4',
@@ -248,7 +248,7 @@ const projects = [
 export default function PortfolioClient() {
   const [selectedProject, setSelectedProject] = useState('none')
   const [isLoading, setIsLoading] = useState(true)
-  const [pausedVideos, setPausedVideos] = useState<{[key: string]: boolean}>({})
+  const [pausedVideos, setPausedVideos] = useState<{ [key: string]: boolean }>({})
 
   useEffect(() => {
     // Simulate loading time and ensure hydration is complete
@@ -287,19 +287,19 @@ export default function PortfolioClient() {
       <StyledHero>
         <Container size="lg" style={{ position: 'relative', zIndex: 1 }}>
           <Stack gap="xl" align="center" ta="center">
-            <Avatar 
-              size={140} 
-              src="/me2.jpeg" 
+            <Avatar
+              size={140}
+              src="/me2.jpeg"
               alt="Bryan Hadden"
               style={{
                 border: '4px solid rgba(255,255,255,0.1)',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
               }}
             />
-            <Title 
-              order={1} 
-              size="3.75rem" 
-              fw={700} 
+            <Title
+              order={1}
+              size="3.75rem"
+              fw={700}
               lh={1.1}
               style={{
                 fontFamily: 'var(--font-poppins), sans-serif',
@@ -313,11 +313,11 @@ export default function PortfolioClient() {
             >
               Full Stack Developer
             </Title>
-            <Title 
-              order={2} 
-              size="1.375rem" 
-              fw={400} 
-              c="rgba(255,255,255,0.85)" 
+            <Title
+              order={2}
+              size="1.375rem"
+              fw={400}
+              c="rgba(255,255,255,0.85)"
               maw={700}
               style={{
                 fontFamily: 'var(--font-inter), sans-serif',
@@ -396,10 +396,10 @@ export default function PortfolioClient() {
               >
                 My Work
               </Title> */}
-              <Text 
-                size="xl" 
-                c="#6b7280" 
-                maw={640} 
+              <Text
+                size="xl"
+                c="white"
+                maw={640}
                 mx="auto"
                 style={{
                   fontFamily: 'var(--font-inter), sans-serif',
@@ -421,20 +421,20 @@ export default function PortfolioClient() {
                   data-project-id={project.id}
                   onClick={() => handleProjectClick(project.id)}
                 >
-                  <video 
+                  <video
                     className="video-background"
-                    autoPlay 
-                    muted 
-                    loop 
+                    autoPlay
+                    muted
+                    loop
                     playsInline
                   >
                     <source src={project.video} type="video/mp4" />
                   </video>
-                  
+
                   <div className="overlay" />
-                  
-                  <div 
-                    className="pause-button" 
+
+                  <div
+                    className="pause-button"
                     onClick={(e) => toggleVideoPlayback(e, project.id)}
                     style={{
                       opacity: pausedVideos[project.id] ? 1 : 0.7
@@ -442,11 +442,11 @@ export default function PortfolioClient() {
                   >
                     <div className={`pause-icon ${pausedVideos[project.id] ? 'paused' : 'playing'}`} />
                   </div>
-                  
+
                   <div className="status-badge">
                     {project.status}
                   </div>
-                  
+
                   <div className="content">
                     <h3 className="project-title">
                       {project.title}
@@ -460,8 +460,8 @@ export default function PortfolioClient() {
             </SimpleGrid>
 
             {/* CTA Section */}
-            <Box 
-              ta="center" 
+            <Box
+              ta="center"
               pt={60}
               style={{
                 background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
@@ -471,10 +471,10 @@ export default function PortfolioClient() {
                 boxShadow: '0 8px 32px rgba(0,0,0,0.06)'
               }}
             >
-              <Title 
-                order={3} 
-                size="2.25rem" 
-                fw={700} 
+              <Title
+                order={3}
+                size="2.25rem"
+                fw={700}
                 mb="md"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
@@ -487,11 +487,11 @@ export default function PortfolioClient() {
               >
                 Let's work together
               </Title>
-              <Text 
-                size="lg" 
-                c="#6b7280" 
-                mb="xl" 
-                maw={520} 
+              <Text
+                size="lg"
+                c="#6b7280"
+                mb="xl"
+                maw={520}
                 mx="auto"
                 style={{
                   fontFamily: 'var(--font-inter), sans-serif',

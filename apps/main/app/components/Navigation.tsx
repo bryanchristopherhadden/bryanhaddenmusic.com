@@ -27,7 +27,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
     setIsWideScreen(window.innerWidth > 999);
 
     const handleScroll = (): void => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 10) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -77,7 +77,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
           zIndex: 1000,
           background: isScrolled 
             ? 'rgba(0, 0, 0, 0.9)' 
-            : 'rgba(0, 0, 0, 0.1)',
+            : 'rgba(0, 0, 0, 0.6)',
           backdropFilter: 'blur(10px)',
           borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
           transition: 'all 0.3s ease',
@@ -90,7 +90,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
                 <Text fw={700} size="lg" c="white">
                   Bryan Hadden
                 </Text>
-                <Text size="xs" c="dimmed">
+                <Text size="xs" c="rgba(255, 255, 255, 0.8)">
                   {currentMode === 'tech' ? 'FullStack Developer' : 'Music Producer'}
                 </Text>
               </Box>
@@ -104,7 +104,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
                   component={Link}
                   href={link.href}
                   td="none"
-                  c={link.active ? "white" : "dimmed"}
+                  c={link.active ? "white" : "rgba(255, 255, 255, 0.7)"}
                   fw={link.active ? 600 : 400}
                   style={{
                     transition: 'color 0.3s ease',
@@ -150,7 +150,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
               component={Link}
               href={link.href}
               td="none"
-              c={link.active ? "white" : "dimmed"}
+              c={link.active ? "white" : "rgba(255, 255, 255, 0.7)"}
               fw={link.active ? 600 : 400}
               size="lg"
               onClick={close}
