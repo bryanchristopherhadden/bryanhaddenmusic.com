@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
+import React from "react";
 
 const PlayerContainer = styled.div`
   background-color: rgba(99, 114, 255, 0.05);

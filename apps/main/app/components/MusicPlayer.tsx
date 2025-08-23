@@ -2,9 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Paper, Group, ActionIcon, Text, Slider, Stack, Center, Box, CloseButton, Title, Badge, ScrollArea, Pagination, Divider } from '@mantine/core';
-import { IconPlayerPlay, IconPlayerPause, IconPlayerSkipForward, IconPlayerSkipBack, IconVolume, IconFilter, IconMusic } from '@tabler/icons-react';
-
-
+import { IconPlayerPlay, IconPlayerPause, IconPlayerSkipForward, IconPlayerSkipBack, IconVolume, IconFilter } from '@tabler/icons-react';
 
 interface Song {
   id: number;
@@ -359,7 +357,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
             <Text c="rgba(255, 255, 255, 0.7)" size="sm" mb={4}>
               {allSongs[actualPlayingSongIndex]?.artist || "Bryan Hadden"}
             </Text>
-            {allSongs[actualPlayingSongIndex]?.genre && (
+            {/* {allSongs[actualPlayingSongIndex]?.genre && (
               <Badge 
                 variant="light" 
                 size="sm"
@@ -371,7 +369,7 @@ export const MusicPlayer = ({ visible, onClose, onPlayingChange }: MusicPlayerPr
               >
                 {allSongs[actualPlayingSongIndex]?.genre}
               </Badge>
-            )}
+            )} */}
           </Box>
         </Center>
 
