@@ -1,0 +1,167 @@
+[
+  {
+    "id": "letsgeteven",
+    "title": "Let's Get Even",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Pop",
+    "filename": "Lets Get Even.m4a",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "uberblack",
+    "title": "Uber Black",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "House",
+    "filename": "Uber Black.m4a",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "firstclass",
+    "title": "First Class",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "House",
+    "filename": "First Class.m4a",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "shroomiegirl",
+    "title": "Shroomie Girl",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "Shroomie Girl.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "disaster",
+    "title": "Disaster",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Trap",
+    "filename": "Disaster.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "easy",
+    "title": "Easy",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "Easy.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "emptychamber",
+    "title": "Empty Chamber",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "EMPTY CHAMBER.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "everything",
+    "title": "Everything",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Pop",
+    "filename": "Everything.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "iwantyou",
+    "title": "I Want You",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "I Want You.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "latetext",
+    "title": "Late Text",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Trap",
+    "filename": "Late Text.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "lostoutthere",
+    "title": "Lost Out There",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "Lost Out There.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "somethingouttanothin",
+    "title": "Something Outta Nothin",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "SOMETHING OUTTA NOTHIN.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "sugarrrr",
+    "title": "Sugarrrr",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "Sugarrrr.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "talkback",
+    "title": "Talk Back",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Trap",
+    "filename": "Talk Back.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "thedrugstakemeaway",
+    "title": "The Drugs Take Me Away",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "THE DRUGS TAKE ME AWAY.mp3",
+    "active": true,
+    "forsale": true
+  }
+]
