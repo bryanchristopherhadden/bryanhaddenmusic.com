@@ -24,7 +24,27 @@ function validateDownloadToken(token: string, phoneNumber: string): boolean {
 }
 
 // Get file path and name based on parameters
-function getFilePath(fileType: string, index: number): { filePath: string, fileName: string } | null {
+async function getFilePath(fileType: string, index: number, itemId?: string): Promise<{ filePath: string, fileName: string } | null> {
+  // If we have an itemId, try to find the specific file
+  if (itemId) {
+    try {
+      // Load beats data to find the correct filename
+      const beatsPath = join(process.cwd(), 'public', 'beats.json');
+      const beatsData = JSON.parse(await readFile(beatsPath, 'utf-8'));
+      
+      // Find the beat with matching ID
+      const beat = beatsData.find((song: any) => song.id === itemId);
+      if (beat && beat.filename) {
+        const fileName = beat.filename;
+        const filePath = join(process.cwd(), 'public', fileType, fileName);
+        return { filePath, fileName };
+      }
+    } catch (error) {
+      console.log('Failed to load beats data, falling back to index mapping:', error);
+    }
+  }
+
+  // Fallback to index-based mapping
   const fileMappings: { [key: string]: string[] } = {
     'beats': [
       'Disaster.mp3',
@@ -75,8 +95,9 @@ export async function GET(request: NextRequest) {
     const token = searchParams.get('token');
     const fileType = searchParams.get('file');
     const index = parseInt(searchParams.get('index') || '0');
+    const itemId = searchParams.get('itemId');
 
-    console.log('Download request:', { token, fileType, index, url: request.url });
+    console.log('Download request:', { token, fileType, index, itemId, url: request.url });
 
     // Validate parameters
     if (!token || !fileType || isNaN(index)) {
@@ -108,9 +129,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Get file information
-    const fileInfo = getFilePath(fileType, index);
+    const fileInfo = await getFilePath(fileType, index, itemId);
     if (!fileInfo) {
-      console.log('File not found in mapping:', { fileType, index });
+      console.log('File not found in mapping:', { fileType, index, itemId });
       const errorUrl = new URL('/download-error', request.url);
       errorUrl.searchParams.set('error', 'Download not available');
       errorUrl.searchParams.set('details', 'The requested file is no longer available for download');

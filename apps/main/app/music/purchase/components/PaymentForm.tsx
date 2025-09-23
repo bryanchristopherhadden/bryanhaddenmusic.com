@@ -335,8 +335,8 @@ export default function PaymentForm({ total, cartItems, onSuccess, onCancel }: P
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 color: 'white',
-                fontSize: '1.5rem',
-                letterSpacing: '0.5rem',
+                fontSize: '1rem',
+                // letterSpacing: '0.5rem',
                 '&::placeholder': {
                   color: 'rgba(255, 255, 255, 0.6)',
                   letterSpacing: 'normal',

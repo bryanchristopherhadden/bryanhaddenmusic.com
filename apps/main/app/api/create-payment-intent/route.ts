@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
       automatic_payment_methods: {
         enabled: true,
       },
+      setup_future_usage: 'off_session', // Enable saving payment methods for future use
       metadata: {
         phoneNumber,
         email: email || '',

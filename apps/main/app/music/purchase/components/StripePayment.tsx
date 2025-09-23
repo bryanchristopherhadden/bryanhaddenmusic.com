@@ -138,11 +138,15 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
         <PaymentElement 
           options={{
             layout: 'tabs',
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'link', 'card'],
+            paymentMethodOrder: ['google_pay', 'apple_pay', 'link', 'card'],
             wallets: {
               applePay: 'auto',
               googlePay: 'auto',
             },
+            fields: {
+              billingDetails: 'auto',
+            },
+            savePaymentMethod: { mode: 'always' }, // Always show option to save payment method
           }}
         />
 
@@ -185,7 +189,7 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
           }}
         >
           <Text size="sm">
-            🔒 Secure payment powered by Stripe. Your payment information is encrypted and never stored.
+            🔒 Secure payment powered by Stripe. Your payment information is encrypted and securely stored for future purchases.
           </Text>
         </Alert>
       </Stack>
