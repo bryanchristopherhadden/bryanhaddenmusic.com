@@ -4,6 +4,7 @@ A modern, interactive portfolio website showcasing Bryan Hadden's dual expertise
 
 ## 🌟 Features
 
+
 ### 🎵 Music Experience
 - **Interactive Music Player**: Custom-built music player with full controls
 - **Original Productions**: Featuring tracks across multiple genres (Pop, House, RnB, Hip-Hop, Rap)
