@@ -108,7 +108,9 @@ export default function PurchasePage(): JSX.Element {
 
   // Add to cart
   const addToCart = (beat: Beat, type: 'lease' | 'purchase') => {
-    const price = type === 'lease' ? beat.leasePrice : beat.purchasePrice;
+    // Development mode: both lease and purchase are $0.50
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const price = isDevelopment ? 0.50 : (type === 'lease' ? beat.leasePrice : beat.purchasePrice) / 100;
     const cartItemId = `${beat.id}-${type}`;
     
     setCart(prev => {
@@ -742,6 +744,7 @@ export default function PurchasePage(): JSX.Element {
             {/* Payment Form */}
             <PaymentForm
               total={cartTotal}
+              cartItems={cart}
               onSuccess={handlePaymentSuccess}
               onCancel={handlePaymentCancel}
             />

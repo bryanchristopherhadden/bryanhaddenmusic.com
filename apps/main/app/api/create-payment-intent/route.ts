@@ -13,12 +13,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { amount, phoneNumber } = await request.json();
+    const { amount, phoneNumber, email } = await request.json();
 
-    // Validate input
-    if (!amount || amount < 1) {
+    // Validate input - allow amounts as low as $0.50 (Stripe minimum)
+    if (!amount || amount < 0.50) {
       return NextResponse.json(
-        { error: 'Invalid amount' },
+        { error: 'Invalid amount - minimum is $0.50' },
         { status: 400 }
       );
     }
@@ -30,22 +30,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Development mode: charge only $0.50 locally (Stripe minimum)
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const finalAmount = isDevelopment ? 0.50 : amount;
+    
+    console.log(`Payment Intent - Original: $${amount}, Final: $${finalAmount}, Development: ${isDevelopment}`);
+
     // Create real Stripe payment intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convert to cents
+      amount: Math.round(finalAmount * 100), // Convert to cents
       currency: 'usd',
       automatic_payment_methods: {
         enabled: true,
       },
       metadata: {
         phoneNumber,
+        email: email || '',
         product: 'music_beats',
       },
     });
 
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
-      amount,
+      amount: finalAmount,
+      originalAmount: amount,
+      isDevelopment,
       currency: 'usd',
     });
 

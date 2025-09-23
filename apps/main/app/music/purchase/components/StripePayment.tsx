@@ -19,9 +19,11 @@ interface StripePaymentFormProps {
   onSuccess: () => void;
   onCancel: () => void;
   phoneNumber: string;
+  email: string;
+  cartItems: any[];
 }
 
-function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber }: StripePaymentFormProps) {
+function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, email, cartItems }: StripePaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -56,12 +58,66 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber }: S
           color: 'red',
         });
       } else {
-        notifications.show({
-          title: 'Payment Successful! 🎉',
-          message: 'Download links sent to your phone',
-          color: 'green',
-          autoClose: 5000,
-        });
+        // Send download links via SMS after successful payment
+        try {
+          console.log('Sending download links request:', { phoneNumber, email, cartItems });
+          const downloadResponse = await fetch('/api/send-download-links', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              phoneNumber,
+              email,
+              cartItems: cartItems // Send actual purchased items
+            })
+          });
+
+          console.log('Download response status:', downloadResponse.status, downloadResponse.ok);
+          const responseText = await downloadResponse.text();
+          console.log('Download response body:', responseText);
+          
+          if (downloadResponse.ok) {
+            const downloadData = JSON.parse(responseText);
+            const deliveryMethod = downloadData.smsSent && downloadData.emailSent ? 'phone and email' :
+                                 downloadData.smsSent ? 'phone' :
+                                 downloadData.emailSent ? 'email' : 'neither method';
+            
+            notifications.show({
+              title: 'Payment Successful! 🎉',
+              message: `Download links sent to your ${deliveryMethod}`,
+              color: 'green',
+              autoClose: 5000,
+            });
+          } else {
+            // Try to get fallback links from the error response
+            const errorData = JSON.parse(responseText).catch(() => ({}));
+            const fallbackLinks = errorData.fallbackLinks || [];
+            
+            if (fallbackLinks.length > 0) {
+              notifications.show({
+                title: 'Payment Successful! 🎉',
+                message: `Download links: ${fallbackLinks.slice(0, 2).join(', ')}${fallbackLinks.length > 2 ? '...' : ''}`,
+                color: 'orange',
+                autoClose: 10000,
+              });
+            } else {
+              notifications.show({
+                title: 'Payment Successful! 🎉',
+                message: 'Payment completed, but download links failed to send. Please contact support.',
+                color: 'red',
+                autoClose: 10000,
+              });
+            }
+          }
+        } catch (downloadError) {
+          console.error('Failed to send download links:', downloadError);
+          notifications.show({
+            title: 'Payment Successful! 🎉',
+            message: 'Payment completed, but download links failed to send',
+            color: 'orange',
+            autoClose: 8000,
+          });
+        }
+        
         onSuccess();
       }
     } catch (error) {
@@ -82,7 +138,11 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber }: S
         <PaymentElement 
           options={{
             layout: 'tabs',
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'card'],
+            paymentMethodOrder: ['apple_pay', 'google_pay', 'link', 'card'],
+            wallets: {
+              applePay: 'auto',
+              googlePay: 'auto',
+            },
           }}
         />
 
@@ -135,12 +195,14 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber }: S
 
 interface StripePaymentProps {
   total: number;
+  cartItems: any[];
   onSuccess: () => void;
   onCancel: () => void;
   phoneNumber: string;
+  email: string;
 }
 
-export default function StripePayment({ total, onSuccess, onCancel, phoneNumber }: StripePaymentProps) {
+export default function StripePayment({ total, cartItems, onSuccess, onCancel, phoneNumber, email }: StripePaymentProps) {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -153,7 +215,8 @@ export default function StripePayment({ total, onSuccess, onCancel, phoneNumber 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           amount: total,
-          phoneNumber 
+          phoneNumber,
+          email
         })
       });
 
@@ -232,6 +295,8 @@ export default function StripePayment({ total, onSuccess, onCancel, phoneNumber 
         onSuccess={onSuccess}
         onCancel={onCancel}
         phoneNumber={phoneNumber}
+        email={email}
+        cartItems={cartItems}
       />
     </Elements>
   );

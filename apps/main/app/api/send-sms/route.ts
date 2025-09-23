@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setVerificationCode } from '../../lib/verification-store';
+import { sendVerificationEmail } from '../../lib/email-service';
 
 // Initialize Twilio client (much faster than AWS!)
 const twilio = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN ? 
@@ -7,7 +8,7 @@ const twilio = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN ?
 
 export async function POST(request: NextRequest) {
   try {
-    const { phoneNumber } = await request.json();
+    const { phoneNumber, email } = await request.json();
 
     // Validate phone number
     if (!phoneNumber || !/^\+?[\d\s\-\(\)]+$/.test(phoneNumber)) {
@@ -29,8 +30,13 @@ export async function POST(request: NextRequest) {
       hasAccountSid: !!process.env.TWILIO_ACCOUNT_SID,
       hasAuthToken: !!process.env.TWILIO_AUTH_TOKEN,
       hasPhoneNumber: !!process.env.TWILIO_PHONE_NUMBER,
-      phoneNumber: process.env.TWILIO_PHONE_NUMBER
+      phoneNumber: process.env.TWILIO_PHONE_NUMBER,
+      isTollFree: process.env.TWILIO_PHONE_NUMBER?.startsWith('+18'),
+      warning: process.env.TWILIO_PHONE_NUMBER?.startsWith('+18') ? 'Toll-free numbers require verification!' : null
     });
+
+    let smsSent = false;
+    let emailSent = false;
 
     // Send real SMS via Twilio (instant setup!)
     if (twilio && process.env.TWILIO_PHONE_NUMBER) {
@@ -51,6 +57,7 @@ export async function POST(request: NextRequest) {
         });
 
         console.log(`SMS sent successfully! Message SID: ${message.sid}, Code: ${code}`);
+        smsSent = true;
       } catch (smsError) {
         console.error('SMS sending failed:', smsError);
         console.log(`Fallback code for ${phoneNumber}: ${code}`);
@@ -61,9 +68,22 @@ export async function POST(request: NextRequest) {
       console.log(`SMS Code for ${phoneNumber}: ${code}`); // Fallback for testing
     }
 
+    // Send verification email if email is provided
+    if (email) {
+      const emailResult = await sendVerificationEmail(email, code, phoneNumber);
+      if (emailResult.success) {
+        console.log(`Verification email sent to ${email}`);
+        emailSent = true;
+      } else {
+        console.error('Failed to send verification email:', emailResult.error);
+      }
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'Verification code sent',
+      message: `Verification code sent via ${smsSent ? 'SMS' : ''}${smsSent && emailSent ? ' and ' : ''}${emailSent ? 'email' : ''}`,
+      smsSent,
+      emailSent,
     });
 
   } catch (error) {

@@ -8,22 +8,25 @@ import StripePayment from './StripePayment';
 
 interface PaymentFormProps {
   total: number;
+  cartItems: any[];
   onSuccess: () => void;
   onCancel: () => void;
 }
 
 interface SMSAuth {
   phoneNumber: string;
+  email: string;
   verificationCode: string;
   isCodeSent: boolean;
   isVerified: boolean;
   isLoading: boolean;
 }
 
-export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormProps) {
+export default function PaymentForm({ total, cartItems, onSuccess, onCancel }: PaymentFormProps) {
   const [showPayment, setShowPayment] = useState(false);
   const [smsAuth, setSmsAuth] = useState<SMSAuth>({
     phoneNumber: '',
+    email: '',
     verificationCode: '',
     isCodeSent: false,
     isVerified: false,
@@ -43,6 +46,15 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
       return;
     }
 
+    if (!smsAuth.email || !smsAuth.email.includes('@')) {
+      notifications.show({
+        title: 'Invalid Email',
+        message: 'Please enter a valid email address',
+        color: 'red',
+      });
+      return;
+    }
+
     setSmsAuth(prev => ({ ...prev, isLoading: true }));
 
     try {
@@ -50,7 +62,10 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
       const response = await fetch('/api/send-sms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber: smsAuth.phoneNumber })
+        body: JSON.stringify({ 
+          phoneNumber: smsAuth.phoneNumber,
+          email: smsAuth.email 
+        })
       });
 
       if (!response.ok) {
@@ -65,11 +80,17 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
       
       setShowVerificationModal(true);
       
+      // Get response data to show delivery method
+      const responseData = await response.json();
+      const deliveryMethod = responseData.smsSent && responseData.emailSent ? 'phone and email' :
+                           responseData.smsSent ? 'phone' :
+                           responseData.emailSent ? 'email' : 'neither method';
+      
       // For demo purposes, show a test code
       const testCode = '123456';
       notifications.show({
-        title: 'Code Sent! 📱',
-        message: `Demo code: ${testCode} (Use this for testing)`,
+        title: 'Code Sent! 📱📧',
+        message: `Verification code sent to your ${deliveryMethod}. Demo code: ${testCode}`,
         color: 'green',
         autoClose: 10000,
       });
@@ -163,14 +184,30 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
           </Text>
           
           {!smsAuth.isVerified ? (
-            <Group gap="sm">
+            <Stack gap="md">
               <TextInput
                 placeholder="Enter your phone number"
                 value={smsAuth.phoneNumber}
                 onChange={(e) => setSmsAuth(prev => ({ ...prev, phoneNumber: e.target.value }))}
                 leftSection={<IconPhone size={16} />}
                 size="md"
-                style={{ flex: 1 }}
+                styles={{
+                  input: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: 'white',
+                    '&::placeholder': {
+                      color: 'rgba(255, 255, 255, 0.6)'
+                    }
+                  }
+                }}
+              />
+              <TextInput
+                placeholder="Enter your email address"
+                value={smsAuth.email}
+                onChange={(e) => setSmsAuth(prev => ({ ...prev, email: e.target.value }))}
+                type="email"
+                size="md"
                 styles={{
                   input: {
                     backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -185,6 +222,7 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
               <Button
                 onClick={sendVerificationCode}
                 loading={smsAuth.isLoading}
+                disabled={!smsAuth.phoneNumber || smsAuth.phoneNumber.length < 10 || !smsAuth.email}
                 variant="outline"
                 style={{
                   borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -193,7 +231,7 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
               >
                 {smsAuth.isCodeSent ? 'Resend' : 'Send Code'}
               </Button>
-            </Group>
+            </Stack>
           ) : (
             <Alert
               icon={<IconCheck size={16} />}
@@ -233,9 +271,11 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
         ) : (
           <StripePayment
             total={total}
+            cartItems={cartItems}
             onSuccess={onSuccess}
             onCancel={() => setShowPayment(false)}
             phoneNumber={smsAuth.phoneNumber}
+            email={smsAuth.email}
           />
         )}
 
@@ -278,7 +318,7 @@ export default function PaymentForm({ total, onSuccess, onCancel }: PaymentFormP
       >
         <Stack gap="lg">
           <Text c="rgba(255, 255, 255, 0.8)" size="sm">
-            We sent a 6-digit code to {smsAuth.phoneNumber}
+            We sent a 6-digit code to {smsAuth.phoneNumber} and {smsAuth.email}
           </Text>
           
           <TextInput

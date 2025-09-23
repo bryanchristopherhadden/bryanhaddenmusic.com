@@ -32,8 +32,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify the code (accept test code 123456 for demo)
-    if (storedData.code !== code && code !== '123456') {
+    // Verify the code (accept test codes for demo)
+    if (storedData.code !== code && code !== '123456' && code !== '000000') {
       return NextResponse.json(
         { error: 'Invalid verification code' },
         { status: 400 }
