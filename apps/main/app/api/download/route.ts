@@ -167,7 +167,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Return file
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers
     });

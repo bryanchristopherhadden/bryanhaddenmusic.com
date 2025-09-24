@@ -4,8 +4,9 @@ import { useSearchParams } from 'next/navigation';
 import { Container, Title, Text, Button, Stack, Alert, Box } from '@mantine/core';
 import { IconAlertCircle, IconHome, IconRefresh } from '@tabler/icons-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function DownloadErrorPage() {
+function DownloadErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error') || 'Unknown error';
   const details = searchParams.get('details') || '';
@@ -146,5 +147,40 @@ export default function DownloadErrorPage() {
         </Box>
       </Container>
     </div>
+  );
+}
+
+export default function DownloadErrorPage() {
+  return (
+    <Suspense fallback={
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #1a1a1a 0%, #333333 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px'
+      }}>
+        <Container size="md">
+          <Box style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '16px',
+            padding: '40px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(10px)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+          }}>
+            <Stack gap="lg" align="center">
+              <Title order={1} c="white" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+                🎵 Bryan Hadden Music
+              </Title>
+              <Text c="white">Loading...</Text>
+            </Stack>
+          </Box>
+        </Container>
+      </div>
+    }>
+      <DownloadErrorContent />
+    </Suspense>
   );
 }

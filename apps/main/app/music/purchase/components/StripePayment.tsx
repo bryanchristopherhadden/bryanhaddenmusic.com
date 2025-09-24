@@ -146,7 +146,6 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
             fields: {
               billingDetails: 'auto',
             },
-            savePaymentMethod: { mode: 'always' }, // Always show option to save payment method
           }}
         />
 
