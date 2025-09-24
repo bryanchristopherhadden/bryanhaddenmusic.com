@@ -132,3 +132,6 @@ dist
 
 # Personal documents
 documents/
+
+# Logitech logs folder
+@xlog_logitech/

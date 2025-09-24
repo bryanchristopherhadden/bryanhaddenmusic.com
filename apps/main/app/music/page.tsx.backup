@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Container, Title, Text, Button, Stack, Box, Group, TextInput, Select, Badge, Paper, ActionIcon, NumberInput, Modal, Divider, Loader } from '@mantine/core';
-import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck } from '@tabler/icons-react';
+import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import PaymentForm from './components/PaymentForm';
 
@@ -344,7 +344,7 @@ export default function PurchasePage(): JSX.Element {
                       onChange={setSelectedGenre}
                       data={availableGenres}
                       size="lg"
-                      w={200}
+                      w={90}
                       styles={{
                         input: {
                           backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -368,19 +368,42 @@ export default function PurchasePage(): JSX.Element {
                       }}
                     />
 
-                    {/* Cart Button */}
-                    <Button
-                      leftSection={<IconShoppingCart size={20} />}
-                      size="lg"
-                      onClick={() => setIsCartOpen(true)}
-                      style={{
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        border: 'none',
-                        position: 'relative'
-                      }}
-                    >
-                      Cart ({cart.length})
-                    </Button>
+                    {/* Action Buttons Group */}
+                    <Group gap="md" w={300}>
+                      {/* Contact Button */}
+                      <Button
+                        leftSection={<IconMail size={18} />}
+                        size="lg"
+                        variant="outline"
+                        onClick={() => window.open('mailto:bryanchrishadden@gmail.com', '_blank')}
+                        style={{
+                          borderColor: 'rgba(255, 255, 255, 0.3)',
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            borderColor: 'rgba(255, 255, 255, 0.5)',
+                          }
+                        }}
+                        flex={1}
+                      >
+                        Contact
+                      </Button>
+
+                      {/* Cart Button */}
+                      <Button
+                        leftSection={<IconShoppingCart size={20} />}
+                        size="lg"
+                        onClick={() => setIsCartOpen(true)}
+                        style={{
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          border: 'none',
+                          position: 'relative'
+                        }}
+                        flex={1}
+                      >
+                        Cart ({cart.length})
+                      </Button>
+                    </Group>
                   </Group>
 
                   {/* Results Info */}
@@ -553,6 +576,275 @@ export default function PurchasePage(): JSX.Element {
                 </Paper>
               )}
             </motion.div>
+
+                <Stack gap="lg">
+                  <Box ta="center">
+                    <Title order={2} c="white" mb="sm">
+                      Follow My Journey
+                    </Title>
+                    <Text c="rgba(255, 255, 255, 0.7)" size="lg">
+                      Stay updated with my latest music, behind-the-scenes content, and studio sessions
+                    </Text>
+                  </Box>
+
+                  {/* Instagram Preview */}
+                  <Box
+                    style={{
+                      width: '100%',
+                      maxWidth: '540px',
+                      margin: '0 auto',
+                      borderRadius: '16px',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    {/* Instagram Profile Preview */}
+                    <Box
+                      component="a"
+                      href="https://www.instagram.com/brybrythemusicguy/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '16px',
+                        padding: '24px',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                        e.currentTarget.style.borderColor = 'rgba(131, 58, 180, 0.5)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.transform = 'translateY(0px)';
+                      }}
+                    >
+                      <Group gap="lg" align="center">
+                        {/* Profile Picture Placeholder */}
+                        <Box
+                          style={{
+                            width: '80px',
+                            height: '80px',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '32px',
+                            color: 'white',
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          BM
+                        </Box>
+                        
+                        <Box style={{ flex: 1 }}>
+                          <Title order={3} c="white" mb="xs">
+                            @brybrythemusicguy
+                          </Title>
+                          <Text c="rgba(255, 255, 255, 0.7)" size="sm" mb="sm">
+                            Music Producer • Beat Maker • Artist
+                          </Text>
+                          <Group gap="lg">
+                            <Text c="rgba(255, 255, 255, 0.6)" size="xs">
+                              <span style={{ color: 'white', fontWeight: 600 }}>Posts</span> • Latest music & beats
+                            </Text>
+                            <Text c="rgba(255, 255, 255, 0.6)" size="xs">
+                              <span style={{ color: 'white', fontWeight: 600 }}>Stories</span> • Behind the scenes
+                            </Text>
+                          </Group>
+                        </Box>
+
+                        {/* Instagram Icon */}
+                        <Box
+                          style={{
+                            padding: '12px',
+                            borderRadius: '12px',
+                            background: 'rgba(131, 58, 180, 0.2)',
+                            border: '1px solid rgba(131, 58, 180, 0.3)'
+                          }}
+                        >
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#fff' }}>
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                          </svg>
+                        </Box>
+                      </Group>
+                    </Box>
+
+                    {/* Recent Posts Grid */}
+                    <Box mt="lg">
+                      <Text c="rgba(255, 255, 255, 0.8)" fw={600} mb="md" ta="center">
+                        Latest Posts & Music Updates
+                      </Text>
+                      
+                      {instagramLoading ? (
+                        <Box ta="center" py="xl">
+                          <Loader color="white" size="md" />
+                          <Text c="rgba(255, 255, 255, 0.6)" size="sm" mt="md">
+                            Loading Instagram posts...
+                          </Text>
+                        </Box>
+                      ) : instagramPosts.length > 0 ? (
+                        <Group gap="xs" justify="center">
+                          {instagramPosts.slice(0, 3).map((post) => (
+                            <Box
+                              key={post.id}
+                              style={{
+                                width: '160px',
+                                height: '160px',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                backgroundImage: `url(${post.thumbnailUrl})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                              }}
+                              onClick={() => window.open(post.permalink, '_blank')}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1)';
+                              }}
+                            >
+                              {/* Overlay */}
+                              <Box
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  background: 'rgba(0, 0, 0, 0.3)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  opacity: 0,
+                                  transition: 'opacity 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.opacity = '1';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.opacity = '0';
+                                }}
+                              >
+                                {post.mediaType === 'VIDEO' ? (
+                                  <svg width="32" height="32" viewBox="0 0 24 24" fill="white" opacity="0.9">
+                                    <path d="M8 5v14l11-7z"/>
+                                  </svg>
+                                ) : (
+                                  <svg width="32" height="32" viewBox="0 0 24 24" fill="white" opacity="0.9">
+                                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                  </svg>
+                                )}
+                              </Box>
+                              
+                              {/* Caption overlay */}
+                              {post.caption && (
+                                <Box
+                                  style={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.8))',
+                                    padding: '8px',
+                                    paddingTop: '20px'
+                                  }}
+                                >
+                                  <Text c="white" size="xs" style={{ 
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap'
+                                  }}>
+                                    {post.caption.substring(0, 30)}...
+                                  </Text>
+                                </Box>
+                              )}
+                            </Box>
+                          ))}
+                        </Group>
+                      ) : (
+                        // Fallback to mock posts when Instagram API is not available
+                        <Group gap="xs" justify="center">
+                          {[1, 2, 3].map((i) => (
+                            <Box
+                              key={i}
+                              style={{
+                                width: '160px',
+                                height: '160px',
+                                background: `linear-gradient(135deg, rgba(131, 58, 180, 0.3) 0%, rgba(253, 29, 29, 0.3) 50%, rgba(252, 176, 69, 0.3) 100%)`,
+                                borderRadius: '12px',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                position: 'relative',
+                                overflow: 'hidden'
+                              }}
+                              onClick={() => window.open('https://www.instagram.com/brybrythemusicguy/', '_blank')}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1)';
+                              }}
+                            >
+                              <Box
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  background: 'rgba(0, 0, 0, 0.3)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}
+                              >
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="white" opacity="0.8">
+                                  <path d="M8 5v14l11-7z"/>
+                                </svg>
+                              </Box>
+                              <Text c="white" size="xs" style={{ position: 'absolute', bottom: '8px', left: '8px', right: '8px', textAlign: 'center' }}>
+                                {i === 1 ? 'New Beat Drop' : i === 2 ? 'Studio Session' : 'Music Video'}
+                              </Text>
+                            </Box>
+                          ))}
+                        </Group>
+                      )}
+                    </Box>
+                  </Box>
+
+                  {/* Instagram Link */}
+                  <Box ta="center">
+                    <Button
+                      component="a"
+                      href="https://www.instagram.com/brybrythemusicguy/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      size="lg"
+                      variant="gradient"
+                      gradient={{ from: '#833ab4', to: '#fd1d1d', deg: 45 }}
+                      leftSection={
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                      }
+                    >
+                      Follow @brybrythemusicguy
           </Stack>
         </Container>
 

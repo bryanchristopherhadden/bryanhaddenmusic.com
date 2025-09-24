@@ -57,12 +57,13 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
   }
 
   const navLinks = currentMode === 'music' ? [
-    { href: "/music", label: "Home", active: isActive("/music") },
+    { href: "/music/listen", label: "Listen", active: isActive("/music/listen") },
+    { href: "/music", label: "Purchase", active: isActive("/music") },
     { href: "/music/about", label: "Bio", active: isActive("/music/about") },
     { href: "/tech", label: "Tech Site", active: false },
   ] : [
     { href: "/tech", label: "Portfolio", active: isActive("/tech") },
-    { href: "/music", label: "Music Site", active: false },
+    { href: "/music/listen", label: "Music Site", active: false },
   ];
 
   return (

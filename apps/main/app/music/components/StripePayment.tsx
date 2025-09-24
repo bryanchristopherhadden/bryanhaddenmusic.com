@@ -41,7 +41,7 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/music/purchase/success`,
+          return_url: `${window.location.origin}/music/success`,
           payment_method_data: {
             billing_details: {
               phone: phoneNumber,

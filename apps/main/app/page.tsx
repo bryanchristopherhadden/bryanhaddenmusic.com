@@ -82,7 +82,7 @@ export default function Home(): JSX.Element {
             <SiteCard
               title="Music"
               description="Music production, beats, and creative collaborations"
-              url="/music"
+              url="/music/listen"
               icon={<IconMusic size={64} stroke={1.5} />}
             />
             

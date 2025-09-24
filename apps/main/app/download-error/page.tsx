@@ -99,7 +99,7 @@ function DownloadErrorContent() {
             <Stack gap="md" style={{ width: '100%', maxWidth: '300px' }}>
               <Button
                 component={Link}
-                href="/music"
+                href="/music/listen"
                 leftSection={<IconHome size={16} />}
                 size="lg"
                 fullWidth

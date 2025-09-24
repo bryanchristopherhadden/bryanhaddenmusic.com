@@ -86,7 +86,7 @@ Creates Stripe payment intent
 
 ## Usage
 
-1. Navigate to `/music/purchase`
+1. Navigate to `/music`
 2. Browse available beats using search and filters
 3. **Choose license type**: Lease ($50) or Purchase ($200) for each beat
 4. Add beats to cart with quantity selection (supports multiple license types)
@@ -126,7 +126,7 @@ TWILIO_PHONE_NUMBER=+1...
 ## File Structure
 
 ```
-app/music/purchase/
+app/music/
 ├── page.tsx                 # Main purchase page
 ├── components/
 │   └── PaymentForm.tsx      # Payment and SMS auth component
