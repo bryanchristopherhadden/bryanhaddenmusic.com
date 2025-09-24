@@ -64,10 +64,10 @@ export default function Home(): JSX.Element {
           <Center>
             <Box ta="center" mb="xl">
               <Title order={1} size="3.5rem" mb="md" c="white" fw={700}>
-                Hi I'm Bryan Hadden
+                Hi I&apos;m Bryan Hadden
               </Title>
               <Text size="xl" c="dimmed" fw={400}>
-                Please checkout some of the stuff I've made.
+                Please checkout some of the stuff I&apos;ve made.
               </Text>
             </Box>
           </Center>

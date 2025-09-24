@@ -106,7 +106,7 @@ const VesselTrackerContent: React.FC<VesselTrackerContentProps> = ({ onGoBack })
                     <Text size="lg" lh={1.6}>
                         The diverse user base included port managers, logistics coordinators, finance teams, technicians, 
                         and C-suite executives. Each group required different views and functionalities while maintaining 
-                        a unified, intuitive experience. The application completely replaced Porsche's legacy vessel 
+                        a unified, intuitive experience. The application completely replaced Porsche&apos;s legacy vessel 
                         tracking system.
                     </Text>
                 </Box>

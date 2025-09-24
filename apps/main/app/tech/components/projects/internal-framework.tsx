@@ -81,7 +81,7 @@ const InternalFramework: React.FC<InternalFrameworkProps> = ({ onGoBack }) => {
                     </Title>
                     <Text size="lg" lh={1.6}>
                         I maintained and evolved an internal framework that became the backbone of development 
-                        operations across Home Depot's engineering organization. This system served hundreds 
+                        operations across Home Depot&apos;s engineering organization. This system served hundreds 
                         of engineers and designers, enabling consistent, scalable development practices across 
                         multiple departments including payments, orders, and customer experience.
                     </Text>

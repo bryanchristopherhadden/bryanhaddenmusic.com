@@ -250,7 +250,7 @@ export default function PaymentForm({ total, cartItems, onSuccess, onCancel }: P
           )}
           
           <Text size="xs" c="rgba(255, 255, 255, 0.6)" mt="xs">
-            We'll send download links via SMS for instant access
+            We&apos;ll send download links via SMS for instant access
           </Text>
         </Box>
 

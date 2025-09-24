@@ -485,7 +485,7 @@ export default function PortfolioClient() {
                   letterSpacing: '-0.025em'
                 }}
               >
-                Let's work together
+                Let&apos;s work together
               </Title>
               <Text
                 size="lg"
@@ -500,7 +500,7 @@ export default function PortfolioClient() {
                   letterSpacing: '0.005em'
                 }}
               >
-                Have a project in mind? I'd love to hear about it and discuss how we can bring your ideas to life.
+                Have a project in mind? I&apos;d love to hear about it and discuss how we can bring your ideas to life.
               </Text>
               <Button
                 component="a"

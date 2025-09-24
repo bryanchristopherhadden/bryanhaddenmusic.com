@@ -143,9 +143,9 @@ const AboutPage = () => {
                           fontSize: '1.125rem'
                         }}
                       >
-                        I've worked across multiple genres including indie rock,
+                        I&apos;ve worked across multiple genres including indie rock,
                         electronic, and alternative pop, always focusing on bringing out
-                        the artist's vision rather than imposing my own. My studio is
+                        the artist&apos;s vision rather than imposing my own. My studio is
                         equipped with both vintage and cutting-edge equipment, allowing
                         for a wide range of sonic possibilities.
                       </Text>
@@ -169,8 +169,8 @@ const AboutPage = () => {
                             fontSize: '1.125rem'
                           }}
                         >
-                          Whether you're recording your first EP or looking to evolve your
-                          established sound, I'm committed to creating a collaborative
+                          Whether you&apos;re recording your first EP or looking to evolve your
+                          established sound, I&apos;m committed to creating a collaborative
                           environment where your music can truly shine. My philosophy is
                           simple: <strong style={{ color: 'white' }}>make your music sound more like you.</strong>
                         </Text>

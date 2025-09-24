@@ -61,7 +61,7 @@ const VTPrototypeContent: React.FC<VTPrototypeContentProps> = ({ onGoBack }) => 
                         </Title>
                         <Text size="xl" c="dimmed" ta="center" maw={800}>
                             A modern dealership experience for tracking customer orders with a social network-inspired 
-                            design that's intuitive and easy to understand at a glance.
+                            design that&apos;s intuitive and easy to understand at a glance.
                         </Text>
                     </Stack>
                 </Stack>
