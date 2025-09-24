@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
     console.log('Successfully serving file:', fileName, 'Size:', fileBuffer.length);
 
     // Return file
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers
     });
