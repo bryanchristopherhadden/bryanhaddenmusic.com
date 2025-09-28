@@ -225,15 +225,17 @@ export default function StripePayment({ total, cartItems, onSuccess, onCancel, p
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create payment intent');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create payment intent');
       }
 
       const { clientSecret } = await response.json();
       setClientSecret(clientSecret);
     } catch (error) {
+      console.error('Payment intent creation failed:', error);
       notifications.show({
         title: 'Payment Setup Failed',
-        message: 'Unable to initialize payment. Please try again.',
+        message: error instanceof Error ? error.message : 'Unable to initialize payment. Please try again.',
         color: 'red',
       });
     } finally {
@@ -241,10 +243,12 @@ export default function StripePayment({ total, cartItems, onSuccess, onCancel, p
     }
   };
 
-  // Create payment intent when component mounts
+  // Create payment intent when component mounts (only if not disabled)
   useEffect(() => {
-    createPaymentIntent();
-  }, []);
+    if (!disabled) {
+      createPaymentIntent();
+    }
+  }, [disabled]);
 
   if (disabled) {
     return (

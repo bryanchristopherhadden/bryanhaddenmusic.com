@@ -23,9 +23,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!phoneNumber) {
+    if (!email) {
       return NextResponse.json(
-        { error: 'Phone number is required' },
+        { error: 'Email is required' },
         { status: 400 }
       );
     }
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       },
       setup_future_usage: 'off_session', // Enable saving payment methods for future use
       metadata: {
-        phoneNumber,
+        phoneNumber: phoneNumber || '',
         email: email || '',
         product: 'music_beats',
       },
