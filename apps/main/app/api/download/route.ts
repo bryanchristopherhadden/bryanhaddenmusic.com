@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
 
 // Validate download token (now works with email or phone)
 function validateDownloadToken(token: string, identifier: string): boolean {
@@ -23,28 +21,9 @@ function validateDownloadToken(token: string, identifier: string): boolean {
   }
 }
 
-// Get file path and name based on parameters
-async function getFilePath(fileType: string, index: number, itemId?: string): Promise<{ filePath: string, fileName: string } | null> {
-  // If we have an itemId, try to find the specific file
-  if (itemId) {
-    try {
-      // Load beats data to find the correct filename
-      const beatsPath = join(process.cwd(), 'public', 'beats.json');
-      const beatsData = JSON.parse(await readFile(beatsPath, 'utf-8'));
-      
-      // Find the beat with matching ID
-      const beat = beatsData.find((song: any) => song.id === itemId);
-      if (beat && beat.filename) {
-        const fileName = beat.filename;
-        const filePath = join(process.cwd(), 'public', fileType, fileName);
-        return { filePath, fileName };
-      }
-    } catch (error) {
-      console.log('Failed to load beats data, falling back to index mapping:', error);
-    }
-  }
-
-  // Fallback to index-based mapping
+// Get file name based on parameters (no filesystem access)
+function getFileName(fileType: string, index: number, itemId?: string): string | null {
+  // Static mapping - no filesystem access
   const fileMappings: { [key: string]: string[] } = {
     'beats': [
       'Disaster.mp3',
@@ -56,12 +35,21 @@ async function getFilePath(fileType: string, index: number, itemId?: string): Pr
       'Late Text.mp3',
       'Lets Get Even.m4a',
       'Lost Out There.mp3',
+      'Lost One.mp3',
       'Shroomie Girl.mp3',
       'SOMETHING OUTTA NOTHIN.mp3',
       'Sugarrrr.mp3',
       'Talk Back.mp3',
       'THE DRUGS TAKE ME AWAY.mp3',
-      'Uber Black.m4a'
+      'Uber Black.m4a',
+      'DEFINITION.mp3',
+      'DEMISE V2.mp3',
+      'FURTHER BEAT.wav',
+      'pretty-chaos-1-v2.mp3',
+      'pretty-chaos-3.mp3',
+      'SAVE FACE1.mp3',
+      'STAY TRUE.mp3',
+      'Top Tier.mp3'
     ],
     'songs': [
       'Bantu Bliss.mp3',
@@ -83,10 +71,7 @@ async function getFilePath(fileType: string, index: number, itemId?: string): Pr
     return null;
   }
 
-  const fileName = files[index];
-  const filePath = join(process.cwd(), 'public', fileType, fileName);
-  
-  return { filePath, fileName };
+  return files[index];
 }
 
 export async function GET(request: NextRequest) {
@@ -128,9 +113,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(errorUrl.toString());
     }
 
-    // Get file information
-    const fileInfo = await getFilePath(fileType, index, itemId);
-    if (!fileInfo) {
+    // Get file name (no filesystem access)
+    const fileName = getFileName(fileType, index, itemId);
+    if (!fileName) {
       console.log('File not found in mapping:', { fileType, index, itemId });
       const errorUrl = new URL('/download-error', request.url);
       errorUrl.searchParams.set('error', 'Download not available');
@@ -138,10 +123,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(errorUrl.toString());
     }
 
-    const { filePath, fileName } = fileInfo;
-    console.log('Attempting to serve file:', { filePath, fileName });
-
-    // Token is valid, proceed with download
     console.log('Token valid, redirecting to static file:', fileName);
 
     // Instead of serving the file through the serverless function, redirect to the static file

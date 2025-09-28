@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFile, stat } from 'fs/promises';
-import { join } from 'path';
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,7 +8,7 @@ export async function GET(request: NextRequest) {
 
     console.log('Test download request:', { fileType, index });
 
-    // Get file path
+    // Static file mapping - no filesystem access
     const fileMappings: { [key: string]: string[] } = {
       'beats': [
         'Disaster.mp3',
@@ -22,12 +20,21 @@ export async function GET(request: NextRequest) {
         'Late Text.mp3',
         'Lets Get Even.m4a',
         'Lost Out There.mp3',
+        'Lost One.mp3',
         'Shroomie Girl.mp3',
         'SOMETHING OUTTA NOTHIN.mp3',
         'Sugarrrr.mp3',
         'Talk Back.mp3',
         'THE DRUGS TAKE ME AWAY.mp3',
-        'Uber Black.m4a'
+        'Uber Black.m4a',
+        'DEFINITION.mp3',
+        'DEMISE V2.mp3',
+        'FURTHER BEAT.wav',
+        'pretty-chaos-1-v2.mp3',
+        'pretty-chaos-3.mp3',
+        'SAVE FACE1.mp3',
+        'STAY TRUE.mp3',
+        'Top Tier.mp3'
       ],
       'songs': [
         'Bantu Bliss.mp3',
@@ -53,42 +60,21 @@ export async function GET(request: NextRequest) {
     }
 
     const fileName = files[index];
-    const filePath = join(process.cwd(), 'public', fileType, fileName);
 
-    console.log('Test serving file:', { filePath, fileName });
+    console.log('Test redirecting to file:', fileName);
 
-    // Check if file exists
-    try {
-      await stat(filePath);
-      console.log('File exists, serving:', fileName);
-    } catch (error) {
-      console.log('File not found:', filePath, error);
-      const errorUrl = new URL('/download-error', request.url);
-      errorUrl.searchParams.set('error', 'Download temporarily unavailable');
-      errorUrl.searchParams.set('details', 'The requested file is currently not available');
-      return NextResponse.redirect(errorUrl.toString());
-    }
-
-    // Read file
-    const fileBuffer = await readFile(filePath);
-
-    // Set appropriate headers for file download
-    const headers = new Headers({
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename="${fileName}"`,
-      'Content-Length': fileBuffer.length.toString(),
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0'
-    });
-
-    console.log('Successfully serving file:', fileName, 'Size:', fileBuffer.length);
-
-    // Return file
-    return new NextResponse(new Uint8Array(fileBuffer), {
-      status: 200,
-      headers
-    });
+    // Redirect to static file instead of serving through function
+    // This avoids bundling large files into the serverless function
+    const staticFileUrl = `/${fileType}/${fileName}`;
+    
+    // Create response with redirect to static file
+    const response = NextResponse.redirect(new URL(staticFileUrl, request.url).toString());
+    
+    // Add download headers
+    response.headers.set('Content-Disposition', `attachment; filename="${fileName}"`);
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    
+    return response;
 
   } catch (error) {
     console.error('Test download failed:', error);
