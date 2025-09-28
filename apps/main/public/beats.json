@@ -163,5 +163,104 @@
     "filename": "THE DRUGS TAKE ME AWAY.mp3",
     "active": true,
     "forsale": true
+  },
+  {
+    "id": "definition",
+    "title": "Definition",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "DEFINITION.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "demisev2",
+    "title": "Demise V2",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Trap",
+    "filename": "DEMISE V2.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "furtherbeat",
+    "title": "Further Beat",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "FURTHER BEAT.wav",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "lostone",
+    "title": "Lost One",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "RnB",
+    "filename": "Lost One.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "prettychaos1v2",
+    "title": "Pretty Chaos 1 V2",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Alternative",
+    "filename": "pretty-chaos-1-v2.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "prettychaos3",
+    "title": "Pretty Chaos 3",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Alternative",
+    "filename": "pretty-chaos-3.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "saveface1",
+    "title": "Save Face 1",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "SAVE FACE1.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "staytrue",
+    "title": "Stay True",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Hip-Hop",
+    "filename": "STAY TRUE.mp3",
+    "active": true,
+    "forsale": true
+  },
+  {
+    "id": "toptier",
+    "title": "Top Tier",
+    "artist": "Bryan Hadden",
+    "album": "Bryan Hadden Music",
+    "year": "2025",
+    "genre": "Trap",
+    "filename": "Top Tier.mp3",
+    "active": true,
+    "forsale": true
   }
 ]

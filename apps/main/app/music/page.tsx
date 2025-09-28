@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Container, Title, Text, Button, Stack, Box, Group, TextInput, Select, Badge, Paper, ActionIcon, NumberInput, Modal, Divider, Loader } from '@mantine/core';
+import { Container, Title, Text, Button, Stack, Box, Group, TextInput, Select, Badge, Paper, ActionIcon, NumberInput, Modal, Divider, Loader, Tooltip } from '@mantine/core';
 import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import PaymentForm from './components/PaymentForm';
@@ -280,7 +280,7 @@ export default function PurchasePage(): JSX.Element {
                   textShadow: '0 8px 32px rgba(0,0,0,0.3)'
                 }}
               >
-                Buy Exclusive Beats
+                Professional Instrumental Beats
               </Title>
               
               <Text 
@@ -295,8 +295,51 @@ export default function PurchasePage(): JSX.Element {
                   letterSpacing: '0.005em'
                 }}
               >
-                Professional beats for your next hit. Instant download with exclusive licensing.
+                High-quality instrumental music for artists and creators. Hip-hop, RnB, trap & house beats with instant download and exclusive licensing.
               </Text>
+            </motion.div>
+
+            {/* Licensing Information */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Paper
+                p="md"
+                style={{
+                  background: 'rgba(102, 126, 234, 0.1)',
+                  border: '1px solid rgba(102, 126, 234, 0.3)',
+                  borderRadius: '12px',
+                }}
+              >
+                <Group justify="center" gap="xl">
+                  <Box ta="center">
+                    <Text fw={600} c="white" size="sm" mb={4}>
+                      License Beat
+                    </Text>
+                    <Text size="xs" c="rgba(255, 255, 255, 0.8)">
+                      Non-exclusive • Multiple uses
+                    </Text>
+                  </Box>
+                  <Box ta="center">
+                    <Text fw={600} c="white" size="sm" mb={4}>
+                      Buy Exclusive
+                    </Text>
+                    <Text size="xs" c="rgba(255, 255, 255, 0.8)">
+                      Exclusive rights • Commercial use
+                    </Text>
+                  </Box>
+                  <Box ta="center">
+                    <Text fw={600} c="white" size="sm" mb={4}>
+                      Instant Download
+                    </Text>
+                    <Text size="xs" c="rgba(255, 255, 255, 0.8)">
+                      WAV, MP3 + License agreement
+                    </Text>
+                  </Box>
+                </Group>
+              </Paper>
             </motion.div>
 
             {/* Search and Filter Section */}
@@ -319,7 +362,7 @@ export default function PurchasePage(): JSX.Element {
                   <Group align="end">
                     {/* Search Bar */}
                     <TextInput
-                      placeholder="Search beats by title, artist, or genre..."
+                      placeholder="Search instrumental beats by title, artist, or genre..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       leftSection={<IconSearch size={16} />}
@@ -408,7 +451,7 @@ export default function PurchasePage(): JSX.Element {
 
                   {/* Results Info */}
                   <Text size="sm" c="rgba(255, 255, 255, 0.6)">
-                    {filteredBeats.length} beat{filteredBeats.length !== 1 ? 's' : ''} available
+                    {filteredBeats.length} instrumental beat{filteredBeats.length !== 1 ? 's' : ''} available
                     {selectedGenre && selectedGenre !== 'All' && ` in ${selectedGenre}`}
                   </Text>
                 </Stack>
@@ -526,32 +569,60 @@ export default function PurchasePage(): JSX.Element {
                         </Group>
 
                         <Group gap="sm">
-                          <Button
-                            size="md"
-                            variant="outline"
-                            leftSection={<IconShoppingCart size={16} />}
-                            onClick={() => addToCart(beat, 'lease')}
-                            style={{
-                              borderColor: 'rgba(102, 126, 234, 0.6)',
-                              color: 'rgba(102, 126, 234, 1)',
-                              '&:hover': {
-                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                          <Tooltip
+                            label="Non-exclusive license. Multiple artists can use this beat. Perfect for mixtapes, demos, and non-commercial use."
+                            multiline
+                            w={220}
+                            withArrow
+                            styles={{
+                              tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                color: 'white',
                               }
                             }}
                           >
-                            Lease ${beat.leasePrice}
-                          </Button>
-                          <Button
-                            size="md"
-                            leftSection={<IconShoppingCart size={16} />}
-                            onClick={() => addToCart(beat, 'purchase')}
-                            style={{
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              border: 'none',
+                            <Button
+                              size="md"
+                              variant="outline"
+                              leftSection={<IconShoppingCart size={16} />}
+                              onClick={() => addToCart(beat, 'lease')}
+                              style={{
+                                borderColor: 'rgba(102, 126, 234, 0.6)',
+                                color: 'rgba(102, 126, 234, 1)',
+                                '&:hover': {
+                                  backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                }
+                              }}
+                            >
+                              License Beat ${beat.leasePrice}
+                            </Button>
+                          </Tooltip>
+                          <Tooltip
+                            label="Exclusive rights. Only you can use this beat. Perfect for official releases, albums, and commercial use. Beat removed from store after purchase."
+                            multiline
+                            w={220}
+                            withArrow
+                            styles={{
+                              tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                color: 'white',
+                              }
                             }}
                           >
-                            Buy ${beat.purchasePrice}
-                          </Button>
+                            <Button
+                              size="md"
+                              leftSection={<IconShoppingCart size={16} />}
+                              onClick={() => addToCart(beat, 'purchase')}
+                              style={{
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                border: 'none',
+                              }}
+                            >
+                              Buy Exclusive ${beat.purchasePrice}
+                            </Button>
+                          </Tooltip>
                         </Group>
                       </Group>
                     </Paper>
@@ -571,7 +642,7 @@ export default function PurchasePage(): JSX.Element {
                   }}
                 >
                   <Text size="lg" c="rgba(255, 255, 255, 0.6)">
-                    No beats found matching your search criteria
+                    No instrumental beats found matching your search criteria
                   </Text>
                 </Paper>
               )}
