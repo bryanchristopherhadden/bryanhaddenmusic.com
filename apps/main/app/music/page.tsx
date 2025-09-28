@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Container, Title, Text, Button, Stack, Box, Group, TextInput, Select, Badge, Paper, ActionIcon, NumberInput, Modal, Divider, Loader, Tooltip } from '@mantine/core';
-import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail } from '@tabler/icons-react';
+import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail, IconHelp, IconMessageCircle } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import PaymentForm from './components/PaymentForm';
 
@@ -38,6 +38,7 @@ export default function PurchasePage(): JSX.Element {
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [audioElements, setAudioElements] = useState<Map<string, HTMLAudioElement>>(new Map());
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   // Load beats data
   useEffect(() => {
@@ -167,6 +168,19 @@ export default function PurchasePage(): JSX.Element {
   // Handle payment cancellation
   const handlePaymentCancel = () => {
     setIsCheckoutOpen(false);
+  };
+
+  // Handle help/contact
+  const handleContactClick = () => {
+    const subject = encodeURIComponent('Question about Instrumental Beats');
+    const body = encodeURIComponent(`Hi Bryan,
+
+I have a question about your instrumental beats:
+
+[Please describe your question or issue here]
+
+Thanks!`);
+    window.open(`mailto:bryanchrishadden@gmail.com?subject=${subject}&body=${body}`, '_blank');
   };
 
   // Handle beat preview
@@ -412,13 +426,13 @@ export default function PurchasePage(): JSX.Element {
                     />
 
                     {/* Action Buttons Group */}
-                    <Group gap="md" w={300}>
-                      {/* Contact Button */}
+                    <Group gap="md" w={320}>
+                      {/* Help Button */}
                       <Button
-                        leftSection={<IconMail size={18} />}
+                        leftSection={<IconHelp size={18} />}
                         size="lg"
                         variant="outline"
-                        onClick={() => window.open('mailto:bryanchrishadden@gmail.com', '_blank')}
+                        onClick={() => setIsHelpOpen(true)}
                         style={{
                           borderColor: 'rgba(255, 255, 255, 0.3)',
                           color: 'white',
@@ -429,7 +443,7 @@ export default function PurchasePage(): JSX.Element {
                         }}
                         flex={1}
                       >
-                        Contact
+                        Help
                       </Button>
 
                       {/* Cart Button */}
@@ -843,6 +857,145 @@ export default function PurchasePage(): JSX.Element {
             />
           </Stack>
         </Modal>
+
+        {/* Help Modal */}
+        <Modal
+          opened={isHelpOpen}
+          onClose={() => setIsHelpOpen(false)}
+          title="Need Help?"
+          size="md"
+          styles={{
+            content: {
+              backgroundColor: 'rgba(20, 20, 20, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            },
+            header: {
+              backgroundColor: 'transparent',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+            },
+            title: {
+              color: 'white',
+              fontSize: '1.5rem',
+              fontWeight: 700,
+            },
+            close: {
+              color: 'white',
+            }
+          }}
+        >
+          <Stack gap="lg">
+            <Text c="rgba(255, 255, 255, 0.9)" size="lg" fw={600}>
+              Common Questions & Support
+            </Text>
+
+            <Stack gap="md">
+              <Box>
+                <Text fw={600} c="white" mb="xs">
+                  🎵 About Licensing
+                </Text>
+                <Text size="sm" c="rgba(255, 255, 255, 0.8)">
+                  • <strong>License Beat ($50):</strong> Non-exclusive use, perfect for mixtapes and demos
+                  <br />
+                  • <strong>Buy Exclusive ($200):</strong> Full ownership, commercial use, beat removed from store
+                </Text>
+              </Box>
+
+              <Box>
+                <Text fw={600} c="white" mb="xs">
+                  📥 Download & Files
+                </Text>
+                <Text size="sm" c="rgba(255, 255, 255, 0.8)">
+                  • Instant download after purchase via email
+                  <br />
+                  • High-quality WAV and MP3 files included
+                  <br />
+                  • License agreement document provided
+                </Text>
+              </Box>
+
+              <Box>
+                <Text fw={600} c="white" mb="xs">
+                  💳 Payment & Checkout
+                </Text>
+                <Text size="sm" c="rgba(255, 255, 255, 0.8)">
+                  • Secure payment via Stripe
+                  <br />
+                  • Only email required for purchase
+                  <br />
+                  • Download links sent immediately
+                </Text>
+              </Box>
+
+              <Box>
+                <Text fw={600} c="white" mb="xs">
+                  🎧 Preview & Quality
+                </Text>
+                <Text size="sm" c="rgba(255, 255, 255, 0.8)">
+                  • 30-second previews available for all beats
+                  <br />
+                  • Professional studio-quality production
+                  <br />
+                  • Multiple genres: Hip-Hop, Trap, RnB, House, Pop
+                </Text>
+              </Box>
+            </Stack>
+
+            <Divider style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }} />
+
+            <Box>
+              <Text fw={600} c="white" mb="sm">
+                Still have questions?
+              </Text>
+              <Text size="sm" c="rgba(255, 255, 255, 0.8)" mb="lg">
+                I'm here to help! Email me directly and I'll get back to you quickly.
+              </Text>
+              
+              <Group gap="sm">
+                <Button
+                  leftSection={<IconMail size={18} />}
+                  onClick={handleContactClick}
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    border: 'none',
+                  }}
+                  flex={1}
+                >
+                  Email Bryan
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsHelpOpen(false)}
+                  style={{
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    color: 'white',
+                  }}
+                  flex={1}
+                >
+                  Close
+                </Button>
+              </Group>
+            </Box>
+          </Stack>
+        </Modal>
+
+        {/* Floating Help Button */}
+        <ActionIcon
+          size="xl"
+          onClick={() => setIsHelpOpen(true)}
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: 'none',
+            zIndex: 1000,
+            boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+          }}
+          aria-label="Get help"
+        >
+          <IconMessageCircle size={24} color="white" />
+        </ActionIcon>
       </Box>
     </main>
   );
