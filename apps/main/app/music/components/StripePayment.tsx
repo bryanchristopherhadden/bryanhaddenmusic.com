@@ -89,7 +89,7 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
             });
           } else {
             // Try to get fallback links from the error response
-            let errorData = {};
+            let errorData: { fallbackLinks?: string[] } = {};
             try {
               errorData = JSON.parse(responseText);
             } catch (parseError) {
