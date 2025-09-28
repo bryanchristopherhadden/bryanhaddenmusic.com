@@ -203,9 +203,10 @@ interface StripePaymentProps {
   onCancel: () => void;
   phoneNumber: string;
   email: string;
+  disabled?: boolean;
 }
 
-export default function StripePayment({ total, cartItems, onSuccess, onCancel, phoneNumber, email }: StripePaymentProps) {
+export default function StripePayment({ total, cartItems, onSuccess, onCancel, phoneNumber, email, disabled = false }: StripePaymentProps) {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -244,6 +245,19 @@ export default function StripePayment({ total, cartItems, onSuccess, onCancel, p
   useEffect(() => {
     createPaymentIntent();
   }, []);
+
+  if (disabled) {
+    return (
+      <Stack gap="lg">
+        <Text c="rgba(255, 255, 255, 0.6)" ta="center" py="xl">
+          Please enter your email address to continue with payment
+        </Text>
+        <Button variant="subtle" onClick={onCancel} fullWidth>
+          Cancel
+        </Button>
+      </Stack>
+    );
+  }
 
   if (isLoading) {
     return (

@@ -895,9 +895,9 @@ Thanks!`);
                   🎵 About Licensing
                 </Text>
                 <Text size="sm" c="rgba(255, 255, 255, 0.8)">
-                  • <strong>License Beat ($50):</strong> Non-exclusive use, perfect for mixtapes and demos
+                  &bull; <strong>License Beat ($50):</strong> Non-exclusive use, perfect for mixtapes and demos
                   <br />
-                  • <strong>Buy Exclusive ($200):</strong> Full ownership, commercial use, beat removed from store
+                  &bull; <strong>Buy Exclusive ($200):</strong> Full ownership, commercial use, beat removed from store
                 </Text>
               </Box>
 
@@ -906,11 +906,11 @@ Thanks!`);
                   📥 Download & Files
                 </Text>
                 <Text size="sm" c="rgba(255, 255, 255, 0.8)">
-                  • Instant download after purchase via email
+                  &bull; Instant download after purchase via email
                   <br />
-                  • High-quality WAV and MP3 files included
+                  &bull; High-quality WAV and MP3 files included
                   <br />
-                  • License agreement document provided
+                  &bull; License agreement document provided
                 </Text>
               </Box>
 
@@ -919,11 +919,11 @@ Thanks!`);
                   💳 Payment & Checkout
                 </Text>
                 <Text size="sm" c="rgba(255, 255, 255, 0.8)">
-                  • Secure payment via Stripe
+                  &bull; Secure payment via Stripe
                   <br />
-                  • Only email required for purchase
+                  &bull; Only email required for purchase
                   <br />
-                  • Download links sent immediately
+                  &bull; Download links sent immediately
                 </Text>
               </Box>
 
@@ -932,11 +932,11 @@ Thanks!`);
                   🎧 Preview & Quality
                 </Text>
                 <Text size="sm" c="rgba(255, 255, 255, 0.8)">
-                  • 30-second previews available for all beats
+                  &bull; 30-second previews available for all beats
                   <br />
-                  • Professional studio-quality production
+                  &bull; Professional studio-quality production
                   <br />
-                  • Multiple genres: Hip-Hop, Trap, RnB, House, Pop
+                  &bull; Multiple genres: Hip-Hop, Trap, RnB, House, Pop
                 </Text>
               </Box>
             </Stack>
@@ -948,7 +948,7 @@ Thanks!`);
                 Still have questions?
               </Text>
               <Text size="sm" c="rgba(255, 255, 255, 0.8)" mb="lg">
-                I'm here to help! Email me directly and I'll get back to you quickly.
+                I&apos;m here to help! Email me directly and I&apos;ll get back to you quickly.
               </Text>
               
               <Group gap="sm">
