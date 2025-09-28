@@ -89,7 +89,13 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
             });
           } else {
             // Try to get fallback links from the error response
-            const errorData = JSON.parse(responseText).catch(() => ({}));
+            let errorData = {};
+            try {
+              errorData = JSON.parse(responseText);
+            } catch (parseError) {
+              console.error('Failed to parse error response:', parseError);
+            }
+            
             const fallbackLinks = errorData.fallbackLinks || [];
             
             if (fallbackLinks.length > 0) {
