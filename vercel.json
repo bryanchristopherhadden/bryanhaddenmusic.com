@@ -2,5 +2,15 @@
   "buildCommand": "cd apps/main && npm run build",
   "outputDirectory": "apps/main/.next",
   "installCommand": "npm install --prefix apps/main",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "functions": {
+    "apps/main/app/api/download/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "apps/main/app/api/test-download/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    }
+  }
 }

@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFile, stat } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import { join } from 'path';
 
-// Validate download token
-function validateDownloadToken(token: string, phoneNumber: string): boolean {
+// Validate download token (now works with email or phone)
+function validateDownloadToken(token: string, identifier: string): boolean {
   try {
     const decoded = Buffer.from(token, 'base64').toString();
-    const [tokenPhone, productType, timestamp, random] = decoded.split(':');
+    const [tokenIdentifier, productType, timestamp, random] = decoded.split(':');
     
-    // Check if token is for the correct phone number
-    if (tokenPhone !== phoneNumber) {
+    // Check if token is for the correct identifier (email or phone)
+    if (tokenIdentifier !== identifier) {
       return false;
     }
     
@@ -108,11 +108,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(errorUrl.toString());
     }
 
-    // Extract phone number from token for validation
-    let phoneNumber: string;
+    // Extract identifier (email or phone) from token for validation
+    let identifier: string;
     try {
       const decoded = Buffer.from(token, 'base64').toString();
-      phoneNumber = decoded.split(':')[0];
+      identifier = decoded.split(':')[0];
     } catch (error) {
       const errorUrl = new URL('/download-error', request.url);
       errorUrl.searchParams.set('error', 'Invalid download link');
@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Validate token
-    if (!validateDownloadToken(token, phoneNumber)) {
+    if (!validateDownloadToken(token, identifier)) {
       const errorUrl = new URL('/download-error', request.url);
       errorUrl.searchParams.set('error', 'Download link expired');
       errorUrl.searchParams.set('details', 'This download link has expired. Download links are valid for 24 hours after purchase');
@@ -141,36 +141,21 @@ export async function GET(request: NextRequest) {
     const { filePath, fileName } = fileInfo;
     console.log('Attempting to serve file:', { filePath, fileName });
 
-    // Check if file exists
-    try {
-      await stat(filePath);
-      console.log('File exists, serving:', fileName);
-    } catch (error) {
-      console.log('File not found on filesystem:', filePath, error);
-      const errorUrl = new URL('/download-error', request.url);
-      errorUrl.searchParams.set('error', 'Download temporarily unavailable');
-      errorUrl.searchParams.set('details', 'The requested file is currently not available. Please try again later');
-      return NextResponse.redirect(errorUrl.toString());
-    }
+    // Token is valid, proceed with download
+    console.log('Token valid, redirecting to static file:', fileName);
 
-    // Read file
-    const fileBuffer = await readFile(filePath);
-
-    // Set appropriate headers for file download
-    const headers = new Headers({
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename="${fileName}"`,
-      'Content-Length': fileBuffer.length.toString(),
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0'
-    });
-
-    // Return file
-    return new NextResponse(new Uint8Array(fileBuffer), {
-      status: 200,
-      headers
-    });
+    // Instead of serving the file through the serverless function, redirect to the static file
+    // This avoids bundling large files into the serverless function
+    const staticFileUrl = `/${fileType}/${fileName}`;
+    
+    // Create response with redirect to static file
+    const response = NextResponse.redirect(new URL(staticFileUrl, request.url).toString());
+    
+    // Add download headers
+    response.headers.set('Content-Disposition', `attachment; filename="${fileName}"`);
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    
+    return response;
 
   } catch (error) {
     console.error('Download failed:', error);
