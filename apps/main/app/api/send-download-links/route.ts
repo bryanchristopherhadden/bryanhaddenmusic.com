@@ -6,10 +6,10 @@ const twilio = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN ?
   require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN) : null;
 
 // Generate secure download token
-function generateDownloadToken(phoneNumber: string, productType: string): string {
+function generateDownloadToken(identifier: string, productType: string): string {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2);
-  return Buffer.from(`${phoneNumber}:${productType}:${timestamp}:${random}`).toString('base64');
+  return Buffer.from(`${identifier}:${productType}:${timestamp}:${random}`).toString('base64');
 }
 
 // Get download links based on actual purchased items
@@ -35,13 +35,6 @@ export async function POST(request: NextRequest) {
     const { phoneNumber, email, cartItems = [], paymentIntentId } = await request.json();
 
     // Validate input
-    if (!phoneNumber) {
-      return NextResponse.json(
-        { error: 'Phone number is required' },
-        { status: 400 }
-      );
-    }
-
     if (!email) {
       return NextResponse.json(
         { error: 'Email is required' },
@@ -49,8 +42,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate secure download token (valid for 24 hours)
-    const downloadToken = generateDownloadToken(phoneNumber, 'music_beats'); // Use default product type for token
+    // Generate secure download token (valid for 24 hours) - use email as identifier
+    const downloadToken = generateDownloadToken(email, 'music_beats');
     
     // Get base URL (use environment variable or construct from request)
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
@@ -59,29 +52,29 @@ export async function POST(request: NextRequest) {
     // Get download links based on actual purchased items
     const downloadLinks = getDownloadLinks(cartItems, downloadToken, baseUrl);
     
-    // Format phone number for SMS
-    let formattedPhone = phoneNumber.replace(/\D/g, '');
-    if (!formattedPhone.startsWith('1') && formattedPhone.length === 10) {
-      formattedPhone = '1' + formattedPhone;
-    }
-    formattedPhone = '+' + formattedPhone;
-
-    // Create SMS message with download links
-    const message = `🎵 Your Bryan Hadden Music downloads are ready!\n\n` +
-                   `Click these links to download:\n\n` +
-                   downloadLinks.map((link, index) => `${index + 1}. ${link}`).join('\n') +
-                   `\n\nLinks expire in 24 hours. Enjoy your music! 🎶`;
-
-    console.log(`Sending download links to ${formattedPhone} and ${email}`);
+    console.log(`Sending download links to ${email}${phoneNumber ? ` and ${phoneNumber}` : ''}`);
     console.log(`Download token: ${downloadToken}`);
     console.log(`Cart items: ${cartItems.length} items`, cartItems);
 
     let smsSent = false;
     let emailSent = false;
 
-    // Send SMS with download links
-    if (twilio && process.env.TWILIO_PHONE_NUMBER) {
+    // Send SMS with download links (only if phone number provided)
+    if (phoneNumber && twilio && process.env.TWILIO_PHONE_NUMBER) {
       try {
+        // Format phone number for SMS
+        let formattedPhone = phoneNumber.replace(/\D/g, '');
+        if (!formattedPhone.startsWith('1') && formattedPhone.length === 10) {
+          formattedPhone = '1' + formattedPhone;
+        }
+        formattedPhone = '+' + formattedPhone;
+
+        // Create SMS message with download links
+        const message = `🎵 Your Bryan Hadden Music downloads are ready!\n\n` +
+                       `Click these links to download:\n\n` +
+                       downloadLinks.map((link, index) => `${index + 1}. ${link}`).join('\n') +
+                       `\n\nLinks expire in 24 hours. Enjoy your music! 🎶`;
+
         const smsResult = await twilio.messages.create({
           body: message,
           from: process.env.TWILIO_PHONE_NUMBER,
@@ -95,12 +88,12 @@ export async function POST(request: NextRequest) {
         console.error('Failed to send download links SMS:', smsError);
       }
     } else {
-      console.log('Twilio not configured - skipping SMS');
+      console.log('Phone number not provided or Twilio not configured - skipping SMS');
     }
 
     // Send email with download links
     const productType = cartItems.length > 0 ? 'music_beats' : 'music_beats'; // Determine product type
-    const emailResult = await sendDownloadEmail(email, downloadLinks, phoneNumber, productType, cartItems);
+    const emailResult = await sendDownloadEmail(email, downloadLinks, phoneNumber || '', productType, cartItems);
     if (emailResult.success) {
       console.log(`Download links email sent to ${email}`);
       emailSent = true;
@@ -108,12 +101,12 @@ export async function POST(request: NextRequest) {
       console.error('Failed to send download links email:', emailResult.error);
     }
 
-    // CRITICAL: Ensure at least one delivery method succeeded
-    if (!smsSent && !emailSent) {
-      console.error('CRITICAL: Both SMS and email delivery failed!');
+    // CRITICAL: Ensure email delivery succeeded (SMS is optional)
+    if (!emailSent) {
+      console.error('CRITICAL: Email delivery failed!');
       return NextResponse.json(
         { 
-          error: 'Failed to deliver download links via any method',
+          error: 'Failed to deliver download links via email',
           downloadToken,
           downloadLinks,
           fallbackLinks: downloadLinks // Include links as fallback
@@ -124,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: `Download links sent via ${smsSent ? 'SMS' : ''}${smsSent && emailSent ? ' and ' : ''}${emailSent ? 'email' : ''}`,
+      message: `Download links sent via ${smsSent && emailSent ? 'SMS and email' : smsSent ? 'SMS' : 'email'}`,
       downloadToken,
       downloadLinks,
       smsSent,
