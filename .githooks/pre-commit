@@ -1,0 +1,178 @@
+#!/bin/bash
+
+# Pre-commit hook to catch Vercel deployment issues locally
+# This script runs the same checks that Vercel does to prevent build failures
+
+set -e  # Exit on any error
+
+echo "🔍 Running pre-commit checks..."
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}[PRE-COMMIT]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}✅ $1${NC}"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠️  $1${NC}"
+}
+
+print_error() {
+    echo -e "${RED}❌ $1${NC}"
+}
+
+# Change to the main app directory
+cd apps/main
+
+print_status "Checking Next.js app in apps/main..."
+
+# 1. ESLint Check
+print_status "Running ESLint..."
+if npm run lint; then
+    print_success "ESLint passed"
+else
+    print_error "ESLint failed - fix linting errors before committing"
+    exit 1
+fi
+
+# 2. TypeScript Check
+print_status "Running TypeScript compilation check..."
+if npx tsc --noEmit; then
+    print_success "TypeScript compilation passed"
+else
+    print_error "TypeScript compilation failed - fix type errors before committing"
+    exit 1
+fi
+
+# 3. Next.js Build Check
+print_status "Running Next.js build..."
+if npm run build; then
+    print_success "Next.js build passed"
+else
+    print_error "Next.js build failed - fix build errors before committing"
+    exit 1
+fi
+
+# 4. Check for filesystem imports in API routes
+print_status "Checking for problematic filesystem imports in API routes..."
+FILESYSTEM_IMPORTS=$(find app/api -name "*.ts" -exec grep -l "^import.*['\"]fs['\"]\\|^import.*['\"]path['\"]\\|^import.*['\"]fs/promises['\"]\\|readFile\\|writeFile\\|stat.*join\\|join.*process\\.cwd" {} \; 2>/dev/null || true)
+
+if [ ! -z "$FILESYSTEM_IMPORTS" ]; then
+    print_error "Found filesystem imports in API routes that could cause 250MB limit:"
+    echo "$FILESYSTEM_IMPORTS"
+    print_error "Consider using static redirects instead of filesystem access"
+    exit 1
+else
+    print_success "No problematic filesystem imports found"
+fi
+
+# 5. Check for "use client" directive placement
+print_status "Checking 'use client' directive placement..."
+CLIENT_DIRECTIVE_ISSUES=$(find app -name "*.tsx" -exec grep -l "use client" {} \; | xargs -I {} sh -c 'if [ "$(head -1 "{}" | grep -c "use client")" -eq 0 ]; then echo "{}"; fi' 2>/dev/null || true)
+
+if [ ! -z "$CLIENT_DIRECTIVE_ISSUES" ]; then
+    print_error "Found 'use client' directive not at top of file:"
+    echo "$CLIENT_DIRECTIVE_ISSUES"
+    print_error "Move 'use client' to the first line of these files"
+    exit 1
+else
+    print_success "'use client' directives properly placed"
+fi
+
+# 6. Check for metadata exports in client components
+print_status "Checking for metadata exports in client components..."
+METADATA_CLIENT_CONFLICTS=$(find app -name "*.tsx" -exec sh -c 'if grep -q "use client" "$1" && grep -q "export const metadata" "$1"; then echo "$1"; fi' _ {} \; 2>/dev/null || true)
+
+if [ ! -z "$METADATA_CLIENT_CONFLICTS" ]; then
+    print_error "Found metadata exports in client components:"
+    echo "$METADATA_CLIENT_CONFLICTS"
+    print_error "Move metadata to layout.tsx files or remove 'use client' directive"
+    exit 1
+else
+    print_success "No metadata/client component conflicts found"
+fi
+
+# 7. Estimate function sizes (basic check)
+print_status "Estimating serverless function sizes..."
+API_ROUTES=$(find app/api -name "route.ts" -o -name "route.js")
+LARGE_FUNCTIONS=""
+
+for route in $API_ROUTES; do
+    # Count imports and file size as rough indicators
+    IMPORT_COUNT=$(grep -c "^import\|^const.*require" "$route" 2>/dev/null || echo "0")
+    FILE_SIZE=$(wc -c < "$route" 2>/dev/null || echo "0")
+    
+    # Warn if function seems complex (many imports or large file)
+    if [ "$IMPORT_COUNT" -gt 10 ] || [ "$FILE_SIZE" -gt 5000 ]; then
+        LARGE_FUNCTIONS="$LARGE_FUNCTIONS\n  $route (imports: $IMPORT_COUNT, size: ${FILE_SIZE}b)"
+    fi
+done
+
+if [ ! -z "$LARGE_FUNCTIONS" ]; then
+    print_warning "Large/complex API functions detected:"
+    echo -e "$LARGE_FUNCTIONS"
+    print_warning "Monitor these for potential 250MB limit issues"
+else
+    print_success "API functions appear to be appropriately sized"
+fi
+
+# 8. Check package.json for heavy dependencies
+print_status "Checking for potentially heavy dependencies..."
+HEAVY_DEPS=$(npm list --depth=0 2>/dev/null | grep -E "(puppeteer|playwright|electron|webpack|@babel)" || true)
+
+if [ ! -z "$HEAVY_DEPS" ]; then
+    print_warning "Heavy dependencies detected:"
+    echo "$HEAVY_DEPS"
+    print_warning "Ensure these aren't unnecessarily bundled into serverless functions"
+fi
+
+# 9. Validate vercel.json if it exists
+if [ -f "../../vercel.json" ]; then
+    print_status "Validating vercel.json..."
+    if node -e "JSON.parse(require('fs').readFileSync('../../vercel.json', 'utf8'))" 2>/dev/null; then
+        print_success "vercel.json is valid JSON"
+    else
+        print_error "vercel.json contains invalid JSON"
+        exit 1
+    fi
+fi
+
+# 10. Check for unescaped HTML entities in JSX
+print_status "Checking for unescaped HTML entities in JSX..."
+UNESCAPED_ENTITIES=$(find app -name "*.tsx" -exec grep -l "[^&]•\|[^&]'\|[^&]"\|[^&]"" {} \; 2>/dev/null || true)
+
+if [ ! -z "$UNESCAPED_ENTITIES" ]; then
+    print_warning "Found potentially unescaped HTML entities in JSX:"
+    echo "$UNESCAPED_ENTITIES"
+    print_warning "Consider using &bull; &apos; &ldquo; &rdquo; instead"
+fi
+
+# Return to original directory
+cd ../..
+
+print_success "All pre-commit checks passed! ✨"
+print_status "Ready to commit to main branch"
+
+echo ""
+print_status "Summary of checks performed:"
+echo "  ✅ ESLint validation"
+echo "  ✅ TypeScript compilation" 
+echo "  ✅ Next.js build"
+echo "  ✅ Filesystem import detection"
+echo "  ✅ 'use client' directive placement"
+echo "  ✅ Metadata/client component conflicts"
+echo "  ✅ Function size estimation"
+echo "  ✅ Heavy dependency detection"
+echo "  ✅ vercel.json validation"
+echo "  ✅ HTML entity validation"
+echo ""
