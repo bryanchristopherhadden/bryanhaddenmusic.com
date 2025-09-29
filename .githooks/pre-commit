@@ -149,7 +149,7 @@ fi
 
 # 10. Check for unescaped HTML entities in JSX
 print_status "Checking for unescaped HTML entities in JSX..."
-UNESCAPED_ENTITIES=$(find app -name "*.tsx" -exec grep -l "[^&]•\|[^&]'\|[^&]"\|[^&]"" {} \; 2>/dev/null || true)
+UNESCAPED_ENTITIES=$(find app -name "*.tsx" -exec grep -l "[^&]•\\|[^&]'" {} \; 2>/dev/null || true)
 
 if [ ! -z "$UNESCAPED_ENTITIES" ]; then
     print_warning "Found potentially unescaped HTML entities in JSX:"
