@@ -2,10 +2,5 @@
   "buildCommand": "cd apps/main && npm run build",
   "outputDirectory": "apps/main/.next",
   "installCommand": "npm install --prefix apps/main",
-  "framework": "nextjs",
-  "functions": {
-    "api/**": {
-      "excludeFiles": "{public/beats,public/songs}/**"
-    }
-  }
+  "framework": "nextjs"
 }
