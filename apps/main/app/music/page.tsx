@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Container, Title, Text, Button, Stack, Box, Group, TextInput, Select, Badge, Paper, ActionIcon, NumberInput, Modal, Divider, Loader, Tooltip } from '@mantine/core';
-import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail, IconHelp, IconMessageCircle } from '@tabler/icons-react';
+import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail, IconHelp, IconMessageCircle, IconChartBar, IconInfoCircle } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import PaymentForm from './components/PaymentForm';
+import AnalyticsDashboard from '../components/AnalyticsDashboard';
+import { musicAnalytics } from '../lib/analytics';
 
 interface Beat {
   id: string;
@@ -39,6 +41,8 @@ export default function PurchasePage(): JSX.Element {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [audioElements, setAudioElements] = useState<Map<string, HTMLAudioElement>>(new Map());
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
+  const [showLicensingInfo, setShowLicensingInfo] = useState(false);
 
   // Load beats data
   useEffect(() => {
@@ -79,16 +83,22 @@ export default function PurchasePage(): JSX.Element {
 
     // Filter by search query
     if (searchQuery) {
-      filtered = filtered.filter(beat => 
+      filtered = filtered.filter(beat =>
         beat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         beat.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
         beat.genre.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+      // Track search
+      musicAnalytics.trackSearch(searchQuery, filtered.length);
     }
 
     // Filter by genre
     if (selectedGenre && selectedGenre !== 'All') {
       filtered = filtered.filter(beat => beat.genre === selectedGenre);
+
+      // Track filter
+      musicAnalytics.trackFilter(selectedGenre, filtered.length);
     }
 
     setFilteredBeats(filtered);
@@ -104,6 +114,24 @@ export default function PurchasePage(): JSX.Element {
     };
   }, [audioElements]);
 
+  // Track checkout modal opening
+  useEffect(() => {
+    if (isCheckoutOpen) {
+      musicAnalytics.trackCheckoutStep({
+        step: 'payment_form_shown',
+        cartItems: cart,
+        total: cartTotal
+      });
+    }
+  }, [isCheckoutOpen]);
+
+  // Track session end when component unmounts
+  useEffect(() => {
+    return () => {
+      musicAnalytics.trackSessionEnd();
+    };
+  }, []);
+
   // Get available genres
   const availableGenres = ['All', ...new Set(beats.map(beat => beat.genre))];
 
@@ -113,11 +141,14 @@ export default function PurchasePage(): JSX.Element {
     const isDevelopment = process.env.NODE_ENV === 'development';
     const price = isDevelopment ? 0.50 : (type === 'lease' ? beat.leasePrice : beat.purchasePrice) / 100;
     const cartItemId = `${beat.id}-${type}`;
-    
+
+    // Track add to cart event
+    musicAnalytics.trackAddToCart(beat.id, beat.title, type, price);
+
     setCart(prev => {
       const existingItem = prev.find(item => item.id === beat.id && item.type === type);
       if (existingItem) {
-        return prev.map(item => 
+        return prev.map(item =>
           item.id === beat.id && item.type === type
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -126,7 +157,7 @@ export default function PurchasePage(): JSX.Element {
         return [...prev, { ...beat, quantity: 1, type, price }];
       }
     });
-    
+
     notifications.show({
       title: 'Added to Cart',
       message: `${beat.title} (${type}) has been added to your cart`,
@@ -137,6 +168,12 @@ export default function PurchasePage(): JSX.Element {
 
   // Remove from cart
   const removeFromCart = (beatId: string, type: 'lease' | 'purchase') => {
+    // Find the item being removed for analytics
+    const itemToRemove = cart.find(item => item.id === beatId && item.type === type);
+    if (itemToRemove) {
+      musicAnalytics.trackRemoveFromCart(beatId, itemToRemove.title, type);
+    }
+
     setCart(prev => prev.filter(item => !(item.id === beatId && item.type === type)));
   };
 
@@ -146,9 +183,9 @@ export default function PurchasePage(): JSX.Element {
       removeFromCart(beatId, type);
       return;
     }
-    
-    setCart(prev => 
-      prev.map(item => 
+
+    setCart(prev =>
+      prev.map(item =>
         item.id === beatId && item.type === type
           ? { ...item, quantity }
           : item
@@ -161,17 +198,29 @@ export default function PurchasePage(): JSX.Element {
 
   // Handle successful payment
   const handlePaymentSuccess = () => {
+    // Track successful payment
+    musicAnalytics.trackCheckoutStep({
+      step: 'payment_completed',
+      cartItems: cart,
+      total: cartTotal
+    });
+
     setCart([]);
     setIsCheckoutOpen(false);
   };
 
   // Handle payment cancellation
   const handlePaymentCancel = () => {
+    // Track checkout abandonment
+    musicAnalytics.trackCheckoutAbandoned('payment_form', cart);
     setIsCheckoutOpen(false);
   };
 
   // Handle help/contact
   const handleContactClick = () => {
+    // Track contact click
+    musicAnalytics.trackContactClick();
+
     const subject = encodeURIComponent('Question about Instrumental Beats');
     const body = encodeURIComponent(`Hi Bryan,
 
@@ -186,7 +235,7 @@ Thanks!`);
   // Handle beat preview
   const handleBeatPreview = (beat: Beat) => {
     const beatPath = `/beats/${beat.filename}`;
-    
+
     // Stop any currently playing audio
     if (currentlyPlaying && audioElements.has(currentlyPlaying)) {
       const currentAudio = audioElements.get(currentlyPlaying);
@@ -196,9 +245,14 @@ Thanks!`);
 
     // If clicking the same beat that's playing, just stop it
     if (currentlyPlaying === beat.id) {
+      // Track preview end
+      musicAnalytics.trackBeatPreviewEnd(beat.id, beat.title, 0);
       setCurrentlyPlaying(null);
       return;
     }
+
+    // Track preview start
+    musicAnalytics.trackBeatPreview(beat.id, beat.title);
 
     // Get or create audio element for this beat
     let audio = audioElements.get(beat.id);
@@ -212,15 +266,15 @@ Thanks!`);
     audio.currentTime = 0;
     audio.play().then(() => {
       setCurrentlyPlaying(beat.id);
-      
+
       // Auto-stop after 30 seconds or when audio ends
       const stopPreview = () => {
         setCurrentlyPlaying(null);
         audio!.removeEventListener('ended', stopPreview);
       };
-      
+
       audio!.addEventListener('ended', stopPreview);
-      
+
       // Stop after 30 seconds
       setTimeout(() => {
         if (currentlyPlaying === beat.id) {
@@ -229,7 +283,7 @@ Thanks!`);
           setCurrentlyPlaying(null);
         }
       }, 30000);
-      
+
     }).catch(() => {
       notifications.show({
         title: 'Preview Error',
@@ -247,7 +301,7 @@ Thanks!`);
   };
 
   return (
-    <main style={{ 
+    <main style={{
       background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%)',
       minHeight: '100vh',
       position: 'relative',
@@ -277,13 +331,13 @@ Thanks!`);
               transition={{ duration: 0.8 }}
               style={{ width: '100%', textAlign: 'center' }}
             >
-              <Title 
-                order={1} 
-                size="4rem" 
-                c="white" 
-                fw={700} 
+              <Title
+                order={1}
+                size="4rem"
+                c="white"
+                fw={700}
                 mb="lg"
-                style={{ 
+                style={{
                   lineHeight: 1.1,
                   fontFamily: 'var(--font-poppins), sans-serif',
                   background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
@@ -294,66 +348,94 @@ Thanks!`);
                   textShadow: '0 8px 32px rgba(0,0,0,0.3)'
                 }}
               >
-                Professional Instrumental Beats
+                High Quality Instrumentals
               </Title>
-              
-              <Text 
-                size="xl" 
-                c="rgba(255, 255, 255, 0.8)" 
-                maw={800} 
+
+              <Text
+                size="xl"
+                c="rgba(255, 255, 255, 0.8)"
+                maw={800}
                 mx="auto"
-                style={{ 
+                style={{
                   lineHeight: 1.7,
                   fontFamily: 'var(--font-inter), sans-serif',
                   fontSize: '1.25rem',
                   letterSpacing: '0.005em'
                 }}
               >
-                High-quality instrumental music for artists and creators. Hip-hop, RnB, trap & house beats with instant download and exclusive licensing.
+                RnB, Trap & House instrumentals with instant
+                downloads and both non-exclusive and exclusive licensing.
               </Text>
             </motion.div>
 
-            {/* Licensing Information */}
+            {/* Licensing Information with Hover */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
+              style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}
             >
-              <Paper
-                p="md"
-                style={{
-                  background: 'rgba(102, 126, 234, 0.1)',
-                  border: '1px solid rgba(102, 126, 234, 0.3)',
-                  borderRadius: '12px',
-                }}
+              <Box
+                onMouseEnter={() => setShowLicensingInfo(true)}
+                onMouseLeave={() => setShowLicensingInfo(false)}
+                style={{ position: 'relative', cursor: 'pointer' }}
               >
-                <Group justify="center" gap="xl">
-                  <Box ta="center">
-                    <Text fw={600} c="white" size="sm" mb={4}>
-                      License Beat
-                    </Text>
-                    <Text size="xs" c="rgba(255, 255, 255, 0.8)">
-                      Non-exclusive • Multiple uses
-                    </Text>
-                  </Box>
-                  <Box ta="center">
-                    <Text fw={600} c="white" size="sm" mb={4}>
-                      Buy Exclusive
-                    </Text>
-                    <Text size="xs" c="rgba(255, 255, 255, 0.8)">
-                      Exclusive rights • Commercial use
-                    </Text>
-                  </Box>
-                  <Box ta="center">
-                    <Text fw={600} c="white" size="sm" mb={4}>
-                      Instant Download
-                    </Text>
-                    <Text size="xs" c="rgba(255, 255, 255, 0.8)">
-                      WAV, MP3 + License agreement
-                    </Text>
-                  </Box>
-                </Group>
-              </Paper>
+                {/* Licensing Information Tooltip */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{
+                    opacity: showLicensingInfo ? 1 : 0,
+                    scale: showLicensingInfo ? 1 : 0.8
+                  }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    position: 'absolute',
+                    top: '50px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 1000,
+                    pointerEvents: showLicensingInfo ? 'auto' : 'none',
+                  }}
+                >
+                  <Paper
+                    p="md"
+                    style={{
+                      background: 'rgba(102, 126, 234, 0.1)',
+                      border: '1px solid rgba(102, 126, 234, 0.3)',
+                      borderRadius: '12px',
+                      backdropFilter: 'blur(10px)',
+                      minWidth: '400px',
+                    }}
+                  >
+                    <Group justify="center" gap="xl">
+                      <Box ta="center">
+                        <Text fw={600} c="white" size="sm" mb={4}>
+                          License Beat
+                        </Text>
+                        <Text size="xs" c="rgba(255, 255, 255, 0.8)">
+                          Non-exclusive • Multiple uses
+                        </Text>
+                      </Box>
+                      <Box ta="center">
+                        <Text fw={600} c="white" size="sm" mb={4}>
+                          Buy Exclusive
+                        </Text>
+                        <Text size="xs" c="rgba(255, 255, 255, 0.8)">
+                          Exclusive rights • Commercial use
+                        </Text>
+                      </Box>
+                      <Box ta="center">
+                        <Text fw={600} c="white" size="sm" mb={4}>
+                          Instant Download
+                        </Text>
+                        <Text size="xs" c="rgba(255, 255, 255, 0.8)">
+                          WAV, MP3 + License agreement
+                        </Text>
+                      </Box>
+                    </Group>
+                  </Paper>
+                </motion.div>
+              </Box>
             </motion.div>
 
             {/* Search and Filter Section */}
@@ -432,7 +514,10 @@ Thanks!`);
                         leftSection={<IconHelp size={18} />}
                         size="lg"
                         variant="outline"
-                        onClick={() => setIsHelpOpen(true)}
+                        onClick={() => {
+                          musicAnalytics.trackHelpOpened();
+                          setIsHelpOpen(true);
+                        }}
                         style={{
                           borderColor: 'rgba(255, 255, 255, 0.3)',
                           color: 'white',
@@ -450,7 +535,10 @@ Thanks!`);
                       <Button
                         leftSection={<IconShoppingCart size={20} />}
                         size="lg"
-                        onClick={() => setIsCartOpen(true)}
+                        onClick={() => {
+                          musicAnalytics.trackCartOpened(cart);
+                          setIsCartOpen(true);
+                        }}
                         style={{
                           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                           border: 'none',
@@ -512,7 +600,7 @@ Thanks!`);
                             size="xl"
                             variant="filled"
                             style={{
-                              background: currentlyPlaying === beat.id 
+                              background: currentlyPlaying === beat.id
                                 ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
                                 : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                               border: 'none',
@@ -528,24 +616,24 @@ Thanks!`);
 
                           {/* Beat Info */}
                           <Box>
-                            <Text 
-                              size="lg" 
-                              fw={600} 
+                            <Text
+                              size="lg"
+                              fw={600}
                               c="white"
                               style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                             >
                               {beat.title}
                             </Text>
-                            <Text 
-                              size="sm" 
+                            <Text
+                              size="sm"
                               c="rgba(255, 255, 255, 0.7)"
                               mb={4}
                             >
                               by {beat.artist}
                             </Text>
                             <Group gap="sm">
-                              <Badge 
-                                size="sm" 
+                              <Badge
+                                size="sm"
                                 variant="outline"
                                 style={{
                                   color: 'rgba(255, 255, 255, 0.8)',
@@ -555,8 +643,8 @@ Thanks!`);
                                 {beat.genre}
                               </Badge>
                               {beat.bpm && (
-                                <Badge 
-                                  size="sm" 
+                                <Badge
+                                  size="sm"
                                   variant="outline"
                                   style={{
                                     color: 'rgba(255, 255, 255, 0.8)',
@@ -567,8 +655,8 @@ Thanks!`);
                                 </Badge>
                               )}
                               {beat.key && (
-                                <Badge 
-                                  size="sm" 
+                                <Badge
+                                  size="sm"
                                   variant="outline"
                                   style={{
                                     color: 'rgba(255, 255, 255, 0.8)',
@@ -584,7 +672,8 @@ Thanks!`);
 
                         <Group gap="sm">
                           <Tooltip
-                            label="Non-exclusive license. Multiple artists can use this beat. Perfect for mixtapes, demos, and non-commercial use."
+                            label="Non-exclusive license. Perfect for mixtapes, 
+                            demos, and non-commercial use."
                             multiline
                             w={220}
                             withArrow
@@ -663,6 +752,7 @@ Thanks!`);
             </motion.div>
           </Stack>
         </Container>
+
         {/* Cart Modal */}
         <Modal
           opened={isCartOpen}
@@ -705,18 +795,18 @@ Thanks!`);
                     <Box>
                       <Group gap="sm" align="center">
                         <Text fw={600} c="white">{item.title}</Text>
-                        <Badge 
-                          size="sm" 
+                        <Badge
+                          size="sm"
                           variant={item.type === 'purchase' ? 'filled' : 'outline'}
                           style={{
-                            backgroundColor: item.type === 'purchase' 
-                              ? 'rgba(34, 197, 94, 0.8)' 
+                            backgroundColor: item.type === 'purchase'
+                              ? 'rgba(34, 197, 94, 0.8)'
                               : 'transparent',
-                            borderColor: item.type === 'purchase' 
-                              ? 'rgba(34, 197, 94, 1)' 
+                            borderColor: item.type === 'purchase'
+                              ? 'rgba(34, 197, 94, 1)'
                               : 'rgba(102, 126, 234, 0.8)',
-                            color: item.type === 'purchase' 
-                              ? 'white' 
+                            color: item.type === 'purchase'
+                              ? 'white'
                               : 'rgba(102, 126, 234, 1)',
                           }}
                         >
@@ -726,7 +816,7 @@ Thanks!`);
                       <Text size="sm" c="rgba(255, 255, 255, 0.7)">by {item.artist}</Text>
                       <Text size="sm" c="rgba(255, 255, 255, 0.8)">${item.price} each</Text>
                     </Box>
-                    
+
                     <Group gap="sm">
                       <NumberInput
                         value={item.quantity}
@@ -752,9 +842,9 @@ Thanks!`);
                     </Group>
                   </Group>
                 ))}
-                
+
                 <Divider style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }} />
-                
+
                 <Group justify="space-between" align="center">
                   <Text size="xl" fw={700} c="white">
                     Total: ${cartTotal.toFixed(2)}
@@ -762,6 +852,11 @@ Thanks!`);
                   <Button
                     size="lg"
                     onClick={() => {
+                      musicAnalytics.trackCheckoutStep({
+                        step: 'checkout_started',
+                        cartItems: cart,
+                        total: cartTotal
+                      });
                       setIsCartOpen(false);
                       setIsCheckoutOpen(true);
                     }}
@@ -819,18 +914,18 @@ Thanks!`);
                     <Text c="rgba(255, 255, 255, 0.8)">
                       {item.title} x{item.quantity}
                     </Text>
-                    <Badge 
-                      size="xs" 
+                    <Badge
+                      size="xs"
                       variant={item.type === 'purchase' ? 'filled' : 'outline'}
                       style={{
-                        backgroundColor: item.type === 'purchase' 
-                          ? 'rgba(34, 197, 94, 0.8)' 
+                        backgroundColor: item.type === 'purchase'
+                          ? 'rgba(34, 197, 94, 0.8)'
                           : 'transparent',
-                        borderColor: item.type === 'purchase' 
-                          ? 'rgba(34, 197, 94, 1)' 
+                        borderColor: item.type === 'purchase'
+                          ? 'rgba(34, 197, 94, 1)'
                           : 'rgba(102, 126, 234, 0.8)',
-                        color: item.type === 'purchase' 
-                          ? 'white' 
+                        color: item.type === 'purchase'
+                          ? 'white'
                           : 'rgba(102, 126, 234, 1)',
                         marginTop: '4px'
                       }}
@@ -950,7 +1045,7 @@ Thanks!`);
               <Text size="sm" c="rgba(255, 255, 255, 0.8)" mb="lg">
                 I&apos;m here to help! Email me directly and I&apos;ll get back to you quickly.
               </Text>
-              
+
               <Group gap="sm">
                 <Button
                   leftSection={<IconMail size={18} />}
@@ -992,10 +1087,70 @@ Thanks!`);
             zIndex: 1000,
             boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
           }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '.65';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
           aria-label="Get help"
         >
           <IconMessageCircle size={24} color="white" />
         </ActionIcon>
+
+        {/* Floating Analytics Button */}
+        <ActionIcon
+          size="xl"
+          onClick={() => setIsAnalyticsOpen(true)}
+          style={{
+            position: 'fixed',
+            bottom: '80px',
+            right: '20px',
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            border: 'none',
+            zIndex: 1000,
+            boxShadow: '0 4px 20px rgba(16, 185, 129, 0.4)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '.65';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+          aria-label="View analytics"
+        >
+          <IconChartBar size={24} color="white" />
+        </ActionIcon>
+
+        <ActionIcon
+          size="xl"
+          variant="subtle"
+          style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: '1px solid rgba(102, 126, 234, 0.3)',
+            color: 'white',
+            transition: 'all 0.3s ease',
+            position: 'fixed',
+            bottom: '140px',
+            right: '20px',
+            zIndex: 1000,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '.65';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+          aria-label="Information"
+        >
+          <IconInfoCircle size={20} />
+        </ActionIcon>
+
+        {/* Analytics Dashboard Modal */}
+        <AnalyticsDashboard
+          opened={isAnalyticsOpen}
+          onClose={() => setIsAnalyticsOpen(false)}
+        />
       </Box>
     </main>
   );
