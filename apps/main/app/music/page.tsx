@@ -51,7 +51,15 @@ export default function PurchasePage(): JSX.Element {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [audioElements, setAudioElements] = useState<Map<string, HTMLAudioElement>>(new Map());
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const [showLicensingInfo, setShowLicensingInfo] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmittingContact, setIsSubmittingContact] = useState(false);
 
   // Load beats data
   useEffect(() => {
@@ -250,20 +258,50 @@ export default function PurchasePage(): JSX.Element {
     setIsCheckoutOpen(false);
   };
 
-  // Handle help/contact
+  // Handle contact form submission
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingContact(true);
+
+    try {
+      // Track contact form submission
+      musicAnalytics.trackContactClick();
+
+      const response = await fetch('/api/send-contact-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactForm)
+      });
+
+      if (response.ok) {
+        notifications.show({
+          title: 'Message Sent! 📧',
+          message: 'Thanks for reaching out! I\'ll get back to you soon.',
+          color: 'green',
+          icon: <IconCheck size={16} />,
+        });
+        
+        // Reset form
+        setContactForm({ name: '', email: '', subject: '', message: '' });
+        setIsContactOpen(false);
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      notifications.show({
+        title: 'Message Failed',
+        message: 'Unable to send message. Please try again or email me directly.',
+        color: 'red',
+      });
+    } finally {
+      setIsSubmittingContact(false);
+    }
+  };
+
+  // Handle contact button click
   const handleContactClick = () => {
-    // Track contact click
     musicAnalytics.trackContactClick();
-
-    const subject = encodeURIComponent('Question about Instrumental Beats');
-    const body = encodeURIComponent(`Hi Bryan,
-
-I have a question about your instrumental beats:
-
-[Please describe your question or issue here]
-
-Thanks!`);
-    window.open(`mailto:bryanchrishadden@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    setIsContactOpen(true);
   };
 
   // Handle beat preview
@@ -687,7 +725,7 @@ Thanks!`);
                             <Button
                               size="md"
                               variant="outline"
-                              leftSection={<IconShoppingCart size={16} />}
+                              leftSection={<IconInfoCircle size={16} />}
                               onClick={() => addToCart(beat, 'lease')}
                               style={{
                                 borderColor: 'rgba(102, 126, 234, 0.6)',
@@ -715,7 +753,7 @@ Thanks!`);
                           >
                             <Button
                               size="md"
-                              leftSection={<IconShoppingCart size={16} />}
+                              leftSection={<IconInfoCircle size={16} />}
                               onClick={() => addToCart(beat, 'purchase')}
                               style={{
                                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -1072,6 +1110,151 @@ Thanks!`);
               </Group>
             </Box>
           </Stack>
+        </Modal>
+
+        {/* Contact Form Modal */}
+        <Modal
+          opened={isContactOpen}
+          onClose={() => setIsContactOpen(false)}
+          title="Contact Bryan"
+          size="md"
+          styles={{
+            content: {
+              backgroundColor: 'rgba(20, 20, 20, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              padding: '20px',
+            },
+            header: {
+              backgroundColor: 'transparent',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+            },
+            title: {
+              color: 'white',
+              fontSize: '1.5rem',
+              fontWeight: 700,
+            },
+            close: {
+              color: 'white',
+            }
+          }}
+        >
+          <form onSubmit={handleContactSubmit}>
+            <Stack gap="lg" align="center">
+              <Text c="rgba(255, 255, 255, 0.9)" size="xl" fw={600} ta="center" style={{ marginTop: '32px' }}>
+                Have a question about my beats?
+              </Text>
+
+              <Box w="100%" maw={500}>
+                <Stack gap="lg">
+                  <Group grow>
+                    <TextInput
+                      label="Your Name"
+                      placeholder="Enter your name"
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+                      required
+                      styles={{
+                        input: {
+                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          color: 'white',
+                          '&::placeholder': {
+                            color: 'rgba(255, 255, 255, 0.6)'
+                          }
+                        },
+                        label: { color: 'white' }
+                      }}
+                    />
+                    <TextInput
+                      label="Email Address"
+                      placeholder="your@email.com"
+                      type="email"
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                      required
+                      styles={{
+                        input: {
+                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          color: 'white',
+                          '&::placeholder': {
+                            color: 'rgba(255, 255, 255, 0.6)'
+                          }
+                        },
+                        label: { color: 'white' }
+                      }}
+                    />
+                  </Group>
+
+                  <TextInput
+                    label="Subject"
+                    placeholder="What's this about?"
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
+                    required
+                    styles={{
+                      input: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        color: 'white',
+                        '&::placeholder': {
+                          color: 'rgba(255, 255, 255, 0.6)'
+                        }
+                      },
+                      label: { color: 'white' }
+                    }}
+                  />
+
+                  <TextInput
+                    label="Message"
+                    placeholder="Tell me about your project, licensing questions, or anything else..."
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+                    required
+                    styles={{
+                      input: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        color: 'white',
+                        '&::placeholder': {
+                          color: 'rgba(255, 255, 255, 0.6)'
+                        }
+                      },
+                      label: { color: 'white' }
+                    }}
+                  />
+                </Stack>
+
+                <Group gap="sm" style={{ marginTop: '32px' }}>
+                  <Button
+                    type="submit"
+                    loading={isSubmittingContact}
+                    disabled={isSubmittingContact}
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      border: 'none',
+                    }}
+                    flex={1}
+                  >
+                    {isSubmittingContact ? 'Sending...' : 'Send Message'}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsContactOpen(false)}
+                    disabled={isSubmittingContact}
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.3)',
+                      color: 'white',
+                    }}
+                    flex={1}
+                  >
+                    Cancel
+                  </Button>
+                </Group>
+              </Box>
+            </Stack>
+          </form>
         </Modal>
 
         {/* Floating Help Button */}

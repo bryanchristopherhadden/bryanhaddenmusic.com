@@ -338,6 +338,181 @@ Thank you for supporting independent music! 🎶
   return { subject, html, text };
 }
 
+// Email template for contact form
+export function createContactEmailTemplate(
+  name: string,
+  email: string,
+  subject: string,
+  message: string
+): { subject: string; html: string; text: string } {
+  const emailSubject = `Contact Form: ${subject}`;
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Contact Form Submission</title>
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #f4f4f4;
+        }
+        .container {
+          background: white;
+          border-radius: 10px;
+          padding: 30px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+          text-align: center;
+          margin-bottom: 30px;
+        }
+        .logo {
+          font-size: 24px;
+          font-weight: bold;
+          color: #1a1a1a;
+          margin-bottom: 10px;
+        }
+        .contact-info {
+          background: #f8f9fa;
+          border-radius: 12px;
+          padding: 25px;
+          margin: 20px 0;
+          border: 1px solid #e9ecef;
+        }
+        .field {
+          margin-bottom: 15px;
+        }
+        .field-label {
+          font-weight: bold;
+          color: #1a1a1a;
+          margin-bottom: 5px;
+        }
+        .field-value {
+          background: white;
+          padding: 10px;
+          border-radius: 6px;
+          border: 1px solid #ddd;
+          color: #333;
+        }
+        .message-content {
+          background: white;
+          padding: 15px;
+          border-radius: 6px;
+          border: 1px solid #ddd;
+          color: #333;
+          white-space: pre-wrap;
+        }
+        .footer {
+          text-align: center;
+          margin-top: 30px;
+          color: #666;
+          font-size: 14px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <div class="logo">🎵 Bryan Hadden Music</div>
+          <h1>New Contact Form Submission</h1>
+          <p>Someone has contacted you through your website.</p>
+        </div>
+        
+        <div class="contact-info">
+          <div class="field">
+            <div class="field-label">Name:</div>
+            <div class="field-value">${name}</div>
+          </div>
+          
+          <div class="field">
+            <div class="field-label">Email:</div>
+            <div class="field-value">${email}</div>
+          </div>
+          
+          <div class="field">
+            <div class="field-label">Subject:</div>
+            <div class="field-value">${subject}</div>
+          </div>
+          
+          <div class="field">
+            <div class="field-label">Message:</div>
+            <div class="message-content">${message}</div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <p>This message was sent from your Bryan Hadden Music website contact form.</p>
+          <p>© 2024 Bryan Hadden Music. All rights reserved.</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+  
+  const text = `
+🎵 Bryan Hadden Music - Contact Form Submission
+
+New contact form submission from your website:
+
+Name: ${name}
+Email: ${email}
+Subject: ${subject}
+
+Message:
+${message}
+
+---
+This message was sent from your Bryan Hadden Music website contact form.
+© 2024 Bryan Hadden Music. All rights reserved.
+  `;
+  
+  return { subject: emailSubject, html, text };
+}
+
+// Send contact form email
+export async function sendContactEmail(
+  to: string,
+  name: string,
+  email: string,
+  subject: string,
+  message: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Check if email service is configured
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      console.log('Email service not configured - skipping contact email');
+      return { success: false, error: 'Email service not configured' };
+    }
+
+    const transporter = createTransporter();
+    const { subject: emailSubject, html, text } = createContactEmailTemplate(name, email, subject, message);
+
+    const mailOptions = {
+      from: `"Bryan Hadden Music" <${process.env.EMAIL_USER}>`,
+      to: to,
+      subject: emailSubject,
+      text: text,
+      html: html,
+    };
+
+    const result = await transporter.sendMail(mailOptions);
+    console.log('Contact email sent successfully:', result.messageId);
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to send contact email:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}
+
 // Send email with download links
 export async function sendDownloadEmail(
   to: string,
