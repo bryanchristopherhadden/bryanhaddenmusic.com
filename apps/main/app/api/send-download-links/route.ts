@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendDownloadEmail } from '../../lib/email-service';
 
-// Initialize Twilio client
-const twilio = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN ? 
-  require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN) : null;
-
 // Generate secure download token
 function generateDownloadToken(identifier: string, productType: string): string {
   const timestamp = Date.now();
@@ -59,37 +55,8 @@ export async function POST(request: NextRequest) {
     let smsSent = false;
     let emailSent = false;
 
-    // Send SMS with download links (only if phone number provided)
-    if (phoneNumber && twilio && process.env.TWILIO_PHONE_NUMBER) {
-      try {
-        // Format phone number for SMS
-        let formattedPhone = phoneNumber.replace(/\D/g, '');
-        if (!formattedPhone.startsWith('1') && formattedPhone.length === 10) {
-          formattedPhone = '1' + formattedPhone;
-        }
-        formattedPhone = '+' + formattedPhone;
-
-        // Create SMS message with download links
-        const message = `🎵 Your Bryan Hadden Music downloads are ready!\n\n` +
-                       `Click these links to download:\n\n` +
-                       downloadLinks.map((link, index) => `${index + 1}. ${link}`).join('\n') +
-                       `\n\nLinks expire in 24 hours. Enjoy your music! 🎶`;
-
-        const smsResult = await twilio.messages.create({
-          body: message,
-          from: process.env.TWILIO_PHONE_NUMBER,
-          to: formattedPhone
-        });
-
-        console.log(`Download links SMS sent! Message SID: ${smsResult.sid}`);
-        smsSent = true;
-        
-      } catch (smsError) {
-        console.error('Failed to send download links SMS:', smsError);
-      }
-    } else {
-      console.log('Phone number not provided or Twilio not configured - skipping SMS');
-    }
+    // Skip SMS - Twilio not configured
+    console.log('Phone number not provided or Twilio not configured - skipping SMS');
 
     // Send email with download links
     const productType = cartItems.length > 0 ? 'music_beats' : 'music_beats'; // Determine product type

@@ -511,61 +511,25 @@ Thanks!`);
                       }}
                     />
 
-                    {/* Genre Filter */}
-                    <Select
-                      placeholder="Filter by genre"
-                      value={selectedGenre}
-                      onChange={setSelectedGenre}
-                      data={availableGenres}
+                    {/* Email Me Button */}
+                    <Button
+                      leftSection={<IconMail size={18} />}
                       size="lg"
-                      w={90}
-                      styles={{
-                        input: {
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          color: 'white',
-                        },
-                        dropdown: {
-                          backgroundColor: 'rgba(20, 20, 20, 0.95)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          backdropFilter: 'blur(20px)',
-                        },
-                        option: {
-                          color: 'white',
-                          '&[data-selected]': {
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          },
-                          '&:hover': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                          }
+                      variant="outline"
+                      onClick={handleContactClick}
+                      style={{
+                        borderColor: 'rgba(102, 126, 234, 0.6)',
+                        color: 'rgba(102, 126, 234, 1)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(102, 126, 234, 0.1)',
                         }
                       }}
-                    />
+                    >
+                      Email Me
+                    </Button>
 
                     {/* Action Buttons Group */}
-                    <Group gap="md" w={320}>
-                      {/* Help Button */}
-                      <Button
-                        leftSection={<IconHelp size={18} />}
-                        size="lg"
-                        variant="outline"
-                        onClick={() => {
-                          musicAnalytics.trackHelpOpened();
-                          setIsHelpOpen(true);
-                        }}
-                        style={{
-                          borderColor: 'rgba(255, 255, 255, 0.3)',
-                          color: 'white',
-                          '&:hover': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            borderColor: 'rgba(255, 255, 255, 0.5)',
-                          }
-                        }}
-                        flex={1}
-                      >
-                        Help
-                      </Button>
-
+                    <Group gap="md" w={240}>
                       {/* Cart Button */}
                       <Button
                         leftSection={<IconShoppingCart size={20} />}
@@ -582,7 +546,7 @@ Thanks!`);
                         }}
                         flex={1}
                       >
-                        Cart ({cart.length})
+                        Your Cart ({cart.length})
                       </Button>
                     </Group>
                   </Group>
@@ -590,7 +554,6 @@ Thanks!`);
                   {/* Results Info */}
                   <Text size="sm" c="rgba(255, 255, 255, 0.6)">
                     {filteredBeats.length} instrumental beat{filteredBeats.length !== 1 ? 's' : ''} available
-                    {selectedGenre && selectedGenre !== 'All' && ` in ${selectedGenre}`}
                   </Text>
                 </Stack>
               </Paper>

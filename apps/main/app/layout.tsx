@@ -95,17 +95,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               page_title: document.title,
               page_location: window.location.href,
             });
+            console.log('GA4 initialized with ID: ${process.env.NEXT_PUBLIC_GA_ID}');
           `}
         </Script>
         
-        {/* Google Ads Conversion Tracking */}
-        <Script id="google-ads-conversion" strategy="afterInteractive">
-          {`
-            gtag('config', 'AW-CONVERSION_ID', {
-              send_page_view: false
-            });
-          `}
-        </Script>
+        {/* Google Ads Conversion Tracking - Only if conversion ID is available */}
+        {process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID && (
+          <Script id="google-ads-conversion" strategy="afterInteractive">
+            {`
+              gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID}', {
+                send_page_view: false
+              });
+            `}
+          </Script>
+        )}
       </head>
       <ClientBodyWrapper className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
         <MantineProvider theme={theme}>

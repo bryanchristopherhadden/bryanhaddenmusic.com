@@ -30,12 +30,18 @@ const isGtagAvailable = (): boolean => {
 
 // Track page view
 export const trackPageView = (page_title: string, page_location: string): void => {
-  if (!isGtagAvailable()) return;
+  if (!isGtagAvailable()) {
+    console.warn('GA4: gtag not available for page_view tracking');
+    return;
+  }
   
-  (window as any).gtag('event', 'page_view', {
+  const eventData = {
     page_title,
     page_location,
-  });
+  };
+  
+  console.log('GA4: Tracking page_view event:', eventData);
+  (window as any).gtag('event', 'page_view', eventData);
 };
 
 // Track beat preview start
@@ -64,9 +70,12 @@ export const trackAddToCart = (
   licenseType: 'lease' | 'purchase',
   price: number
 ): void => {
-  if (!isGtagAvailable()) return;
+  if (!isGtagAvailable()) {
+    console.warn('GA4: gtag not available for add_to_cart tracking');
+    return;
+  }
   
-  (window as any).gtag('event', 'add_to_cart', {
+  const eventData = {
     currency: 'USD',
     value: price,
     items: [{
@@ -77,7 +86,10 @@ export const trackAddToCart = (
       price: price,
       quantity: 1,
     }],
-  });
+  };
+  
+  console.log('GA4: Tracking add_to_cart event:', eventData);
+  (window as any).gtag('event', 'add_to_cart', eventData);
 };
 
 // Track remove from cart
