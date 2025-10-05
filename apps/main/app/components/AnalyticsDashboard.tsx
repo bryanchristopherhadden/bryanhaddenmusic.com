@@ -33,6 +33,11 @@ export default function AnalyticsDashboard({ opened, onClose }: AnalyticsDashboa
 
   const loadAnalyticsData = () => {
     try {
+      // Check if we're in a browser environment
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return;
+      }
+
       const storedEvents = JSON.parse(localStorage.getItem('music_analytics') || '[]');
       setEvents(storedEvents);
       

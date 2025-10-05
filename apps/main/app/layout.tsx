@@ -3,6 +3,7 @@ import ClientBodyWrapper from './ClientBodyWrapper';
 import { Inter, Poppins, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from 'next/script';
 import { MantineProvider, createTheme } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
@@ -79,6 +80,33 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Analytics 4 */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+              page_title: document.title,
+              page_location: window.location.href,
+            });
+          `}
+        </Script>
+        
+        {/* Google Ads Conversion Tracking */}
+        <Script id="google-ads-conversion" strategy="afterInteractive">
+          {`
+            gtag('config', 'AW-CONVERSION_ID', {
+              send_page_view: false
+            });
+          `}
+        </Script>
+      </head>
       <ClientBodyWrapper className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
         <MantineProvider theme={theme}>
           <Notifications />

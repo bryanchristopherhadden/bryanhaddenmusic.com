@@ -66,6 +66,11 @@ class MusicAnalytics {
 
   private async sendToAnalytics(event: any): Promise<void> {
     try {
+      // Check if we're in a browser environment
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return;
+      }
+
       // For now, we'll just store in localStorage for persistence
       // You can replace this with calls to Plausible, Matomo, or other services
       const storedEvents = JSON.parse(localStorage.getItem('music_analytics') || '[]');
@@ -268,13 +273,18 @@ class MusicAnalytics {
 
   // Export analytics data
   exportAnalyticsData(): string {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return JSON.stringify([], null, 2);
+    }
     const allEvents = JSON.parse(localStorage.getItem('music_analytics') || '[]');
     return JSON.stringify(allEvents, null, 2);
   }
 
   // Clear analytics data
   clearAnalyticsData(): void {
-    localStorage.removeItem('music_analytics');
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.removeItem('music_analytics');
+    }
     this.events = [];
   }
 }

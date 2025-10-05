@@ -3,11 +3,21 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Container, Title, Text, Button, Stack, Box, Group, TextInput, Select, Badge, Paper, ActionIcon, NumberInput, Modal, Divider, Loader, Tooltip } from '@mantine/core';
-import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail, IconHelp, IconMessageCircle, IconChartBar, IconInfoCircle } from '@tabler/icons-react';
+import { IconSearch, IconShoppingCart, IconX, IconPlayerPlay, IconPlayerPause, IconCheck, IconMail, IconHelp, IconMessageCircle, IconInfoCircle } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import PaymentForm from './components/PaymentForm';
-import AnalyticsDashboard from '../components/AnalyticsDashboard';
 import { musicAnalytics } from '../lib/analytics';
+import { 
+  trackBeatPreviewStart, 
+  trackAddToCart, 
+  trackRemoveFromCart, 
+  trackViewCart, 
+  trackBeginCheckout, 
+  trackPurchase, 
+  trackSearch, 
+  trackFilter,
+  trackGoogleAdsConversion 
+} from '../lib/ga4-tracking';
 
 interface Beat {
   id: string;
@@ -41,7 +51,6 @@ export default function PurchasePage(): JSX.Element {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [audioElements, setAudioElements] = useState<Map<string, HTMLAudioElement>>(new Map());
   const [isHelpOpen, setIsHelpOpen] = useState(false);
-  const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
   const [showLicensingInfo, setShowLicensingInfo] = useState(false);
 
   // Load beats data
@@ -91,6 +100,7 @@ export default function PurchasePage(): JSX.Element {
 
       // Track search
       musicAnalytics.trackSearch(searchQuery, filtered.length);
+      trackSearch(searchQuery, filtered.length);
     }
 
     // Filter by genre
@@ -99,6 +109,7 @@ export default function PurchasePage(): JSX.Element {
 
       // Track filter
       musicAnalytics.trackFilter(selectedGenre, filtered.length);
+      trackFilter('genre', selectedGenre, filtered.length);
     }
 
     setFilteredBeats(filtered);
@@ -144,6 +155,7 @@ export default function PurchasePage(): JSX.Element {
 
     // Track add to cart event
     musicAnalytics.trackAddToCart(beat.id, beat.title, type, price);
+    trackAddToCart(beat.id, beat.title, beat.genre, type, price);
 
     setCart(prev => {
       const existingItem = prev.find(item => item.id === beat.id && item.type === type);
@@ -172,6 +184,7 @@ export default function PurchasePage(): JSX.Element {
     const itemToRemove = cart.find(item => item.id === beatId && item.type === type);
     if (itemToRemove) {
       musicAnalytics.trackRemoveFromCart(beatId, itemToRemove.title, type);
+      trackRemoveFromCart(beatId, itemToRemove.title, itemToRemove.genre, type, itemToRemove.price);
     }
 
     setCart(prev => prev.filter(item => !(item.id === beatId && item.type === type)));
@@ -197,13 +210,34 @@ export default function PurchasePage(): JSX.Element {
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
   // Handle successful payment
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = (transactionId?: string, customerEmail?: string) => {
     // Track successful payment
     musicAnalytics.trackCheckoutStep({
       step: 'payment_completed',
       cartItems: cart,
       total: cartTotal
     });
+
+    // Track GA4 purchase
+    const purchaseItems = cart.map(item => ({
+      item_id: `${item.id}-${item.type}`,
+      item_name: `${item.title} (${item.type})`,
+      item_category: item.genre,
+      item_brand: 'Bryan Hadden',
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    trackPurchase({
+      transaction_id: transactionId || `txn_${Date.now()}`,
+      value: cartTotal,
+      currency: 'USD',
+      items: purchaseItems,
+      customer_email: customerEmail,
+    });
+
+    // Track Google Ads conversion
+    trackGoogleAdsConversion('AW-CONVERSION_ID', 'CONVERSION_LABEL', cartTotal, 'USD');
 
     setCart([]);
     setIsCheckoutOpen(false);
@@ -253,6 +287,7 @@ Thanks!`);
 
     // Track preview start
     musicAnalytics.trackBeatPreview(beat.id, beat.title);
+    trackBeatPreviewStart(beat.id, beat.title, beat.genre);
 
     // Get or create audio element for this beat
     let audio = audioElements.get(beat.id);
@@ -537,6 +572,7 @@ Thanks!`);
                         size="lg"
                         onClick={() => {
                           musicAnalytics.trackCartOpened(cart);
+                          trackViewCart(cart, cartTotal);
                           setIsCartOpen(true);
                         }}
                         style={{
@@ -857,6 +893,7 @@ Thanks!`);
                         cartItems: cart,
                         total: cartTotal
                       });
+                      trackBeginCheckout(cart, cartTotal);
                       setIsCartOpen(false);
                       setIsCheckoutOpen(true);
                     }}
@@ -1098,29 +1135,6 @@ Thanks!`);
           <IconMessageCircle size={24} color="white" />
         </ActionIcon>
 
-        {/* Floating Analytics Button */}
-        <ActionIcon
-          size="xl"
-          onClick={() => setIsAnalyticsOpen(true)}
-          style={{
-            position: 'fixed',
-            bottom: '80px',
-            right: '20px',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            border: 'none',
-            zIndex: 1000,
-            boxShadow: '0 4px 20px rgba(16, 185, 129, 0.4)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '.65';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '1';
-          }}
-          aria-label="View analytics"
-        >
-          <IconChartBar size={24} color="white" />
-        </ActionIcon>
 
         <ActionIcon
           size="xl"
@@ -1131,7 +1145,7 @@ Thanks!`);
             color: 'white',
             transition: 'all 0.3s ease',
             position: 'fixed',
-            bottom: '140px',
+            bottom: '80px',
             right: '20px',
             zIndex: 1000,
           }}
@@ -1146,11 +1160,6 @@ Thanks!`);
           <IconInfoCircle size={20} />
         </ActionIcon>
 
-        {/* Analytics Dashboard Modal */}
-        <AnalyticsDashboard
-          opened={isAnalyticsOpen}
-          onClose={() => setIsAnalyticsOpen(false)}
-        />
       </Box>
     </main>
   );

@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Container, Title, Text, Box, Stack, Button, Group, SimpleGrid, Card, Image, Badge, Avatar } from '@mantine/core'
-import { IconMail, IconArrowRight, IconExternalLink } from '@tabler/icons-react'
+import { Container, Title, Text, Box, Stack, Button, Group, SimpleGrid, Card, Image, Badge, Avatar, Modal, TextInput, Textarea, LoadingOverlay } from '@mantine/core'
+import { IconMail, IconArrowRight, IconExternalLink, IconX, IconSend } from '@tabler/icons-react'
 import Project from './projects'
 import PortfolioSkeleton from './PortfolioSkeleton'
 import styled from 'styled-components'
@@ -247,16 +247,22 @@ const projects = [
 
 export default function PortfolioClient() {
   const [selectedProject, setSelectedProject] = useState('none')
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [pausedVideos, setPausedVideos] = useState<{ [key: string]: boolean }>({})
+  const [resumeModalOpened, setResumeModalOpened] = useState(false)
+  const [emailModalOpened, setEmailModalOpened] = useState(false)
+  const [isEmailSending, setIsEmailSending] = useState(false)
+  const [emailForm, setEmailForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  })
+  const [emailStatus, setEmailStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   useEffect(() => {
-    // Simulate loading time and ensure hydration is complete
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 100)
-
-    return () => clearTimeout(timer)
+    // Ensure hydration is complete
+    setIsLoading(false)
   }, [])
 
   const handleProjectClick = (projectId: string) => {
@@ -275,6 +281,66 @@ export default function PortfolioClient() {
         setPausedVideos(prev => ({ ...prev, [projectId]: true }))
       }
     }
+  }
+
+  const handleEmailFormChange = (field: string, value: string) => {
+    setEmailForm(prev => ({ ...prev, [field]: value }))
+  }
+
+  const resetEmailForm = () => {
+    setEmailForm({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    })
+    setEmailStatus('idle')
+  }
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsEmailSending(true)
+    setEmailStatus('idle')
+
+    try {
+      const response = await fetch('/api/send-contact-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: emailForm.name,
+          email: emailForm.email,
+          subject: emailForm.subject,
+          message: emailForm.message,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        console.log('Email sent successfully:', result)
+        setEmailStatus('success')
+        resetEmailForm()
+        
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          setEmailModalOpened(false)
+        }, 2000)
+      } else {
+        throw new Error(result.error || 'Failed to send email')
+      }
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      setEmailStatus('error')
+    } finally {
+      setIsEmailSending(false)
+    }
+  }
+
+  const openEmailModal = () => {
+    resetEmailForm()
+    setEmailModalOpened(true)
   }
 
   if (isLoading) {
@@ -331,8 +397,7 @@ export default function PortfolioClient() {
 
             <Group gap="lg" mt="xl">
               <Button
-                component="a"
-                href="mailto:bryanchrishadden@gmail.com"
+                onClick={openEmailModal}
                 leftSection={<IconMail size={20} />}
                 variant="filled"
                 size="lg"
@@ -346,13 +411,17 @@ export default function PortfolioClient() {
                   boxShadow: '0 8px 24px rgba(102, 126, 234, 0.4)',
                   transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '.65';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1';
+                }}
               >
-                Get in touch
+                Let&apos;s work together
               </Button>
               <Button
-                component="a"
-                href="/bryan-hadden-resume.pdf"
-                target="_blank"
+                onClick={() => setResumeModalOpened(true)}
                 rightSection={<IconExternalLink size={20} />}
                 variant="outline"
                 color="white"
@@ -503,8 +572,7 @@ export default function PortfolioClient() {
                 Have a project in mind? I&apos;d love to hear about it and discuss how we can bring your ideas to life.
               </Text>
               <Button
-                component="a"
-                href="mailto:bryanchrishadden@gmail.com"
+                onClick={openEmailModal}
                 size="lg"
                 leftSection={<IconMail size={20} />}
                 style={{
@@ -524,6 +592,211 @@ export default function PortfolioClient() {
           <Project selectedProject={selectedProject} onGoBack={() => setSelectedProject('none')} />
         )}
       </Container>
+
+      {/* Resume Modal */}
+      <Modal
+        opened={resumeModalOpened}
+        onClose={() => setResumeModalOpened(false)}
+        title="Bryan Hadden - Resume"
+        size="xl"
+        centered
+        styles={{
+          header: {
+            backgroundColor: '#1a1a1a',
+            borderBottom: '1px solid rgba(255,255,255,0.1)',
+          },
+          title: {
+            color: 'white',
+            fontFamily: 'var(--font-inter), sans-serif',
+            fontWeight: 600,
+          },
+          body: {
+            backgroundColor: '#1a1a1a',
+            padding: 0,
+          },
+          close: {
+            color: 'rgba(255,255,255,0.7)',
+            '&:hover': {
+              backgroundColor: 'rgba(255,255,255,0.1)',
+            },
+          },
+        }}
+      >
+        <Box style={{ height: '80vh', width: '100%' }}>
+          <iframe
+            src="/bryan-hadden-resume-2025.pdf"
+            width="100%"
+            height="100%"
+            style={{
+              border: 'none',
+              borderRadius: '8px',
+            }}
+            title="Bryan Hadden Resume"
+          />
+        </Box>
+      </Modal>
+
+      {/* Email Modal */}
+      <Modal
+        opened={emailModalOpened}
+        onClose={() => setEmailModalOpened(false)}
+        title="Let's work together"
+        size="md"
+        centered
+        styles={{
+          header: {
+            backgroundColor: '#1a1a1a',
+            borderBottom: '1px solid rgba(255,255,255,0.1)',
+          },
+          title: {
+            color: 'white',
+            fontFamily: 'var(--font-inter), sans-serif',
+            fontWeight: 600,
+          },
+          body: {
+            backgroundColor: '#1a1a1a',
+            padding: '24px',
+          },
+          close: {
+            color: 'rgba(255,255,255,0.7)',
+            '&:hover': {
+              backgroundColor: 'rgba(255,255,255,0.1)',
+            },
+          },
+        }}
+      >
+        <Box style={{ position: 'relative' }}>
+          <LoadingOverlay visible={isEmailSending} />
+          
+          {emailStatus === 'success' ? (
+            <Stack gap="md" ta="center">
+              <Text size="lg" c="green" fw={600}>
+                Message sent successfully! 🎉
+              </Text>
+              <Text size="sm" c="rgba(255,255,255,0.7)">
+                I&apos;ll get back to you as soon as possible.
+              </Text>
+            </Stack>
+          ) : emailStatus === 'error' ? (
+            <Stack gap="md" ta="center">
+              <Text size="lg" c="red" fw={600}>
+                Failed to send message 😞
+              </Text>
+              <Text size="sm" c="rgba(255,255,255,0.7)">
+                Please try again or contact me directly at bryanchrishadden@gmail.com
+              </Text>
+              <Button
+                onClick={() => setEmailStatus('idle')}
+                variant="outline"
+                size="sm"
+                color="red"
+              >
+                Try Again
+              </Button>
+            </Stack>
+          ) : (
+            <form onSubmit={handleEmailSubmit}>
+              <Stack gap="md">
+                <TextInput
+                  label="Name"
+                  placeholder="Your name"
+                  required
+                  value={emailForm.name}
+                  onChange={(e) => handleEmailFormChange('name', e.target.value)}
+                  styles={{
+                    label: { color: 'white', fontFamily: 'var(--font-inter), sans-serif' },
+                    input: {
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white',
+                      '&:focus': {
+                        borderColor: '#667eea',
+                      },
+                    },
+                  }}
+                />
+                
+                <TextInput
+                  label="Email"
+                  placeholder="your.email@example.com"
+                  type="email"
+                  required
+                  value={emailForm.email}
+                  onChange={(e) => handleEmailFormChange('email', e.target.value)}
+                  styles={{
+                    label: { color: 'white', fontFamily: 'var(--font-inter), sans-serif' },
+                    input: {
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white',
+                      '&:focus': {
+                        borderColor: '#667eea',
+                      },
+                    },
+                  }}
+                />
+                
+                <TextInput
+                  label="Subject"
+                  placeholder="What's this about?"
+                  required
+                  value={emailForm.subject}
+                  onChange={(e) => handleEmailFormChange('subject', e.target.value)}
+                  styles={{
+                    label: { color: 'white', fontFamily: 'var(--font-inter), sans-serif' },
+                    input: {
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white',
+                      '&:focus': {
+                        borderColor: '#667eea',
+                      },
+                    },
+                  }}
+                />
+                
+                <Textarea
+                  label="Message"
+                  placeholder="Tell me about your project, ideas, or how I can help..."
+                  required
+                  minRows={4}
+                  value={emailForm.message}
+                  onChange={(e) => handleEmailFormChange('message', e.target.value)}
+                  styles={{
+                    label: { color: 'white', fontFamily: 'var(--font-inter), sans-serif' },
+                    input: {
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white',
+                      '&:focus': {
+                        borderColor: '#667eea',
+                      },
+                    },
+                  }}
+                />
+                
+                <Button
+                  type="submit"
+                  leftSection={<IconSend size={16} />}
+                  size="lg"
+                  loading={isEmailSending}
+                  style={{
+                    fontFamily: 'var(--font-inter), sans-serif',
+                    fontWeight: 600,
+                    letterSpacing: '0.025em',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    border: 'none',
+                    boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+                    marginTop: '8px'
+                  }}
+                >
+                  Send Message
+                </Button>
+              </Stack>
+            </form>
+          )}
+        </Box>
+      </Modal>
     </Box>
   )
 } 

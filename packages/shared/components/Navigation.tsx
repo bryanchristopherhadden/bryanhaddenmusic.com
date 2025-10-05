@@ -81,7 +81,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
                 <Link href="/tech">Portfolio</Link>
               </li>
               <li>
-                <Link href="/music">Music Site</Link>
+                <Link href="/music">Buy Instrumentals</Link>
               </li>
             </>
           )}
