@@ -2,6 +2,5 @@
   "buildCommand": "npm run build --workspace=@bryan-hadden/main",
   "outputDirectory": "apps/main/.next",
   "installCommand": "npm install",
-  "framework": "nextjs",
-  "rootDirectory": "apps/main"
+  "framework": "nextjs"
 }
