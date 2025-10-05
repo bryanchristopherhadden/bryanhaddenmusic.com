@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Container, Title, Text, Box, Stack, Button, Group, SimpleGrid, Card, Image, Badge, Avatar, Modal, TextInput, Textarea, LoadingOverlay } from '@mantine/core'
-import { IconMail, IconArrowRight, IconExternalLink, IconX, IconSend } from '@tabler/icons-react'
+import { IconMail, IconArrowRight, IconExternalLink, IconX, IconSend, IconDownload } from '@tabler/icons-react'
 import Project from './projects'
 import PortfolioSkeleton from './PortfolioSkeleton'
 import styled from 'styled-components'
@@ -225,7 +225,7 @@ const projects = [
   },
   {
     id: 'vt_PrototypeProject',
-    title: 'Porsche Digital Solutions',
+    title: 'Porsche Digital',
     description: 'Created a smart consultant-project matching platform for Porsche that analyzes skills and requirements to optimize team assignments and enhance project success rates.',
     video: 'https://videos.pexels.com/video-files/8630306/8630306-uhd_3840_2160_25fps.mp4',
     tags: ['TypeScript', 'Next.js', 'Automotive APIs'],
@@ -322,7 +322,7 @@ export default function PortfolioClient() {
         console.log('Email sent successfully:', result)
         setEmailStatus('success')
         resetEmailForm()
-        
+
         // Close modal after 2 seconds
         setTimeout(() => {
           setEmailModalOpened(false)
@@ -388,11 +388,14 @@ export default function PortfolioClient() {
               style={{
                 fontFamily: 'var(--font-inter), sans-serif',
                 lineHeight: 1.6,
-                textAlign: 'center',
+                textAlign: 'left',
                 letterSpacing: '0.01em'
               }}
             >
-              I craft digital experiences that solve real-world problems through thoughtful design and robust engineering.
+              I craft digital experiences that solve real-world problems through 
+              thoughtful design and robust engineering. A collection of projects 
+              that showcase my expertise in full-stack development, 
+              from concept to deployment.
             </Title>
 
             <Group gap="lg" mt="xl">
@@ -483,12 +486,27 @@ export default function PortfolioClient() {
             </Box>
 
             {/* Projects Grid */}
-            <SimpleGrid cols={{ base: 1, md: 2, lg: 3 }} spacing="xl">
+            <SimpleGrid
+              cols={{ base: 1, md: 2, lg: 3 }}
+              spacing="xl"
+              style={{
+                margin: '1rem 0 5rem'
+              }}
+            >
               {projects.map((project) => (
                 <StyledCard
                   key={project.id}
                   data-project-id={project.id}
                   onClick={() => handleProjectClick(project.id)}
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '.65';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                  }}
                 >
                   <video
                     className="video-background"
@@ -527,66 +545,6 @@ export default function PortfolioClient() {
                 </StyledCard>
               ))}
             </SimpleGrid>
-
-            {/* CTA Section */}
-            <Box
-              ta="center"
-              pt={60}
-              style={{
-                background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-                padding: '60px 40px',
-                borderRadius: '20px',
-                border: '1px solid rgba(0,0,0,0.05)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.06)'
-              }}
-            >
-              <Title
-                order={3}
-                size="2.25rem"
-                fw={700}
-                mb="md"
-                style={{
-                  fontFamily: 'var(--font-poppins), sans-serif',
-                  background: 'linear-gradient(135deg, #1a1a1a 0%, #4a5568 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  letterSpacing: '-0.025em'
-                }}
-              >
-                Let&apos;s work together
-              </Title>
-              <Text
-                size="lg"
-                c="#6b7280"
-                mb="xl"
-                maw={520}
-                mx="auto"
-                style={{
-                  fontFamily: 'var(--font-inter), sans-serif',
-                  lineHeight: 1.7,
-                  fontSize: '1.125rem',
-                  letterSpacing: '0.005em'
-                }}
-              >
-                Have a project in mind? I&apos;d love to hear about it and discuss how we can bring your ideas to life.
-              </Text>
-              <Button
-                onClick={openEmailModal}
-                size="lg"
-                leftSection={<IconMail size={20} />}
-                style={{
-                  fontFamily: 'var(--font-inter), sans-serif',
-                  fontWeight: 600,
-                  letterSpacing: '0.025em',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  border: 'none',
-                  boxShadow: '0 8px 24px rgba(102, 126, 234, 0.35)'
-                }}
-              >
-                Start a conversation
-              </Button>
-            </Box>
           </Stack>
         ) : (
           <Project selectedProject={selectedProject} onGoBack={() => setSelectedProject('none')} />
@@ -598,42 +556,88 @@ export default function PortfolioClient() {
         opened={resumeModalOpened}
         onClose={() => setResumeModalOpened(false)}
         title="Bryan Hadden - Resume"
-        size="xl"
+        size="lg"
         centered
         styles={{
           header: {
             backgroundColor: '#1a1a1a',
             borderBottom: '1px solid rgba(255,255,255,0.1)',
+            padding: '1rem 1.5rem',
           },
           title: {
             color: 'white',
             fontFamily: 'var(--font-inter), sans-serif',
             fontWeight: 600,
+            fontSize: '1.25rem',
           },
           body: {
             backgroundColor: '#1a1a1a',
-            padding: 0,
+            padding: '2rem',
+            textAlign: 'center',
           },
           close: {
             color: 'rgba(255,255,255,0.7)',
+            fontSize: '1.5rem',
             '&:hover': {
               backgroundColor: 'rgba(255,255,255,0.1)',
             },
           },
         }}
       >
-        <Box style={{ height: '80vh', width: '100%' }}>
-          <iframe
-            src="/bryan-hadden-resume-2025.pdf"
-            width="100%"
-            height="100%"
-            style={{
-              border: 'none',
-              borderRadius: '8px',
-            }}
-            title="Bryan Hadden Resume"
-          />
-        </Box>
+        <Stack gap="lg" align="center">
+          <Text size="lg" c="white" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+            Choose how you&apos;d like to view the resume:
+          </Text>
+          
+          <Group gap="md" justify="center">
+            <Button
+              onClick={() => {
+                window.open('/bryan-hadden-resume-2025.pdf', '_blank');
+                setResumeModalOpened(false);
+              }}
+              leftSection={<IconExternalLink size={20} />}
+              variant="filled"
+              size="lg"
+              style={{
+                fontFamily: 'var(--font-inter), sans-serif',
+                fontWeight: 600,
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                boxShadow: '0 8px 24px rgba(102, 126, 234, 0.4)',
+              }}
+            >
+              Open in New Tab
+            </Button>
+            
+            <Button
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = '/bryan-hadden-resume-2025.pdf';
+                link.download = 'Bryan-Hadden-Resume-2025.pdf';
+                link.click();
+                setResumeModalOpened(false);
+              }}
+              leftSection={<IconDownload size={20} />}
+              variant="outline"
+              size="lg"
+              style={{
+                fontFamily: 'var(--font-inter), sans-serif',
+                fontWeight: 600,
+                borderColor: 'rgba(255,255,255,0.3)',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                },
+              }}
+            >
+              Download PDF
+            </Button>
+          </Group>
+          
+          <Text size="sm" c="rgba(255,255,255,0.6)" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+            The resume will open in a new tab for the best viewing experience
+          </Text>
+        </Stack>
       </Modal>
 
       {/* Email Modal */}
@@ -667,7 +671,7 @@ export default function PortfolioClient() {
       >
         <Box style={{ position: 'relative' }}>
           <LoadingOverlay visible={isEmailSending} />
-          
+
           {emailStatus === 'success' ? (
             <Stack gap="md" ta="center">
               <Text size="lg" c="green" fw={600}>
@@ -715,7 +719,7 @@ export default function PortfolioClient() {
                     },
                   }}
                 />
-                
+
                 <TextInput
                   label="Email"
                   placeholder="your.email@example.com"
@@ -735,7 +739,7 @@ export default function PortfolioClient() {
                     },
                   }}
                 />
-                
+
                 <TextInput
                   label="Subject"
                   placeholder="What's this about?"
@@ -754,7 +758,7 @@ export default function PortfolioClient() {
                     },
                   }}
                 />
-                
+
                 <Textarea
                   label="Message"
                   placeholder="Tell me about your project, ideas, or how I can help..."
@@ -774,7 +778,7 @@ export default function PortfolioClient() {
                     },
                   }}
                 />
-                
+
                 <Button
                   type="submit"
                   leftSection={<IconSend size={16} />}

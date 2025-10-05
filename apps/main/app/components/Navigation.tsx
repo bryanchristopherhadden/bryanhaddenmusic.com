@@ -78,7 +78,7 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
           zIndex: 1000,
           background: isScrolled 
             ? 'rgba(0, 0, 0, 0.9)' 
-            : 'rgba(0, 0, 0, 0.6)',
+            : 'rgba(0, 0, 0, 0.7)',
           backdropFilter: 'blur(10px)',
           borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
           transition: 'all 0.3s ease',
