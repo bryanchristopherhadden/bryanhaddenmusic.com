@@ -428,6 +428,32 @@ a {
   opacity: 1;
 }
 
+/* Homepage card arrow hover effect */
+.site-card:hover .card-arrow {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* Alternative selector for Mantine Card component */
+.mantine-Card-root:hover .card-arrow {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* More specific selectors for hover effect */
+[data-hover-target] {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.site-card:hover [data-hover-target],
+.mantine-Card-root:hover [data-hover-target],
+[class*="mantine-Card"]:hover [data-hover-target] {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
 .homepage-footer p {
   font-size: 14px;
   opacity: 0.6;

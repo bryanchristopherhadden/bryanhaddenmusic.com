@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Card, Text, Group, Container, Title, Center, Box } from '@mantine/core';
-import { IconMusic, IconCode } from '@tabler/icons-react';
+import { IconMicrophone, IconBrain, IconArrowRight, IconHeadphones } from '@tabler/icons-react';
 
 const SiteCard = ({ title, description, url, icon }: { title: string; description: string; url: string; icon: React.ReactNode }) => {
   return (
@@ -18,6 +18,7 @@ const SiteCard = ({ title, description, url, icon }: { title: string; descriptio
         padding="xl"
         radius="md"
         withBorder
+        className="site-card"
         style={{
           height: '100%',
           cursor: 'pointer',
@@ -42,11 +43,6 @@ const SiteCard = ({ title, description, url, icon }: { title: string; descriptio
           {description}
         </Text>
         
-        <Center>
-          <Text c="white" size="lg" fw={500}>
-            →
-          </Text>
-        </Center>
       </Card>
     </motion.div>
   );
@@ -83,14 +79,14 @@ export default function Home(): JSX.Element {
               title="Music"
               description="Music production, beats, and creative collaborations"
               url="/music/listen"
-              icon={<IconMusic size={64} stroke={1.5} />}
+              icon={<IconMicrophone size={64} stroke={1.2} />}
             />
             
             <SiteCard
               title="Tech"
               description="Full-stack development portfolio and technical projects"
               url="/tech"
-              icon={<IconCode size={64} stroke={1.5} />}
+              icon={<IconBrain size={64} stroke={1.2} />}
             />
           </Group>
         </motion.div>

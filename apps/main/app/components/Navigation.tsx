@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Group, Text, Container, Burger, Drawer, Stack, Anchor, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconShoppingCart, IconUser, IconCode, IconHeadphones } from '@tabler/icons-react';
 
 interface NavigationProps {
   mode?: 'music' | 'tech';
@@ -58,12 +59,12 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
 
   const navLinks = currentMode === 'music' ? [
     // { href: "/music/listen", label: "Listen", active: isActive("/music/listen") },
-    { href: "/music", label: "Purchase", active: isActive("/music") },
-    { href: "/music/about", label: "Bio", active: isActive("/music/about") },
+    { href: "/music", label: "Purchase", icon: <IconShoppingCart size={16} />, active: isActive("/music") },
+    { href: "/music/about", label: "Bio", icon: <IconUser size={16} />, active: isActive("/music/about") },
     // { href: "/tech", label: "Tech Site", active: false },
   ] : [
-    { href: "/tech", label: "Portfolio", active: isActive("/tech") },
-    { href: "/music/listen", label: "Music Site", active: false },
+    { href: "/tech", label: "Portfolio", icon: <IconCode size={16} />, active: isActive("/tech") },
+    { href: "/music/listen", label: "Music Site", icon: <IconHeadphones size={16} />, active: false },
   ];
 
   return (
@@ -113,7 +114,10 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
                     paddingBottom: '2px',
                   }}
                 >
-                  {link.label}
+                  <Group gap="xs" align="center">
+                    {link.icon}
+                    {link.label}
+                  </Group>
                 </Anchor>
               ))}
             </Group>
@@ -156,7 +160,10 @@ const Navigation = ({ mode, hideOnHomepage = false }: NavigationProps): JSX.Elem
               size="lg"
               onClick={close}
             >
-              {link.label}
+              <Group gap="sm" align="center">
+                {link.icon}
+                {link.label}
+              </Group>
             </Anchor>
           ))}
         </Stack>
