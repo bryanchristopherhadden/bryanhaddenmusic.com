@@ -135,3 +135,6 @@ documents/
 
 # Logitech logs folder
 @xlog_logitech/
+
+.DS_Store
+Project/
