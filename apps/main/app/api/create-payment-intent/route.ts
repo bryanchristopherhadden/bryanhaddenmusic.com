@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { calculateTotal, parseOrderItems, serializeOrderItems } from '../../lib/beat-catalog';
 
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
@@ -13,15 +14,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { amount, phoneNumber, email } = await request.json();
+    const { items, phoneNumber, email } = await request.json();
 
-    // Validate input - allow amounts as low as $0.50 (Stripe minimum)
-    if (!amount || amount < 0.50) {
+    const orderItems = parseOrderItems(items);
+    if (!orderItems) {
       return NextResponse.json(
-        { error: 'Invalid amount - minimum is $0.50' },
+        { error: 'Invalid order items' },
         { status: 400 }
       );
     }
+
+    const amount = calculateTotal(orderItems);
 
     if (!email) {
       return NextResponse.json(
@@ -34,8 +37,6 @@ export async function POST(request: NextRequest) {
     const isDevelopment = process.env.NODE_ENV === 'development';
     const finalAmount = isDevelopment ? 0.50 : amount;
     
-    console.log(`Payment Intent - Original: $${amount}, Final: $${finalAmount}, Development: ${isDevelopment}`);
-
     // Create real Stripe payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(finalAmount * 100), // Convert to cents
@@ -47,6 +48,7 @@ export async function POST(request: NextRequest) {
       metadata: {
         phoneNumber: phoneNumber || '',
         email: email || '',
+        items: serializeOrderItems(orderItems),
         product: 'music_beats',
       },
     });

@@ -38,7 +38,7 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
     setIsProcessing(true);
 
     try {
-      const { error } = await stripe.confirmPayment({
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: `${window.location.origin}/music/success`,
@@ -60,20 +60,13 @@ function StripePaymentForm({ clientSecret, onSuccess, onCancel, phoneNumber, ema
       } else {
         // Send download links via SMS after successful payment
         try {
-          console.log('Sending download links request:', { phoneNumber, email, cartItems });
           const downloadResponse = await fetch('/api/send-download-links', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              phoneNumber,
-              email,
-              cartItems: cartItems // Send actual purchased items
-            })
+            body: JSON.stringify({ paymentIntentId: paymentIntent?.id })
           });
 
-          console.log('Download response status:', downloadResponse.status, downloadResponse.ok);
           const responseText = await downloadResponse.text();
-          console.log('Download response body:', responseText);
           
           if (downloadResponse.ok) {
             const downloadData = JSON.parse(responseText);
@@ -224,7 +217,7 @@ export default function StripePayment({ total, cartItems, onSuccess, onCancel, p
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          amount: total,
+          items: cartItems.map(({ id, type, quantity }) => ({ id, type, quantity })),
           phoneNumber,
           email
         })

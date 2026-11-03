@@ -47,7 +47,7 @@ npm install
 npm run dev
 ```
 
-The site runs at `http://localhost:3000`. Checkout and email need their own Stripe and email credentials set as environment variables.
+The site runs at `http://localhost:3000`. Checkout and email need their own Stripe and email credentials set as environment variables, and download links need a `DOWNLOAD_TOKEN_SECRET`.
 
 ## Contact
 

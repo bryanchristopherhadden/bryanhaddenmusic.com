@@ -24,17 +24,6 @@ export async function POST(request: NextRequest) {
     // Store the code with 10 minute expiration
     setVerificationCode(phoneNumber, code, 10 * 60 * 1000);
 
-    // Debug environment variables
-    console.log('Twilio Debug Info:', {
-      hasTwilio: !!twilio,
-      hasAccountSid: !!process.env.TWILIO_ACCOUNT_SID,
-      hasAuthToken: !!process.env.TWILIO_AUTH_TOKEN,
-      hasPhoneNumber: !!process.env.TWILIO_PHONE_NUMBER,
-      phoneNumber: process.env.TWILIO_PHONE_NUMBER,
-      isTollFree: process.env.TWILIO_PHONE_NUMBER?.startsWith('+18'),
-      warning: process.env.TWILIO_PHONE_NUMBER?.startsWith('+18') ? 'Toll-free numbers require verification!' : null
-    });
-
     let smsSent = false;
     let emailSent = false;
 
@@ -48,31 +37,26 @@ export async function POST(request: NextRequest) {
         }
         formattedPhone = '+' + formattedPhone;
 
-        console.log(`Attempting to send SMS from ${process.env.TWILIO_PHONE_NUMBER} to ${formattedPhone}`);
-
         const message = await twilio.messages.create({
           body: `Your Bryan Hadden Music verification code is: ${code}`,
           from: process.env.TWILIO_PHONE_NUMBER,
           to: formattedPhone
         });
 
-        console.log(`SMS sent successfully! Message SID: ${message.sid}, Code: ${code}`);
+        console.log(`SMS sent successfully! Message SID: ${message.sid}`);
         smsSent = true;
       } catch (smsError) {
         console.error('SMS sending failed:', smsError);
-        console.log(`Fallback code for ${phoneNumber}: ${code}`);
-        // Continue anyway - user can still use the code from logs for testing
       }
     } else {
-      console.log('Twilio not configured - using fallback');
-      console.log(`SMS Code for ${phoneNumber}: ${code}`); // Fallback for testing
+      console.log('Twilio not configured - skipping SMS');
     }
 
     // Send verification email if email is provided
     if (email) {
       const emailResult = await sendVerificationEmail(email, code, phoneNumber);
       if (emailResult.success) {
-        console.log(`Verification email sent to ${email}`);
+        console.log('Verification email sent');
         emailSent = true;
       } else {
         console.error('Failed to send verification email:', emailResult.error);
