@@ -392,10 +392,10 @@ export default function PortfolioClient() {
                 letterSpacing: '0.01em'
               }}
             >
-              I craft digital experiences that solve real-world problems through 
-              thoughtful design and robust engineering. A collection of projects 
-              that showcase my expertise in full-stack development, 
-              from concept to deployment.
+              Full-Stack Engineer focused on frontend and UI development, 
+              scalable microservices architecture, GraphQL performance 
+              and technical leadership, with hands-on experience in 
+              machine learning and RAG pipelines.
             </Title>
 
             <Group gap="lg" mt="xl">
@@ -588,7 +588,7 @@ export default function PortfolioClient() {
           <Text size="lg" c="white" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
             Choose how you&apos;d like to view the resume:
           </Text>
-          
+
           <Group gap="md" justify="center">
             <Button
               onClick={() => {
@@ -608,7 +608,7 @@ export default function PortfolioClient() {
             >
               Open in New Tab
             </Button>
-            
+
             <Button
               onClick={() => {
                 const link = document.createElement('a');
@@ -633,7 +633,7 @@ export default function PortfolioClient() {
               Download PDF
             </Button>
           </Group>
-          
+
           <Text size="sm" c="rgba(255,255,255,0.6)" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
             The resume will open in a new tab for the best viewing experience
           </Text>
