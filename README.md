@@ -15,7 +15,7 @@ Most of that code is private, so this repo is the best public example of how I w
 - **NCR:** led a React/Next.js documentation platform of 50K+ pages for clients including Walmart and Starbucks.
 - **Porsche:** architected a real-time vessel tracking application covering €3B+ in product.
 
-The full details are in my [resume](apps/main/public/bryan-hadden-resume-2025.pdf).
+The full details are in my [resume](apps/main/public/bryan-hadden-resume.pdf).
 
 ## What I built here
 

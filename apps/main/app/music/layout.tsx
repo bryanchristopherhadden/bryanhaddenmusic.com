@@ -1,14 +1,23 @@
 import { Metadata } from 'next';
 
+const MUSIC_TITLE = "Professional Instrumental Beats for Sale | Bryan Hadden Music";
+const MUSIC_SITE_NAME = "Bryan Hadden Music";
+const MUSIC_TWITTER_DESCRIPTION =
+  "Buy high-quality instrumental music and beats. Hip-hop, RnB, trap, house instrumentals for artists.";
+const MUSIC_OPEN_GRAPH_DESCRIPTION =
+  `${MUSIC_TWITTER_DESCRIPTION} Instant download with exclusive licensing.`;
+const MUSIC_DESCRIPTION =
+  `${MUSIC_OPEN_GRAPH_DESCRIPTION} Professional producer beats.`;
+
 export const metadata: Metadata = {
-  title: "Professional Instrumental Beats for Sale | Bryan Hadden Music",
-  description: "Buy high-quality instrumental music and beats. Hip-hop, RnB, trap, house instrumentals for artists. Instant download with exclusive licensing. Professional producer beats.",
+  title: MUSIC_TITLE,
+  description: MUSIC_DESCRIPTION,
   keywords: "instrumental beats, instrumental music, buy beats, hip hop instrumentals, trap beats, producer beats, rnb instrumentals, house beats, exclusive beats, beat licensing",
   openGraph: {
-    title: "Professional Instrumental Beats for Sale | Bryan Hadden Music",
-    description: "Buy high-quality instrumental music and beats. Hip-hop, RnB, trap, house instrumentals for artists. Instant download with exclusive licensing.",
+    title: MUSIC_TITLE,
+    description: MUSIC_OPEN_GRAPH_DESCRIPTION,
     url: "https://bryanhadden.info/music",
-    siteName: "Bryan Hadden Music",
+    siteName: MUSIC_SITE_NAME,
     images: [
       {
         url: "/me2.jpeg",
@@ -20,8 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Professional Instrumental Beats for Sale | Bryan Hadden Music",
-    description: "Buy high-quality instrumental music and beats. Hip-hop, RnB, trap, house instrumentals for artists.",
+    title: MUSIC_TITLE,
+    description: MUSIC_TWITTER_DESCRIPTION,
     images: ["/me2.jpeg"],
   },
   robots: {
@@ -40,4 +49,3 @@ export default function MusicLayout({
 }) {
   return children;
 }
-

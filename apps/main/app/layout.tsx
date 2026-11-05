@@ -4,6 +4,7 @@ import { Inter, Poppins, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from 'next/script';
+import { TECH_ROLE } from './tech/copy'
 import { MantineProvider, createTheme } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
@@ -73,8 +74,9 @@ const theme = createTheme({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://bryanhadden.info'),
   title: "Bryan Hadden | Choose Your Journey",
-  description: "Bryan Hadden - Music Producer and Full Stack Developer. Choose between music and tech experiences.",
+  description: `Bryan Hadden - Music Producer and ${TECH_ROLE}. Choose between music and tech experiences.`,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

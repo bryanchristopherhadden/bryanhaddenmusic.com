@@ -1,28 +1,32 @@
 import React from 'react'
 import PortfolioClient from './components/PortfolioClient'
+import {
+  TECH_PORTFOLIO_DESCRIPTION,
+  TECH_PORTFOLIO_SITE_NAME,
+  TECH_PORTFOLIO_TITLE,
+  TECH_TAGLINE,
+} from './copy'
 
 export const metadata = {
-  title: "Bryan Hadden | Full Stack Developer Portfolio",
-  tagline: "Full Stack Developer | Lead Engineer | React, Node.js, TypeScript",
+  title: TECH_PORTFOLIO_TITLE,
+  tagline: TECH_TAGLINE,
   openGraph: {
-    title: "Bryan Hadden | Full Stack Developer Portfolio",
-    description:
-      "Full Stack Developer portfolio showcasing projects built with React, Node.js, TypeScript, and modern web technologies. View my work and get in touch for collaboration.",
+    title: TECH_PORTFOLIO_TITLE,
+    description: TECH_PORTFOLIO_DESCRIPTION,
     url: "https://bryanhadden.info/portfolio",
-    siteName: "Bryan Hadden - Full Stack Developer Portfolio",
+    siteName: TECH_PORTFOLIO_SITE_NAME,
     images: [
       {
         url: "/me2.jpeg",
         width: 1200,
         height: 630,
-        alt: "Bryan Hadden - Full Stack Developer Portfolio",
+        alt: TECH_PORTFOLIO_SITE_NAME,
       },
     ],
   },
-  description:
-    "Full Stack Developer portfolio showcasing projects built with React, Node.js, TypeScript, and modern web technologies. View my work and get in touch for collaboration.",
+  description: TECH_PORTFOLIO_DESCRIPTION,
   keywords: [
-    "full stack developer",
+    "Fullstack TypeScript/Python Engineer",
     "portfolio",
     "lead engineer",
     "react",

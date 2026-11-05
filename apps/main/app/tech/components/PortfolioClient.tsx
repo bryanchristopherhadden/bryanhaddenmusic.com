@@ -6,6 +6,7 @@ import { IconMail, IconArrowRight, IconExternalLink, IconX, IconSend, IconDownlo
 import Project from './projects'
 import PortfolioSkeleton from './PortfolioSkeleton'
 import styled from 'styled-components'
+import { TECH_ROLE } from '../copy'
 
 const StyledHero = styled(Box)`
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
@@ -354,7 +355,7 @@ export default function PortfolioClient() {
         <Container size="lg" style={{ position: 'relative', zIndex: 1 }}>
           <Stack gap="xl" align="center" ta="center">
             <Avatar
-              size={140}
+              size={200}
               src="/me2.jpeg"
               alt="Bryan Hadden"
               style={{
@@ -366,7 +367,7 @@ export default function PortfolioClient() {
               order={1}
               size="3.75rem"
               fw={700}
-              lh={1.1}
+              lh={1.25}
               style={{
                 fontFamily: 'var(--font-poppins), sans-serif',
                 background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
@@ -377,26 +378,26 @@ export default function PortfolioClient() {
                 textAlign: 'center'
               }}
             >
-              Full Stack Developer
+              Forward Deployed Engineer
             </Title>
-            <Title
-              order={2}
-              size="1.375rem"
+            <Text
+              size="1.275rem"
               fw={400}
               c="rgba(255,255,255,0.85)"
-              maw={700}
+              maw={900}
               style={{
                 fontFamily: 'var(--font-inter), sans-serif',
                 lineHeight: 1.6,
                 textAlign: 'left',
-                letterSpacing: '0.01em'
+                letterSpacing: '0.01em',
               }}
             >
-              Full-Stack Engineer focused on frontend and UI development, 
-              scalable microservices architecture, GraphQL performance 
-              and technical leadership, with hands-on experience in 
-              machine learning and RAG pipelines.
-            </Title>
+              I partner directly with customers to turn complex operational
+              challenges into production-ready software. With 10+ years building
+              Node.js and Python systems, from GraphQL and gRPC services to
+              financial data platforms, I work across the stack from discovery
+              and rapid prototyping through deployment and iteration.
+            </Text>
 
             <Group gap="lg" mt="xl">
               <Button
@@ -586,13 +587,13 @@ export default function PortfolioClient() {
       >
         <Stack gap="lg" align="center">
           <Text size="lg" c="white" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
-            Choose how you&apos;d like to view the resume:
+            Choose how you&apos;d like to access the resume:
           </Text>
 
           <Group gap="md" justify="center">
             <Button
               onClick={() => {
-                window.open('/bryan-hadden-resume-2025.pdf', '_blank');
+                window.open('/bryan-hadden-resume.pdf', '_blank');
                 setResumeModalOpened(false);
               }}
               leftSection={<IconExternalLink size={20} />}
@@ -606,14 +607,14 @@ export default function PortfolioClient() {
                 boxShadow: '0 8px 24px rgba(102, 126, 234, 0.4)',
               }}
             >
-              Open in New Tab
+              Open PDF
             </Button>
 
             <Button
               onClick={() => {
                 const link = document.createElement('a');
-                link.href = '/bryan-hadden-resume-2025.pdf';
-                link.download = 'Bryan-Hadden-Resume-2025.pdf';
+                link.href = '/bryan-hadden-resume.pdf';
+                link.download = 'Bryan-Hadden-Resume.pdf';
                 link.click();
                 setResumeModalOpened(false);
               }}
@@ -635,7 +636,7 @@ export default function PortfolioClient() {
           </Group>
 
           <Text size="sm" c="rgba(255,255,255,0.6)" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
-            The resume will open in a new tab for the best viewing experience
+            The resume will open in a new tab for the best viewing experience.
           </Text>
         </Stack>
       </Modal>
